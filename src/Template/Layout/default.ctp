@@ -25,12 +25,13 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <?= $this->fetch('title') ?>
     </title>
     <?= $this->Html->meta('icon') ?>
+    <?= $this->Html->css('stylelogin')?>
+    <?= $this->Html->css('style')?>
+    <?= $this->Html->css('style2')?>
+    <!-- <?= $this->Html->css('font-awesome.min')?> -->
+    <?= $this->Html->css('bootstrap.min')?>
+    
 
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('cake.css') ?>
-   
-    <?= $this->Html->css('Admin.min.css') ?>
-    <?= $this->Html->css('font.min.css') ?>
     <?= $this->Html->script('jquery.min.js') ?>
     <?= $this->Html->script('jquery.validate.min.js') ?>
     <?= $this->Html->script('jquery.validate.js')?>
@@ -39,12 +40,18 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('script') ?>
 </head>
 <body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
+    <header>
+        <?php 
+        echo $this->element("header");
+     ?>
+    </header>
+    
+    <!--<nav class="top-bar expanded" data-topbar role="navigation">
         <ul class="title-area large-3 medium-4 columns">
             <li class="name">
                 <h1><a href=""><?= $this->fetch('title') ?></a></h1>
             </li>
-        </ul>
+        </ul>  
         <div class="top-bar-section">
             <ul class="right">
             <?php
@@ -56,12 +63,15 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             ?>
             </ul>
         </div>
-    </nav>
+    </nav>-->
     <?= $this->Flash->render() ?>
     <div class="container clearfix">
         <?= $this->fetch('content') ?>
     </div>
     <footer>
+    <?php 
+        echo $this->element("footer");
+     ?>
     </footer>
 </body>
 </html>
