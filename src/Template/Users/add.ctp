@@ -1,32 +1,58 @@
-<table width="30%" align="center">
-    <h1 align="center">Register new user </h1> 
-<td>
-    <?php
-        echo $this->Flash->render('auth');
-        echo $this->Form->create($user, array('id' => 'myForm'));
-        echo $this->Form->input('name');
-        echo $this->Form->input('username');
-        echo $this->Form->input('password');
-        echo $this->Form->input('password2',array('label'=>"confirm password",'type'=>'password')); 
-        echo $this->Form->input('email');
-        echo $this->Form->input('phone');
 
-        echo $this->Form->input('birthdate',[
-            'minYear' => date('Y') - 80,
-            'maxYear' => date('Y') - 10
-        ]); 
-            
-            
-        echo $this->Form->button(__('Register'));
-        echo $this->Form->end();
-    ?>
+<html>
+<head>
+    <title></title>
+<style type="text/css">
+
+.field-wrap {
+  position: relative;
+  margin-bottom: 40px;
+  width: 300px;
+}
+.field-wrap input{
+    border-radius: 10px;
+}
+</style>
+</head>
+<body>
+    <table width="30%" align="center">
     
-</td>
+    <h1 align="center">Register new user </h1> 
+    <form method="post" id="myForm">
+        <div class="field-wrap ">
+
+                    <p>Name</p>
+                    <input type="text" required autocomplete="off" name="name" id="name" />
+      
+                    <p>UserName</p>
+                    <input type="text" required autocomplete="off" name="username" id="username" />
+
+                    <p>Password</p>
+                    <input type="password" required autocomplete="off" name="password" id="password" />
+     
+                    <p>Password2</p>
+                    <input type="password" required autocomplete="off" name="password2" id="password2" />
+     
+                    <p>Email</p>
+                    <input type="text" required autocomplete="off" name="email" id="email" />
+   
+                    <p>phone</p>
+                    <input type="text" required autocomplete="off" name="phone" id="phone" />
+    
+                    <p>Enter your birthday:</p>
+                    <input type="date" id="bday" name="bday">
+         </div>
+
+        <button class="button button-block" type="submit" name="btn_login">Register</button>
+
+    </form>
 </table>
+</body>
+
+
 
  <script type="text/javascript">
     jQuery.validator.addMethod("matchPass", function(value) {
-
         var re = /^[a-zA-Z0-9!@#$%^&*()_+]*$/;
         if (re.test(value)) {
             return true;
@@ -36,7 +62,6 @@
     }, "Password do not match a-zA-Z0-9!@#$%^&*()_+");
      
     $(document).ready(function() {
-
         
         //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
         $("#myForm").validate(
@@ -63,7 +88,6 @@
                 phone:{
                     required: true,
                     minlength: 10,
-
                 } ,
                 birthdate: "required",
             },
@@ -89,7 +113,6 @@
                 phone:{
                     required: "Please provide a Phone",
                     minlength:"Your password must be at least 10 characters long",
-
                 },
                 birthdate: {
                     required: "Please provide a birthdate",
@@ -97,7 +120,6 @@
             }
         
         }); 
-
     });   
-
     </script>
+</html>
