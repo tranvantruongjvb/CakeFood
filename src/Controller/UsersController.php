@@ -54,13 +54,19 @@ class UsersController extends AppController{
 		$this->set('users',$users);		
 	}
 	public function admin()
-	{	
-		//if($this->request->session()->check('user'))
+	{
 
+	}
+	public function news()
+	{
+		# code...
+	}
+	public function contact()
+	{
+		# code...
 	}
 	public function view()
 	{
-
 		$user = $this->Users->get($this->Auth->user('id'));
 		$this->set('user',$user);
 	}
@@ -113,7 +119,6 @@ class UsersController extends AppController{
 		}		
 		
 	}
-	
-	
+		
 }
 ?>
