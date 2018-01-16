@@ -15,7 +15,7 @@ class UsersController extends AppController{
     {
         parent::initialize();
 		 
-		$this->Auth->allow(['logout', 'add','list_user']);
+		$this->Auth->allow(['logout']);
 
     }
 
@@ -30,7 +30,7 @@ class UsersController extends AppController{
 				$this->Auth->setUser($user);
 				//print_r($this->request->session()->check($user));die;
 				
-				return $this->redirect(URL_LIST_USER);
+				return $this->redirect(URL_INDEX);
 
 			}
 			$this->Flash->error(__('Invalid username or password, try again.'));
@@ -65,12 +65,15 @@ class UsersController extends AppController{
 	{
 		# code...
 	}
-	public function view()
+	
+	public function userview()
 	{
+		# code...
 		$user = $this->Users->get($this->Auth->user('id'));
 		$this->set('user',$user);
 	}
-	public function add()
+	
+	public function adduser()
 	{	
 		$user = $this->Users->newEntity();
 		if($this->request->is('post')) {
@@ -91,7 +94,7 @@ class UsersController extends AppController{
 		}
 		$this->set('user',$user);
 			}
-	public function edit($id)
+	public function edituser($id)
 	{	
 		$user = $this->Users->get($id);
 		if ($this->request->is(['post', 'put'])) {
