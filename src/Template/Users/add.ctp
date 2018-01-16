@@ -1,125 +1,83 @@
-
-<html>
-<head>
-    <title></title>
-<style type="text/css">
-
-.field-wrap {
-  position: relative;
-  margin-bottom: 40px;
-  width: 300px;
-}
-.field-wrap input{
-    border-radius: 10px;
-}
-</style>
-</head>
-<body>
-    <table width="30%" align="center">
-    
-    <h1 align="center">Register new user </h1> 
-    <form method="post" id="myForm">
-        <div class="field-wrap ">
-
-                    <p>Name</p>
-                    <input type="text" required autocomplete="off" name="name" id="name" />
-      
-                    <p>UserName</p>
-                    <input type="text" required autocomplete="off" name="username" id="username" />
-
-                    <p>Password</p>
-                    <input type="password" required autocomplete="off" name="password" id="password" />
-     
-                    <p>Password2</p>
-                    <input type="password" required autocomplete="off" name="password2" id="password2" />
-     
-                    <p>Email</p>
-                    <input type="text" required autocomplete="off" name="email" id="email" />
+<div class="container">
+      <div class="row">
+      <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+    	
+       <br>
+<p class=" text-info">
+<?php
+$dt = new DateTime();
+echo $dt->format('Y-m-d H:i:s');
+?>
+	
+</p>
+      </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
    
-                    <p>phone</p>
-                    <input type="text" required autocomplete="off" name="phone" id="phone" />
-    
-                    <p>Enter your birthday:</p>
-                    <input type="date" id="bday" name="bday">
-         </div>
-
-        <button class="button button-block" type="submit" name="btn_login">Register</button>
-
-    </form>
-</table>
-</body>
-
-
-
- <script type="text/javascript">
-    jQuery.validator.addMethod("matchPass", function(value) {
-        var re = /^[a-zA-Z0-9!@#$%^&*()_+]*$/;
-        if (re.test(value)) {
-            return true;
-        } else {   
-            return false;
-        }
-    }, "Password do not match a-zA-Z0-9!@#$%^&*()_+");
-     
-    $(document).ready(function() {
-        
-        //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
-        $("#myForm").validate(
-        {
-            rules: {
-                name: "required",
-                username: "required",
-                 password:{
-                    required: true,
-                    minlength :6,
-                     maxlength: 12,
-                     matchPass : "#password",
-                 } ,
-                 password2: {
-                            required: true,
-                            minlength: 6,
-                            maxlength: 12,
-                            equalTo: "#password",
-                },
-                email: {
-                            required: true,
-                            email: true,
-                },
-                phone:{
-                    required: true,
-                    minlength: 10,
-                } ,
-                birthdate: "required",
-            },
-            messages: {
-                name: "Please enter name valid",
-                username: "Please enter username valid",
-                 password:{
-                    required: "Please enter password valid A-Z a-z 0-9 @ * _ - . ! ",
-                    minlength :"Length must minlength 6",
-                     maxlength :"Length must no more maxlength 12",
-                        // equalTo : "Please enter password valid A-Z a-z 0-9 @ * _ - . ! ",
-                 }, 
-                 password2: {
-                            required: "Please enter password valid",
-                            minlength :"Length must minlength 6",
-                            equalTo: "password is not Duplicate ",
-                },
-                email: {
-                    required: "Please provide a Email",
-                    minlength: "Your password must be at least 5 characters long",
-                    equalTo: "Please enter the same password as above"
-                },
-                phone:{
-                    required: "Please provide a Phone",
-                    minlength:"Your password must be at least 10 characters long",
-                },
-                birthdate: {
-                    required: "Please provide a birthdate",
-                },
-            }
-        
-        }); 
-    });   
-    </script>
-</html>
+   
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Sheena Shrestha</h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="/cakecosy/webroot/img/user_logo.png" class="img-circle img-responsive"> </div>
+                
+                <div class=" col-md-9 col-lg-9 "> 
+                  <table class="table table-user-information">
+                    <tbody>
+                      <?php echo $this->Form->create($user);?>
+                      <tr>
+                        <td>Username : </td>
+                        <td><?php echo $this->Form->input('username')?></td>
+                      </tr>
+                      <tr>
+                        <td>Name : </td>
+                        <td><?php echo $this->Form->input('name')?> </td>
+                      </tr>
+                      <tr>
+                        <td>Permission (1->admin, 0->user): </td>
+                        <td><?php echo $this->Form->input('permission')?> </td>
+                      </tr>
+                      <tr>
+                        <td>Email:</td>
+                        <td><?php echo $this->Form->input('email')?></td>
+                      </tr>
+                      <tr>
+                        <td>Password:</td>
+                        <td><?php echo $this->Form->input('password')?></td>
+                      </tr>
+                      <tr>
+                        <td>Confirm Password:</td>
+                        <td><?php echo $this->Form->input('password2')?></td>
+                      </tr>
+                      <tr>
+                        <td>Date of Birth</td>
+                        <td><?php echo $this->Form->input('birthdate')?></td>
+                      </tr>
+                   
+                         <tr>
+                      <tr>
+                        <td>Phone</td>
+                        <td><?php echo $this->Form->input('phone')?></td>
+                      </tr>
+      
+                    </tbody>
+                  </table>
+                  
+                </div>
+              </div>
+            </div>
+                 <div class="panel-footer">
+                        <button data-original-title="Logout" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><?= $this->Html->link("Login",['action' => 'logout']) ?></button>
+                        <span class="pull-right">
+                            <span class="pull-right">
+                            <button data-original-title="Save" data-toggle="tooltip" type="submit" class="btn btn-sm btn-warning">Save</i></button>
+                        </span>
+                            
+                        </span>
+                    </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
