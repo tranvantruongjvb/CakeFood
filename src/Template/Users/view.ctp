@@ -1,15 +1,13 @@
 <div class="container">
       <div class="row">
       <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-    	
-       <br>
+        
+      
 <p class=" text-info">
 <?php
 $dt = new DateTime();
 echo $dt->format('Y-m-d H:i:s');
 ?>
-	
-</p>
       </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
    
@@ -25,28 +23,38 @@ echo $dt->format('Y-m-d H:i:s');
                 <div class=" col-md-9 col-lg-9 "> 
                   <table class="table table-user-information">
                     <tbody>
+                    <?php echo $this->Form->create($user);?>
                       <tr>
                         <td>Username : </td>
-                        <td><?= h($user->username) ?> </td>
+                        <td><?php echo $this->Form->input('username')?></td>
+                      </tr>
+                      <tr>
+                        <td>Name : </td>
+                        <td><?php echo $this->Form->input('name')?> </td>
                       </tr>
                       <tr>
                         <td>Email:</td>
-                        <td><?= h($user->email) ?></td>
+                        <td><?php echo $this->Form->input('email')?></td>
+                      </tr>
+                      <tr>
+                        <td>Password:</td>
+                        <td><?php echo $this->Form->input('password')?></td>
+                      </tr>
+                      <tr>
+                        <td>Confirm Password:</td>
+                        <td><?php echo $this->Form->input('password2')?></td>
                       </tr>
                       <tr>
                         <td>Date of Birth</td>
-                        <td><?= h($user->birthdate) ?></td>
+                        <td><?php echo $this->Form->input('birthdate')?></td>
                       </tr>
                    
                          <tr>
                       <tr>
                         <td>Phone</td>
-                        <td><?= h($user->phone) ?></td>
+                        <td><?php echo $this->Form->input('phone')?></td>
                       </tr>
-                      <tr>
-                        <td>Created: </td>
-                        <td><?= $user->created->format(DATE_RFC850) ?></td>
-                      </tr>
+                     
       
                     </tbody>
                   </table>
@@ -55,10 +63,9 @@ echo $dt->format('Y-m-d H:i:s');
               </div>
             </div>
                  <div class="panel-footer">
-                        <button data-original-title="Logout" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><?= $this->Html->link("Login",['action' => 'logout']) ?></button>
+                       
                         <span class="pull-right">
-                            <button data-original-title="edituser" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><?= $this->Html->link('Update information', ['action' => 'edituser', $user->id]) ?></button>
-                            <button data-original-title="adduser" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><?= $this->Html->link('adduser', ['action' => 'adduser']) ?></button>
+                            <button data-original-title="Save" data-toggle="tooltip" type="submit" class="btn btn-sm btn-warning">Save</i></button>
                         </span>
                     </div>
             
