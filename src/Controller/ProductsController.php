@@ -7,7 +7,9 @@ use App\Controller\component\Email;
 use App\Controller\component\Upload;
 use Cake\View\Helper;
 use Cake\Utility\Text;
+use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\InternalErrorException;
+
 class ProductsController  extends AppController{
 	var $paginate = array();
 	var $helpers = array('Paginator');
@@ -22,10 +24,24 @@ class ProductsController  extends AppController{
     }
     public function trangchu()
 	{
-		$product = $this->Products->find("all");
+		$query = $this->Products->find("all");
+        // $this->paginate= array(
+        //     'limit' => LIMITED,
+        //     'order' => [
+        //     'products.id' => 'asc'
+        //     ],
+        // );
+        // $ = $this->paginate('Products');
+        $product = $query->toArray();
+        
         $this->set('products',$product);
 	}
-
+    public function typeproduct()
+     {  
+        $typeProducts = TableRegistry::get('typeproducts');
+         $query = $typeProducts->find("all")-> toArray();;
+        $this->set('typeproducts',$query);
+    }
 	public function addproduct()
     {   
         
@@ -37,8 +53,8 @@ class ProductsController  extends AppController{
             $name=$data['image'];
             $dir = WWW_ROOT .'img\uploads\ '. $name['name'] ;
             $a = move_uploaded_file($data['image']['tmp_name'], $dir);
-            $product['image'] = 'http://localhost/cakecosy/webroot/img/uploads/'.$name['name'];
-            echo "$dir";
+            $product['image'] = '/img/uploads/'.$name['name'];
+            
             
         }
 
@@ -59,10 +75,16 @@ class ProductsController  extends AppController{
     {   
         $product = $this->Products->get($id);
         if ($this->request->is(['post', 'put'])) {
-            $name = $this->request->data['name'];
+            //$name = $this->request->data['name'];
+            $data = $this->request->data();
             $this->Products->patchEntity($product, $this->request->data);
+             $name=$data['image'];
+            $dir = WWW_ROOT .'img\uploads\ '. $name['name'] ;
+            $a = move_uploaded_file($data['image']['tmp_name'], $dir);
+            $product['image'] = '/img/uploads/'.$name['name'];
+           
+
             if ($this->Products->save($product)) {
-               // $this->Email->sendUserEmail($this->request->data['email'],'Update profile',$name,'update');
                 $this->Flash->success(__('Your information data has been updated.'));
                 return $this->redirect(URL_INDEX);
             }
@@ -77,8 +99,8 @@ class ProductsController  extends AppController{
     {
         $this->request->allowMethod(['post', 'delete']);
     
-        $user = $this->Users->get($id);
-        if ($this->Users->delete($user)) {
+        $product = $this->Products->get($id);
+        if ($this->Products->delete($product)) {
             $this->Flash->success(__('The user with id: {0} has been deleted.', h($id)));
             return $this->redirect(URL_INDEX);
         }       
