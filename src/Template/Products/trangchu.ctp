@@ -1,16 +1,4 @@
 
-
-<!-- 	<div class="fullwidthbanner-container">
-		<div class="fullwidthbanner">
-			<div class="bannercontainer" >
-		    <div class="banner" >
-					
-			</div>
-			</div>
-
-			<div class="tp-bannertimer"></div>
-		</div>
-	</div> -->
 <style type="text/css">
 	img {
 border:none;
@@ -31,22 +19,20 @@ height: 250px;
 								<p class="pull-left">Tìm thấy sản phẩm</p>
 								<div class="clearfix"></div>
 							</div>
-
 							<div class="row">
-							<?php foreach($products as $new): ?>
+							<?php foreach($products as $new): 
+							?>
+								
 								<div class="col-sm-3">
 									<div class="single-item">
 										<div class="single-item-header">
-										<?php if($new->promotion_price == 0) ?>
-
 										<div class="ribbon-wrapper"><div class="ribbon sale">Sale</div></div>
-											 <?php echo $this->Html->image("$new->image",['alt' =>'products']); ?>
+												 <a href=""><img src="<?php echo '/cakecosy/webroot/'.$new->image ?>" ></a>
+											 
 										</div>
 										<div class="single-item-body">
 										<p class="single-item-title"><?php echo $new->name ?></p>
 											<p class="single-item-price" style ="font-size: 16px">
-									
-											
 												<span class="flash-del"><?php echo $new->unit_price ?>đồng</span>
 												<span class="flash-sale"><?php echo $new->promotion_price ?>đồng</span>
 											</p>
@@ -57,22 +43,19 @@ height: 250px;
 											<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 											<div class="clearfix"></div>
 											<div class="beta-btn primary"><?= $this->Form->postLink(
-                'Delete',
-                ['action' => 'delete', $new->id],
-                ['confirm' => __('Are you sure you want to delete user with id # {0}?',$new->id)])
-            ?></div>
+									                'Delete',
+									                ['action' => 'delete', $new->id],
+									                ['confirm' => __('Are you sure you want to delete user with id # {0}?',$new->id)])
+									            ?></div>
 											<div class="clearfix"></div>
 											<div class="space50">&nbsp;</div>
 										</div>
 									</div>
 								</div>
-
-							<?php endforeach; ?>
-
-							</div>
-							<div class="row">
 								
+							<?php endforeach; ?>
 							</div>
+							
 						</div> <!-- .beta-products-list -->
 
 						<div class="space50">&nbsp;</div>
