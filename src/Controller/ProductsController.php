@@ -25,21 +25,19 @@ class ProductsController  extends AppController{
     public function trangchu()
 	{
 		$query = $this->Products->find("all");
-        // $this->paginate= array(
-        //     'limit' => LIMITED,
-        //     'order' => [
-        //     'products.id' => 'asc'
-        //     ],
-        // );
-        // $ = $this->paginate('Products');
-        $product = $query->toArray();
-        
+        $this->paginate= array(
+            'limit' => 4,
+            'order' => [
+            'products.id' => 'asc'
+            ]
+        );
+        $product = $this->paginate('products');
         $this->set('products',$product);
 	}
     public function typeproduct()
      {  
         $typeProducts = TableRegistry::get('typeproducts');
-         $query = $typeProducts->find("all")-> toArray();;
+         $query = $typeProducts->find("all")-> toArray();
         $this->set('typeproducts',$query);
     }
 	public function addproduct()
@@ -53,7 +51,7 @@ class ProductsController  extends AppController{
             $name=$data['image'];
             $dir = WWW_ROOT .'img\uploads\ '. $name['name'] ;
             $a = move_uploaded_file($data['image']['tmp_name'], $dir);
-            $product['image'] = '/img/uploads/'.$name['name'];
+            $product['image'] = '/webroot/img/uploads/'.$name['name'];
             
             
         }
@@ -86,7 +84,7 @@ class ProductsController  extends AppController{
 
             if ($this->Products->save($product)) {
                 $this->Flash->success(__('Your information data has been updated.'));
-                return $this->redirect(URL_INDEX);
+                return $this-> redirect(array('action' => 'editproduct', $product->id));
             }
             $this->Flash->error(__('Unable to update your profile.'));
         }
