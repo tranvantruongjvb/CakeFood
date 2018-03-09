@@ -14,7 +14,7 @@ class ProductsController  extends AppController{
 	var $paginate = array();
 	var $helpers = array('Paginator');
 	var $components = array('RequestHandler');
-
+    
     public function initialize()
     {
         parent::initialize();
@@ -24,21 +24,38 @@ class ProductsController  extends AppController{
     }
     public function trangchu()
 	{
-		$query = $this->Products->find("all");
+		$new = $this->Products->find("all")
+        ->where(['products.new >=' => 1 ]);
         $this->paginate= array(
             'limit' => 4,
             'order' => [
             'products.id' => 'asc'
             ]
         );
-        $product = $this->paginate('products');
+        $product = $this->paginate($new);
         $this->set('products',$product);
-	}
-    public function typeproduct()
-     {  
-        $typeProducts = TableRegistry::get('typeproducts');
+         $typeProducts = TableRegistry::get('typeproducts');
          $query = $typeProducts->find("all")-> toArray();
         $this->set('typeproducts',$query);
+	}
+    public function typeproduct($id)
+     {   
+        $typeProducts = TableRegistry::get('typeproducts');
+        $typeproducts = $typeProducts->find("all")-> toArray();
+        $gettype = $typeProducts->get($id)->id;
+        $getproduct = $this->Products->find("all")
+        ->hydrate(false)
+        ->join([
+            'table' => 'typeProducts',
+            'alias' => 'c',
+            'type' => 'LEFT',
+            'conditions' => array(
+                'c.id = products.id_type',
+                )     
+        ])
+        ->where(['products.id_type =' => $gettype ])
+        ->toArray();
+        $this->set(compact("typeproducts", "getproduct"));
     }
 	public function addproduct()
     {   
@@ -80,17 +97,13 @@ class ProductsController  extends AppController{
             $dir = WWW_ROOT .'img\uploads\ '. $name['name'] ;
             $a = move_uploaded_file($data['image']['tmp_name'], $dir);
             $product['image'] = '/img/uploads/'.$name['name'];
-           
-
             if ($this->Products->save($product)) {
                 $this->Flash->success(__('Your information data has been updated.'));
                 return $this-> redirect(array('action' => 'editproduct', $product->id));
             }
             $this->Flash->error(__('Unable to update your profile.'));
         }
-    
-        $this->set('product', $product);      
-        
+        $this->set('product', $product);        
     }
 
     public function delete($id)
