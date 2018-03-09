@@ -53,8 +53,8 @@ class ProductsController  extends AppController{
                 'c.id = products.id_type',
                 )     
         ])
-        ->where(['products.id_type =' => $gettype ])
-        ->toArray();
+        ->where(['products.id_type =' => $gettype ]);
+        
         $this->set(compact("typeproducts", "getproduct"));
     }
 	public function addproduct()
