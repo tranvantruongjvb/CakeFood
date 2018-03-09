@@ -4,9 +4,6 @@
    
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> 
     <?= $this->Html->meta('icon') ?>
-    <?= $this->Html->css('style2.css') ?>
-    <?= $this->Html->css('font-awesome.min.css') ?>
-    <?= $this->Html->css('style.css') ?>
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
 </head>
@@ -59,16 +56,29 @@
 						<li>
 						<?= $this->Html->link('Trang Chủ', ['controller' =>'products' ,'action' => 'trangchu']) ?>
 						</li>
-						<li><a href=""> Loại Sản phẩm</a>
+						
+						<li><?= $this->Html->link('Loại Sản Phẩm', ['controller' =>'products' ,'action' =>'typeproduct',$id=1])?>
+
 							<ul class="sub-menu">
-								<li><a href="">Bánh Ngọt</a></li>
-								<li><a href="">Bánh Mặn	</a></li>
-								<li><a href="">Bánh Kem</a></li>
+								<?php foreach ($typeproducts as $type ) { ?>
+								<li><?= $this->Html->link($type->name, ['action' => 'typeproduct', $type->id]) ?></li>
+								<?php } ?>
 							</ul>
 						</li>
+
 						
 						<li><?= $this->Html->link('Liên Hệ', ['controller' =>'users' ,'action' => 'contact']) ?></li>
-						<li><?= $this->Html->link('Admin Manage', ['controller' =>'users' ,'action' => 'userview'])?></li>
+
+						<?php
+			                if ($this->request->session()->read('Auth.User')) { ?>
+							<li>
+								<?= $this->Html->link('Admin Manage', ['controller' =>'users' ,'action' => 'userview'])?>
+							</li>
+			            <?php	}		    
+			                else { ?>
+			                <li><?= $this->Html->link('Login Admin', ['controller' =>'users' ,'action' => 'login'])?></li>
+			                <?php } ?>
+	
 					</ul>
 					<div class="clearfix"></div>
 				</nav>
