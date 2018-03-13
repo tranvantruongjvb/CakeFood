@@ -1,11 +1,11 @@
 	<div class="inner-header">
 		<div class="container">
 			<div class="pull-left">
-				<h6 class="inner-title"><h2>{{$sanpham->name}}</h2></h6>
+				<h6 class="inner-title"><h2><?php echo $products->name ?></h2></h6>
 			</div>
 			<div class="pull-right">
 				<div class="beta-breadcrumb font-large">
-					<a href="{{route('trang_chu')}}">Trang chủ</a>/<span>Thông Tin  Chi Tiết Sản Phẩm</span>
+					<?php echo $this->Html->link('Trang chủ',['controller' =>'products' ,'action' => 'trangchu']) ?><span> / Thông Tin  Chi Tiết Sản Phẩm</span>
 				</div>
 			</div>
 			<div class="clearfix"></div>
@@ -19,19 +19,19 @@
 
 					<div class="row">
 						<div class="col-sm-4">
-							<a href="#"><img src= "source/image/product/{{$sanpham->image}}" height="250px"></a>
+							<a href="#"><img src="<?php echo '/cakecosy/'. $products->image;?>" height="250px" width='250px'></a>
 						</div>
 						<div class="col-sm-8">
 						
 							<div class="single-item-body">
-								<p class="single-item-title"><h5>{{$sanpham->name}}</h5></p>
+								<p class="single-item-title"><h5><?php echo $products->name ?></h5></p>
 								<p class="single-item-price">
-									@if($sanpham->promotion_price ==0)
-										<span class="flash-del">{{$sanpham->unit_price}}</span>
-									@else
-										<span class="flash-del">{{number_format($sanpham->unit_price)}} đồng</span>
-										<span class="flash-sale">{{number_format($sanpham->promotion_price)}} đồng</span>
-									@endif
+								<?php if($products->promotion_price ==0) { ?>
+										<span class="flash-del"><?php echo $products->unit_price ?></span>
+									<?php } else { ?>
+										<span class="flash-del"><?php echo $products->unit_price ?> đồng</span>
+										<span class="flash-sale"><?php echo $products->promotion_price ?> đồng</span>
+									<?php } ?>
 								</p>
 							</div>
 							
@@ -40,14 +40,15 @@
 							<div class="space20">&nbsp;</div>
 
 							<div class="single-item-desc">
-								<p>{{$sanpham->description}}</p>
+								<p><?php echo $products->description; ?></p>
 							</div>
 							<div class="space20">&nbsp;</div>
 
-							<p>Số lượng:</p>
+							<p>Số lượng: <input type="number" name="quantity" min="1" max="100" value="1"></p>
 							<div class="single-item-options">
 								
-								<a class="add-to-cart" href="{{route('themgiohang',$sanpham->id)}}"><i class="fa fa-shopping-cart"></i></a>
+								<a class="add-to-cart" href=""><i class="fa fa-shopping-cart"></i></a>
+								<a class="beta-btn primary" href=""> Xem giỏ hàng <i class="fa fa-chevron-right"></i></a>
 								<div class="clearfix"></div>
 							</div>
 						</div>
@@ -60,62 +61,76 @@
 						</ul>
 
 						<div class="panel" id="tab-description">
-							<p>{{$sanpham->description}}</p>
+							<p><?php echo $products->description; ?></p>
 						</div>
 					</div>
 					<div class="space50">&nbsp;</div>
 					<div class="beta-products-list">
-						<h4>Sản phẩm tương tự</h4>
-
-						<div class="row">
-						@foreach($sp_tuongtu as $sptt)
-							<div class="col-sm-4">
-								<div class="single-item">
-									<div class="single-item-header">
-										@if($sptt->promotion_price != 0)
-										<div class="ribbon-wrapper"><div class="ribbon sale">Sale</div></div>
-											@endif
-										<a href="#"><img src= "source/image/product/{{$sptt->image}}" height="250px"></a>
-									</div>
-									<div class="single-item-body">
-										<p class="single-item-title">{{$sptt->name}}</p>
-										<p class="single-item-price">
-											@if($sptt->promotion_price ==0)
-												<span class="flash-del">{{$sptt->unit_price}} đồng</span>
-											@else
-												<span class="flash-del">{{number_format($sptt->unit_price)}} đồng</span>
-												<span class="flash-sale">{{number_format($sptt->promotion_price)}}đồng</span>
-											@endif
-										</p>
-									</div>
-									<div class="single-item-caption">
-										<a class="add-to-cart pull-left" href="product.html"><i class="fa fa-shopping-cart"></i></a>
-										<a class="beta-btn primary" href="product.html">Details <i class="fa fa-chevron-right"></i></a>
-										<div class="clearfix"></div>
-									</div>
-								</div>
+							<h4>Sản Phẩm Tương Tự</h4>
+							<div class="beta-products-details">
+								<p class="pull-left"> Tìm thấy <?php echo count($producttype); ?> sản phẩm</p>
+								<div class="clearfix"></div>
 							</div>
-							@endforeach
+							
+							<?php foreach($producttype as $sptt): 
+							?>
+								
+									<div class="col-sm-4">
+										<div class="single-item">
+											<div class="single-item-header">
+											<?php if ($sptt->promotion_price !=0) {?>
+												<div class="ribbon-wrapper">
+													<div class="ribbon sale">Sale</div>
+												</div>
+											<?php } ?>
+											
+													 <a href="<?php echo $sptt->id ?>"><img src="<?php echo '/cakecosy/'.$sptt->image ?>" height="250px" width="377px"></a>
+											</div>
+											<div class="single-item-body">
+											<p class="single-item-title"><?php echo $sptt->name ?></p>
+												<p class="single-item-price" style ="font-size: 16px">
+													<span class="flash-del"><?php echo $sptt->unit_price ?>đồng</span>
+													<span class="flash-sale"><?php echo $sptt->promotion_price ?>đồng</span>
+												</p>
+											</div>
+											<div class="single-item-caption">
+												<div class="add-to-cart pull-left"><?php $this->Html->link('Giỏ hàng',['action'=>'cart-shop',$sptt->id]) ?><i class="fa fa-shopping-cart"></i> </div>
+												<div class="beta-btn primary"><?php echo $this->Html->link('chi tiết',['action'=>'viewproduct',$sptt->id])  ?></div>
+												<?php  if ($this->request->session()->read('Auth.User')) {?>
+												<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$sptt->id])  ?></div>
+												<div class="clearfix"></div>
+												<div class="beta-btn primary"><?= $this->Form->postLink(
+										                'Delete',
+										                ['action' => 'delete', $sptt->id],
+										                ['confirm' => __('Are you sure you want to delete user with id # {0}?',$sptt->id)])
+										            ?></div>
+										            <?php } ?>
+												<div class="clearfix"></div>
+												<div class="space50">&nbsp;</div>
+											</div>
+										</div>
+									</div>
+								
+							<?php endforeach; ?>
 						</div>
-						<div class=" col-md-6 col-md-offset-4">{{$sp_tuongtu->links()}}</div>
-					</div> <!-- .beta-products-list -->
 				</div>
+
 				<div class="col-sm-3 aside">
 					<div class="widget">
 						<h3 class="widget-title">Best Sellers</h3>
 						<div class="widget-body">
 							<div class="beta-sales beta-lists">
-							@foreach($sale_product as $spkm)
+							<?php foreach($productnew as $new): ?> 
 								<div class="media beta-sales-item">
-									<a class="pull-left" href="#"><img src="source/image/product/{{$spkm->image}}" alt=""></a>
+								
+									<a class="pull-left" href="<?php echo $new->id ?>"><img src="<?php echo '/cakecosy/'.$new->image ?>" height="250px" ></a>
 									<div class="media-body">
-										Sample Woman Top
 										<span class="beta-sales-price"></span>
-										<span class="flash-del">{{number_format($spkm->unit_price)}} đồng</span>
-										<span class="flash-sale">{{ number_format($spkm->promotion_price)}}  đồng</span>
+										<span class="flash-del"><?php echo $new->unit_price ?> đồng</span>
+										<span class="flash-sale"><?php echo $new->promotion_price ?>  đồng</span>
 									</div>
 								</div>
-								@endforeach
+								<?php endforeach; ?>
 								
 							</div>
 						</div>
