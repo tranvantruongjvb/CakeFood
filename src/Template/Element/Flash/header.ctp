@@ -4,6 +4,10 @@
    
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> 
     <?= $this->Html->meta('icon') ?>
+    <?= $this->Html->css('style.css')?>
+	<?= $this->Html->css('style2.css')?>
+	<?= $this->Html->css('font-awesome.min.css')?>
+
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
 </head>
@@ -31,8 +35,8 @@
 				<div class="pull-right beta-components space-left ov">
 					<div class="space10"></div>
 					<div class="beta-comp">
-						<form role="search" method="get" id="searchform" action="#">
-					        <input type="text" value="" name="key" id="s" placeholder="Nhập từ khóa..." />
+						<form role="search" method="get" id="searchform" action="getSearch">
+					        <input type="text" value="" name="key" id="key" placeholder="Nhập từ khóa..." required="" />
 					        <button class="fa fa-search" type="submit" id="searchsubmit"></button>
 						</form>
 					</div>
@@ -73,6 +77,9 @@
 			                if ($this->request->session()->read('Auth.User')) { ?>
 							<li>
 								<?= $this->Html->link('Admin Manage', ['controller' =>'users' ,'action' => 'userview'])?>
+							</li>
+							<li>
+								<?= $this->Html->link('Logout', ['controller' =>'users' ,'action' => 'logout'])?>
 							</li>
 			            <?php	}		    
 			                else { ?>
