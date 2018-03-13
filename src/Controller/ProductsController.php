@@ -24,6 +24,18 @@ class ProductsController  extends AppController{
     }
     public function trangchu()
 	{
+
+        $promotion = $this->Products->find("all")
+        ->where(['products.promotion_price >=' => 1 ]);
+        $this->paginate= array(
+            'limit' => 8,
+            'order' => [
+            'products.id' => 'asc'
+            ]
+        );
+        $promotion_price = $this->paginate($promotion);
+        $this->set('promotion_price',$promotion_price);
+
 		$new = $this->Products->find("all")
         ->where(['products.new >=' => 1 ]);
         $this->paginate= array(
@@ -34,10 +46,23 @@ class ProductsController  extends AppController{
         );
         $product = $this->paginate($new);
         $this->set('products',$product);
-         $typeProducts = TableRegistry::get('typeproducts');
-         $query = $typeProducts->find("all")-> toArray();
+
+        
+
+        $typeProducts = TableRegistry::get('typeproducts');
+        $query = $typeProducts->find("all")-> toArray();
         $this->set('typeproducts',$query);
 	}
+    // public function getSearch(){
+    //     $product = $this->Products->find()
+    //     ->where('name','like','%'.$this->request->query.'%');
+        
+        
+        
+    //     $this->set('products',$product);
+
+    //  }
+
     public function typeproduct($id)
      {   
         $typeProducts = TableRegistry::get('typeproducts');
@@ -57,6 +82,33 @@ class ProductsController  extends AppController{
         
         $this->set(compact("typeproducts", "getproduct"));
     }
+    public function viewproduct($id)
+    {
+        $product = $this->Products->get($id);
+        $this->set('products', $product); 
+        $typeProducts = TableRegistry::get('typeproducts');
+        $query = $typeProducts->find("all")-> toArray();
+        $this->set('typeproducts',$query);
+
+        $type = $this->Products->find("all")
+        ->where(['products.id_type >=' => $product->id_type ]);
+        $this->paginate= array(
+            'limit' => 9,
+            'order' => [
+            'products.id' => 'asc'
+            ]
+        );
+        $producttype = $this->paginate($type);
+        $this->set('producttype',$producttype);
+
+        $new = $this->Products->find("all")
+        ->limit('6')
+        ->where(['products.new >=' => 1 ]);
+
+        $this->set('productnew',$new);
+
+    }
+
 	public function addproduct()
     {   
         
@@ -64,16 +116,11 @@ class ProductsController  extends AppController{
         if($this->request->is('post')) {
             $data = $this->request->data();
             $this->Products->patchEntity($product,$this->request->data);
-
             $name=$data['image'];
             $dir = WWW_ROOT .'img\uploads\ '. $name['name'] ;
             $a = move_uploaded_file($data['image']['tmp_name'], $dir);
             $product['image'] = '/webroot/img/uploads/'.$name['name'];
-            
-            
         }
-
-
         // //now do the save
         if ($this->Products->save($product)) 
         {       
