@@ -7,6 +7,7 @@ border-radius: 20px;
 height: 250px;
 }
 </style>
+
 	<div class="container">
 		<div id="content" class="space-top-none">
 			<div class="main-content">
@@ -16,7 +17,7 @@ height: 250px;
 						<div class="beta-products-list">
 							<h4>Sản phẩm mới</h4>
 							<div class="beta-products-details">
-								<p class="pull-left">Tìm thấy sản phẩm</p>
+								<p class="pull-left">Tìm thấy <?php echo count($products) ?> sản phẩm</p>
 								<div class="clearfix"></div>
 							</div>
 							<div class="row">
@@ -32,7 +33,7 @@ height: 250px;
 											</div>
 										<?php } ?>
 										
-												 <a href=""><img src="<?php echo '/cakecosy/'.$new->image ?>" ></a>
+												 <a href="viewproduct/<?php echo $new->id ?>"><img src="<?php echo '/cakecosy/'.$new->image ?>" ></a>
 										</div>
 										<div class="single-item-body">
 										<p class="single-item-title"><?php echo $new->name ?></p>
@@ -44,13 +45,16 @@ height: 250px;
 										<div class="single-item-caption">
 											<div class="add-to-cart pull-left"><?php $this->Html->link('Giỏ hàng',['action'=>'cart-shop',$new->id]) ?><i class="fa fa-shopping-cart"></i> </div>
 											<div class="beta-btn primary"><?php echo $this->Html->link('chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
+											<?php  if ($this->request->session()->read('Auth.User')) {?>
 											<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 											<div class="clearfix"></div>
 											<div class="beta-btn primary"><?= $this->Form->postLink(
 									                'Delete',
 									                ['action' => 'delete', $new->id],
 									                ['confirm' => __('Are you sure you want to delete user with id # {0}?',$new->id)])
-									            ?></div>
+									            ?>
+									        </div>
+									        <?php } ?>
 											<div class="clearfix"></div>
 											<div class="space50">&nbsp;</div>
 										</div>
@@ -60,7 +64,7 @@ height: 250px;
 							<?php endforeach; ?>
 
 							 <!-- .beta-products-list -->
-							
+							</div>
 							<div>
 
 								<ul class="pagination">
@@ -72,29 +76,19 @@ height: 250px;
 							</div>
 						</div>
 					</div>
-		</div>
-		</div>
-		</div>
-		</div>
-		</div>
-			<div>
-			<div>
-			<div>
-			<div>
-			<div>
-
+					
 					<div class="space50">&nbsp;</div>
 
 					<div class="beta-products-list">
 							<h4>Sản Phẩm Khuyễn Mãi</h4>
 							<div class="beta-products-details">
-								<p class="pull-left"> Tìm thấy  sản phẩm</p>
+								<p class="pull-left"> Tìm thấy <?php echo count($promotion_price) ?> sản phẩm</p>
 								<div class="clearfix"></div>
 							</div>
-
-							<?php foreach($products as $new): 
+							
+							<?php foreach($promotion_price as $new): 
 							?>
-								<?php if($new->promotion_price!=0) {?>
+								
 									<div class="col-sm-3">
 										<div class="single-item">
 											<div class="single-item-header">
@@ -104,7 +98,7 @@ height: 250px;
 												</div>
 											<?php } ?>
 											
-													 <a href=""><img src="<?php echo '/cakecosy/'.$new->image ?>" ></a>
+													 <a href="viewproduct/<?php echo $new->id ?>"><img src="<?php echo '/cakecosy/'.$new->image ?>" ></a>
 											</div>
 											<div class="single-item-body">
 											<p class="single-item-title"><?php echo $new->name ?></p>
@@ -116,7 +110,7 @@ height: 250px;
 											<div class="single-item-caption">
 												<div class="add-to-cart pull-left"><?php $this->Html->link('Giỏ hàng',['action'=>'cart-shop',$new->id]) ?><i class="fa fa-shopping-cart"></i> </div>
 												<div class="beta-btn primary"><?php echo $this->Html->link('chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
-												
+												<?php  if ($this->request->session()->read('Auth.User')) {?>
 												<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
@@ -124,18 +118,21 @@ height: 250px;
 										                ['action' => 'delete', $new->id],
 										                ['confirm' => __('Are you sure you want to delete user with id # {0}?',$new->id)])
 										            ?></div>
+										            <?php } ?>
 												<div class="clearfix"></div>
 												<div class="space50">&nbsp;</div>
 											</div>
 										</div>
 									</div>
-								<?php } ?>
+								
 							<?php endforeach; ?>
 							
 					</div>
-				</div> 
+
+				</div>
 			</div>
-		</div> 
+		</div>
 	</div>
-	</div>
+</div>
+			
 
