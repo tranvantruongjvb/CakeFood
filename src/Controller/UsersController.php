@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use Cake\View\View;
 use App\Controller\component\Email;
 use Cake\View\Helper;
+use Cake\ORM\TableRegistry;
 
 class UsersController extends AppController{
 	var $paginate = array();
@@ -14,9 +15,7 @@ class UsersController extends AppController{
     public function initialize()
     {
         parent::initialize();
-		 
-		$this->Auth->allow(['logout']);
-
+		$this->Auth->allow(['logout','trangchu']);
     }
 
 
@@ -30,7 +29,7 @@ class UsersController extends AppController{
 				$this->Auth->setUser($user);
 				//print_r($this->request->session()->check($user));die;
 				
-				return $this->redirect(URL_INDEX);
+				return $this->redirect(URL_Profile);
 
 			}
 			$this->Flash->error(__('Invalid username or password, try again.'));
@@ -44,15 +43,15 @@ class UsersController extends AppController{
 	public function listUser()
 	{
 		$this->paginate= array(
-			'limit' => 4,
+			'limit' => LIMITED,
 			'order' => [
             'users.id' => 'asc'
         	],
         );
-		$users = $this->paginate('Users');
-		//print_r($users);
-		$this->set('users',$users);		
+		$user = $this->paginate('Users');
+		$this->set('users',$user);		
 	}
+	
 	public function admin()
 	{
 
@@ -63,16 +62,20 @@ class UsersController extends AppController{
 	}
 	public function contact()
 	{
-		# code...
+		$typeProducts = TableRegistry::get('typeproducts');
+        $query = $typeProducts->find("all")-> toArray();
+        $this->set('typeproducts',$query);
 	}
 	
 	public function userview()
 	{
+		$typeProducts = TableRegistry::get('typeproducts');
+        $query = $typeProducts->find("all")-> toArray();
+        $this->set('typeproducts',$query);
 		# code...
 		$user = $this->Users->get($this->Auth->user('id'));
 		$this->set('user',$user);
 	}
-	
 	public function adduser()
 	{	
 		$user = $this->Users->newEntity();
@@ -87,7 +90,7 @@ class UsersController extends AppController{
 
 				$this->Email->sendUserEmail($email,'Register',$array,'add');
 	            $this->Flash->success(__($name.' has been registered .'));
-	            return $this->redirect(URL_LIST_USER);
+	            return $this->redirect(URL_INDEX);
 			}
 
 			$this->Flash->error(__('Unable to register your account.'));
@@ -103,7 +106,7 @@ class UsersController extends AppController{
 			if ($this->Users->save($user)) {
 				$this->Email->sendUserEmail($this->request->data['email'],'Update profile',$name,'update');
 				$this->Flash->success(__('Your profile data has been updated.'));
-				return $this->redirect(URL_LIST_USER);
+				return $this->redirect(URL_INDEX);
 			}
 			$this->Flash->error(__('Unable to update your profile.'));
 		}
@@ -118,10 +121,13 @@ class UsersController extends AppController{
 		$user = $this->Users->get($id);
 		if ($this->Users->delete($user)) {
 			$this->Flash->success(__('The user with id: {0} has been deleted.', h($id)));
-			return $this->redirect(URL_LIST_USER);
+			return $this->redirect(URL_INDEX);
 		}		
 		
 	}
-		
+	
+
+
+
 }
 ?>
