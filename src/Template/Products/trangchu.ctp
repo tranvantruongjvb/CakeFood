@@ -33,7 +33,7 @@ height: 250px;
 											</div>
 										<?php } ?>
 										
-												 <a href="viewproduct/<?php echo $new->id ?>"><img src="<?php echo '/cakecosy/'.$new->image ?>" ></a>
+												 <a href="products/viewproduct/<?php echo $new->id ?>"><img src="<?php echo '/cakecosy/'.$new->image ?>" ></a>
 										</div>
 										<div class="single-item-body">
 										<p class="single-item-title"><?php echo $new->name ?></p>
@@ -98,7 +98,7 @@ height: 250px;
 												</div>
 											<?php } ?>
 											
-													 <a href="viewproduct/<?php echo $new->id ?>"><img src="<?php echo '/cakecosy/'.$new->image ?>" ></a>
+													 <a href="products/viewproduct/<?php echo $new->id ?>"><img src="<?php echo '/cakecosy/'.$new->image ?>" ></a>
 											</div>
 											<div class="single-item-body">
 											<p class="single-item-title"><?php echo $new->name ?></p>
