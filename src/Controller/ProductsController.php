@@ -9,11 +9,12 @@ use Cake\View\Helper;
 use Cake\Utility\Text;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\InternalErrorException;
+use Cake\Controller\Component;
 
 class ProductsController  extends AppController{
 	var $paginate = array();
 	var $helpers = array('Paginator');
-	var $components = array('RequestHandler');
+	var $components = array('RequestHandler','session');
     
     public function initialize()
     {
@@ -22,7 +23,8 @@ class ProductsController  extends AppController{
 		$this->Auth->allow(['logout']);
 
     }
-    public function trangchu()
+
+    public function index()
 	{
 
         $promotion = $this->Products->find("all")
@@ -44,24 +46,38 @@ class ProductsController  extends AppController{
             'products.id' => 'asc'
             ]
         );
-        $product = $this->paginate($new);
+        $product = $this->paginate($new)->toArray();
         $this->set('products',$product);
-
-        
 
         $typeProducts = TableRegistry::get('typeproducts');
         $query = $typeProducts->find("all")-> toArray();
         $this->set('typeproducts',$query);
 	}
-    // public function getSearch(){
-    //     $product = $this->Products->find()
-    //     ->where('name','like','%'.$this->request->query.'%');
-        
-        
-        
-    //     $this->set('products',$product);
 
-    //  }
+    public function getAddToCart($id){
+        $product = $this->Products->get($id);
+        $oldCart = $this->Session->write('cart') ? Session('cart') :null;
+        $cart = $this->Products->newEntity();
+        $cart->add($product, $product->id);
+        $req->session()->put('cart', $cart);
+        return redirect()->back();
+    }
+
+    public function getSearch(){
+
+        $key= $this->request->query;
+        $find = $this->Products->find("all")
+       ->where(['name LIKE' => '%'.$key['key'].'%']);
+
+        $this->paginate= array(
+            'order' => [
+            'find.id' => 'asc'
+            ]
+        );
+        $product = $this->paginate($find);
+        $this->set('products',$product);
+
+     }
 
     public function typeproduct($id)
      {   
