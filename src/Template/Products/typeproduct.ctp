@@ -29,7 +29,7 @@
 												</div>
 											<?php } ?>
 											
-													 <a href=""><img src="<?php echo '/cakecosy/'.$new['image'] ?>" height="250px"></a>
+													 <a href="\cakecosy/products/viewproduct/<?php print_r($new['id']) ?>"><img src="<?php echo '/cakecosy/'.$new['image'] ?>" height="250px"></a>
 											</div>
 											<div class="single-item-body">
 											<p class="single-item-title"><?php echo $new['name'] ?></p>
