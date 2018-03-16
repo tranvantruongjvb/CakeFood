@@ -43,8 +43,6 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
 		$this->loadComponent('Flash');
 		$this->loadComponent('Email');
-	 	
-
 
 		$this->loadComponent('Auth', [
 		 	'loginAction' => [
@@ -85,8 +83,8 @@ class AppController extends Controller
 	
 	public function beforeFilter(Event $event)
 	{
-		if($this->Auth->user)
-		$this->Auth->allow(['login']);
+		
+		$this->Auth->allow(['index','contact','typeproduct','viewproduct','getsearch','getAddToCart','destroy']);
 	}
     /**
      * Before render callback.
