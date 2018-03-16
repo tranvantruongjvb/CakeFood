@@ -10,10 +10,14 @@ use Cake\Utility\Text;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\InternalErrorException;
 use Cake\Controller\Component;
+use Cake\Network\Session\DatabaseSession;
+use Cake\View\Helper\SessionHelper;
+use Cake\Collection\Collection;
+
 
 class ProductsController  extends AppController{
 	var $paginate = array();
-	var $helpers = array('Paginator');
+	var $helpers = array('Paginator'   );
 	var $components = array('RequestHandler','session');
     
     public function initialize()
@@ -55,12 +59,57 @@ class ProductsController  extends AppController{
 	}
 
     public function getAddToCart($id){
+
         $product = $this->Products->get($id);
-        $oldCart = $this->Session->write('cart') ? Session('cart') :null;
-        $cart = $this->Products->newEntity();
-        $cart->add($product, $product->id);
-        $req->session()->put('cart', $cart);
-        return redirect()->back();
+        $session = $this->request->session();
+      
+       $count = 1;
+       if ($session->check('cart.'.$id)) {
+            $items = $session->read('cart.'.$id);
+            $items['quantity'] +=1;
+        }else{
+            $items = array(
+            'id' => $product->id,
+            'name' => $product->name,
+            'image' => $product->image,
+            'price' => $product->unit_price,
+            'quantity'=> 1,
+
+            );
+        }
+
+         $session->write('cart.'.$id, $items, array('timeout' => 1, ));
+         $s= $session->read('cart');
+         $total=0;
+         foreach ($s as $value) {
+             $total += $value['price'] * $value['quantity'];
+         }
+          $session->write('payment.total',$total);
+        $this->redirect($this->referer());
+
+        
+     }
+
+     public function destroy()
+     {    $session = $this->request->session();
+          $session->destroy('cart');
+           $this->redirect($this->referer());
+
+     }
+
+     public function order(){
+         $session = $this->request->session();
+        if($session->check('cart')){
+            $oldCart = $session->read('cart');
+            foreach ($oldCart as $value) {
+                $items = array(
+                $totalPrice =  $value['quantity'] * $value['price']);
+            }
+            $session->write('order', $totalPrice, array('timeout' => 1));
+             $s=$session->read('order');
+
+        }
+       
     }
 
     public function getSearch(){
@@ -127,7 +176,10 @@ class ProductsController  extends AppController{
 
 	public function addproduct()
     {   
-        
+         $typeProducts = TableRegistry::get('typeproducts');
+        $query = $typeProducts->find("all")-> toArray();
+        $this->set('typeproducts',$query);
+
         $product = $this->Products->newEntity();
         if($this->request->is('post')) {
             $data = $this->request->data();
@@ -151,6 +203,9 @@ class ProductsController  extends AppController{
        
     public function editproduct($id)
     {   
+         $typeProducts = TableRegistry::get('typeproducts');
+        $query = $typeProducts->find("all")-> toArray();
+        $this->set('typeproducts',$query);
         $product = $this->Products->get($id);
         if ($this->request->is(['post', 'put'])) {
             //$name = $this->request->data['name'];
