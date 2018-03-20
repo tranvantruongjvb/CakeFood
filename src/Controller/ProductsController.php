@@ -179,34 +179,38 @@ class ProductsController  extends AppController{
 
 
     public function listbill()
-    // {
-    //     $customer = TableRegistry::get('customer');
-    //     $bill = TableRegistry::get('bills');
-    //     $bill_detail = TableRegistry::get('bill_detail');
-    //     $infor = $bill_detail->find()
-    //     // ->select(['customer.name', 'customer.email','customer.address','customer.phone_number','customer.note','bill.total','bill.payment','bill_detail.quantity'])
-    //     ->select(['bill.total'])
-    //     ->hydrate(false)
-    //     ->join([
-    //         'b' => [
-    //             'table' => 'bill',
-    //             'type' => 'LEFT',
-    //             'conditions' => array(
-    //             'b.id = bill_detail.id_bill',
-    //             ),
-    //         ],
-    //         // 'c' => [
-    //         //     'table' => 'customer',
-    //         //     'type' => 'INNER',
-    //         //     'conditions' => 'c.id = bill_detail.id_customer',
-    //         // ],
-    //         // 'p' =>[
-    //         //     'table' => 'products',
-    //         //     'type' => 'INNER',
-    //         //     'conditions' => 'p.id = bill_detail.id_product',
-    //         // ]
-    //     ])->toArray();
-    //     pr($infor);
+     {
+        $customer = TableRegistry::get('customer');
+        $bill = TableRegistry::get('bills');
+        $bill_detail = TableRegistry::get('bill_detail');
+        $infor = $bill->find()
+         // ->select(['bills.total','bills.payment','b.quantity'])
+        ->select(['c.name','c.email','c.address','c.phone_number','c.note','bills.total','bills.payment',
+            'b.quantity','b.unit_price','p.name','p.image'
+        ])
+        ->hydrate(false)
+        ->join([
+            'b' =>[
+            'table' => 'bill_detail',
+            'type' => 'LEFT',
+            'conditions' => array(
+                'bills.id = b.id_bill',
+                )],
+            'c' =>[
+                    'table' => 'customer', 
+                   'type' => 'LEFT',
+                   'conditions' => array(
+                   'c.id = bills.id_customer',
+                )],
+            'p' =>[
+                    'table' => 'products', 
+                   'type' => 'LEFT',
+                   'conditions' => array(
+                   'p.id = b.id_product',
+                )],
+
+        ])->toArray();
+        pr($infor);die;
     }
 
     public function getSearch(){
