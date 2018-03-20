@@ -45,7 +45,7 @@ class ProductsController  extends AppController{
 		$new = $this->Products->find("all")
         ->where(['products.new >=' => 1 ]);
         $this->paginate= array(
-            'limit' => 4,
+            'limit' => 8,
             'order' => [
             'products.id' => 'asc'
             ]
@@ -98,6 +98,10 @@ class ProductsController  extends AppController{
      }
 
      public function order(){
+        $typeProducts = TableRegistry::get('typeproducts');
+        $query = $typeProducts->find("all")-> toArray();
+        $this->set('typeproducts',$query);
+
          $session = $this->request->session();
         if($session->check('cart')){
             $oldCart = $session->read('cart');
@@ -110,6 +114,99 @@ class ProductsController  extends AppController{
 
         }
        
+    }
+
+    public function postCheckout(){
+        $session = $this->request->session();
+
+        // khai báo database để lấy dữ liệu table
+        $cus = TableRegistry::get('customer');
+        $getbill = TableRegistry::get('bills');
+        $get_bill_detail = TableRegistry::get('bill_detail');
+
+        // read session
+        $cart = $session->read('cart');
+        $totalPrice = $session->read('payment.total');
+        $req= $this->request->query;
+
+        // save và bảng customer
+        $cusumer = $cus->newEntity();
+        $cusumer->name = $req['full_name'];
+        $cusumer->email = $req['email'];
+        $cusumer->address = $req['address'];
+        $cusumer->phone_number = $req['phone'];
+        $cusumer->note = $req['notes'];
+        $cus->save($cusumer);
+        
+        // lấy giá trị cuối cùng (khácg hàng vừa mua cuối cùng )
+        $customerid = $cus->find()
+        ->select(['id', 'name'])
+        ->where(['id !=' => 1])
+        ->last();
+
+        // save và bảng bill_details
+        $bill = $getbill->newEntity();
+        $bill->id_customer = $customerid->id;
+        $bill->date_order = date('Y-m-d');
+        $bill->total = $totalPrice;
+        $bill->payment = $req['payment_method'];
+        $bill->note = $req['notes'];
+        $getbill->save($bill);
+        
+        // lấy bill id trong bảng bills
+        $billid = $getbill->find()
+        ->select(['id'])
+        ->where(['id !=' => 1])
+        ->last();
+
+        foreach ($cart as $key) {
+            // pr($billid['id']);
+            $bill_detail = $getbill->newEntity();
+            $bill_detail->id_bill = $billid['id'];
+            $bill_detail->id_product = $key['id'];//$value['item']['id'];
+            $bill_detail->quantity = $key['quantity'];
+            $bill_detail->subtotal = $key['quantity'] *  $key['price'];
+            $bill_detail->unit_price = $key['price'];
+            $get_bill_detail->save($bill_detail);
+        }
+
+        $session->delete('cart');
+        $session->delete('payment.total');
+        $this->Flash->success(__('Cảm ơn bạn đã mua sản phẩm của chúng tôi. Đơn hàng đang được sử lý'));
+        $this->redirect(URL_INDEX);
+        
+    }
+
+
+    public function listbill()
+    // {
+    //     $customer = TableRegistry::get('customer');
+    //     $bill = TableRegistry::get('bills');
+    //     $bill_detail = TableRegistry::get('bill_detail');
+    //     $infor = $bill_detail->find()
+    //     // ->select(['customer.name', 'customer.email','customer.address','customer.phone_number','customer.note','bill.total','bill.payment','bill_detail.quantity'])
+    //     ->select(['bill.total'])
+    //     ->hydrate(false)
+    //     ->join([
+    //         'b' => [
+    //             'table' => 'bill',
+    //             'type' => 'LEFT',
+    //             'conditions' => array(
+    //             'b.id = bill_detail.id_bill',
+    //             ),
+    //         ],
+    //         // 'c' => [
+    //         //     'table' => 'customer',
+    //         //     'type' => 'INNER',
+    //         //     'conditions' => 'c.id = bill_detail.id_customer',
+    //         // ],
+    //         // 'p' =>[
+    //         //     'table' => 'products',
+    //         //     'type' => 'INNER',
+    //         //     'conditions' => 'p.id = bill_detail.id_product',
+    //         // ]
+    //     ])->toArray();
+    //     pr($infor);
     }
 
     public function getSearch(){
