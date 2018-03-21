@@ -178,16 +178,49 @@ class ProductsController  extends AppController{
     }
 
 
-    public function listbill()
-     {
+    public function listcustomer()
+    {
+         $typeProducts = TableRegistry::get('typeproducts');
+        $typeproducts = $typeProducts->find("all")-> toArray();
+
+        $customer = TableRegistry::get('customer');
         $customer = TableRegistry::get('customer');
         $bill = TableRegistry::get('bills');
         $bill_detail = TableRegistry::get('bill_detail');
-        $infor = $bill->find()
-         // ->select(['bills.total','bills.payment','b.quantity'])
-        ->select(['c.name','c.email','c.address','c.phone_number','c.note','bills.total','bills.payment',
+
+        $customers = $customer->find('all');
+        $bills = $bill->find('all');
+        $bill_details = $bill_detail->find('all');
+
+
+
+        $this->set(compact('customers','typeproducts'));
+    }
+    
+    public function listbill($id)
+    {
+
+        $typeProducts = TableRegistry::get('typeproducts');
+        $typeproducts = $typeProducts->find("all")-> toArray();
+
+        $customer = TableRegistry::get('customer');
+        $bill = TableRegistry::get('bills');
+        $bill_detail = TableRegistry::get('bill_detail');
+
+        $getid = $customer->get($id)->id;
+
+        $customers = $customer->find('all');
+        $bills = $bill->find('all')
+        ->where(['bills.id_customer =' => $getid])
+        ->toArray();
+
+        $bill_details = $bill_detail->find('all');
+
+        $listbills = $bill->find()
+        ->select(['c.name','c.email','c.address','c.phone_number','c.note','bills.total',
             'b.quantity','b.unit_price','p.name','p.image'
         ])
+        ->where(['c.id =' => $getid])
         ->hydrate(false)
         ->join([
             'b' =>[
@@ -208,9 +241,9 @@ class ProductsController  extends AppController{
                    'conditions' => array(
                    'p.id = b.id_product',
                 )],
-
         ])->toArray();
-        pr($infor);die;
+       
+       $this->set(compact('listbills','customers','bills','bill_details','typeproducts'));
     }
 
     public function getSearch(){
