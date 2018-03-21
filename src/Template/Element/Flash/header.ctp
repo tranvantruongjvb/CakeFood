@@ -1,16 +1,4 @@
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-   
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> 
-    <?= $this->Html->meta('icon') ?>
-    
-
-
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-</head>
-
 <div id="header">
 	
 		<!-- .header-top -->
@@ -22,44 +10,96 @@
 					<div class="space10">&nbsp;</div>
 
 				</div>
+
+				<div class="pull-left">
+					<a href="" id="logo"><img src="/cakecosy/webroot/img/foody-vn.png" style ="width:100px; height: 50%"></a>
+					
+
+				</div>
+
 				<div class="hiden">
 
 					<?php pr($this->request->session()->read('cart')); ?>
 					<?php $read = $this->request->session()->read('cart'); ?>
 					<?php $check = $this->request->session()->check('cart') ?>
 				</div>
+				<?php $read = $this->request->session()->read('Auth.User') ?>
+				<?php if ($read) { ?>
+					<nav class="navbar navbar-default navbar-expand-lg navbar-light navbar-right">
+					  <!-- Collection of nav links, forms, and other content for toggling -->
+					  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+						
+						<ul class="nav navbar-nav navbar-right ml-auto">
+					      <li class="nav-item dropdown">
+					        
+								<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-user-o"></i> Acount <i class="fa fa-chevron-down"></i></a>
+								<ul class="dropdown-menu">
+									<li><a href="\cakecosy/products/listcustomer" class="dropdown-item">List Bill</a></li>					
+									<li><a href="\cakecosy/edituser/<?php echo $read['id'] ?>" class="dropdown-item">Update Information</a></li>
+									<li><a href="\cakecosy/adduser" class="dropdown-item">Add New Product</a></li>
+									<li><a href="\cakecosy/addproduct" class="dropdown-item">Add New Admin</a></li>
+									
+									<li><a href="\cakecosy/users/logout" class="dropdown-item">Logout</a></li>
+								</ul>
+					        
+					      </li>
+					    </ul>
+					  </div>
+					</nav>
+				<?php }else {?>
+						<nav class="navbar navbar-default navbar-expand-lg navbar-light navbar-right">
+					  <!-- Collection of nav links, forms, and other content for toggling -->
+					  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
 
-				<div class="pull-right beta-components space-left ov">
-					<div class="space10"></div>
-					<div class="beta-comp">
-						<form role="search" method="get" id="searchform" action="getSearch">
-					        <input type="text" value="" name="key" id="key" placeholder="Nhập từ khóa..." required="" />
-					        <button class="fa fa-search" type="submit" id="searchsubmit"></button>
-						</form>
-					</div>
-					
-					<div class="beta-comp">
-						<div class="cart">
-							<div class=" beta-select">
-							<?php echo $this->Html->link('đặt hàng',['controller'=>'products','action'=>'order']) ?>
-							<i class="fa fa-shopping-cart">	
-								</i> Giỏ hàng  (<span id="tongsl">
-								<?php if($this->request->session()->check('cart')){ ?>
+					    <ul class="nav navbar-nav navbar-right ml-auto">
+					      <li class="nav-item dropdown">
+					        <a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-user-o"></i> Login</a>
+					        <ul class="dropdown-menu">
+					          <li>
+					                <form class="form-inline login-form" action="login" method="post">
+					                <div class="input-group">
+					                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+					                    <input type="text" class="form-control" placeholder="email"  name="email" id="email" required>
+					                </div>
+					                <div class="input-group">
+					                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+					                    <input type="text" class="form-control" placeholder="Password" name="password" id="password" required>
+					                    </div>
+					                    <button type="submit" name="btn_login" class="btn btn-primary">Login</button>
+					                 </form>                        
+					          </li>
+					        </ul>
+					      </li>
+					    </ul>
+					  </div>
+					</nav>
+				<?php } ?>
+				<nav class="navbar navbar-default navbar-expand-lg navbar-light navbar-right">
+					  <!-- Collection of nav links, forms, and other content for toggling -->
+					  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+
+					  	<ul class="nav navbar-nav">
+							<li class="nav-item"><a href="\cakecosy/products/order" class="nav-link">Giỏ Hàng
+								(<span id="tongsl">
+								<?php if($check){ ?>
 											<?php echo count($read); ?>
 										<?php }else echo "Trống"; ?></span>)
 								<i class="fa fa-chevron-down"></i>
+							</a></li>
+						</ul>
+
+					  	<form class="navbar-form form-inline search-form" method="get" id="searchform" action="getSearch">
+							<div class="input-group">
+								<input type="text" class="form-control" name="key" id="key" placeholder="Search...">
+								<span class="input-group-btn">
+								<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+								</span>
 							</div>
-
-						</div> <!-- .cart -->
+						</form>
 					</div>
-
-					
-
-
-
-				</div>
+				</nav>
 				<div class="clearfix"></div>
-			</div> <!-- .container -->
+		 </div>
 		</div> <!-- .header-body -->
 		<div class="header-bottom" style="background-color: #0277b8;">
 			<div class="container">
@@ -79,22 +119,7 @@
 								<?php } ?>
 							</ul>
 						</li>
-
-						
 						<li><?= $this->Html->link('Liên Hệ', ['controller' =>'users' ,'action' => 'contact']) ?></li>
-
-						<?php
-			                if ($this->request->session()->read('Auth.User')) { ?>
-							<li>
-								<?= $this->Html->link('Admin Manage', ['controller' =>'users' ,'action' => 'userview'])?>
-							</li>
-							<li>
-								<?= $this->Html->link('Logout', ['controller' =>'users' ,'action' => 'logout'])?>
-							</li>
-			            <?php	}		    
-			                else { ?>
-			                <li><?= $this->Html->link('Login Admin', ['controller' =>'users' ,'action' => 'login'])?></li>
-			                <?php } ?>
 						<li><?= $this->Html->link(' Xóa session',['controller'=>'products','action'=>'destroy']) ?></li>
 					</ul>
 					<div class="clearfix"></div>
@@ -102,4 +127,3 @@
 			</div> <!-- .container -->
 		</div> <!-- .header-bottom -->
 	</div> <!-- #header -->
-
