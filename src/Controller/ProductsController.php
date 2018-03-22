@@ -63,7 +63,7 @@ class ProductsController  extends AppController{
         $product = $this->Products->get($id);
         $session = $this->request->session();
       
-       $count = 1;
+      
        if ($session->check('cart.'.$id)) {
             $items = $session->read('cart.'.$id);
             $items['quantity'] +=1;
@@ -77,8 +77,8 @@ class ProductsController  extends AppController{
 
             );
         }
-
-         $session->write('cart.'.$id, $items, array('timeout' => 1, ));
+         $session->delete('payment.total2');
+         $session->write('cart.'.$id, $items);
          $s= $session->read('cart');
          $total=0;
          foreach ($s as $value) {
@@ -88,6 +88,21 @@ class ProductsController  extends AppController{
         $this->redirect($this->referer());
 
         
+     }
+
+     public function deleteitems($id)
+     {
+        $product = $this->Products->get($id);
+        $session = $this->request->session();
+        $session->delete('cart.'.$product->id);
+
+        $s= $session->read('cart');
+         $total=0;
+         foreach ($s as $value) {
+             $total += $value['price'] * $value['quantity'];
+         }
+          $session->write('payment.total2',$total);
+        $this->redirect($this->referer());
      }
 
      public function destroy()
@@ -290,7 +305,9 @@ class ProductsController  extends AppController{
         $this->set('typeproducts',$query);
 
         $type = $this->Products->find("all")
-        ->where(['products.id_type >=' => $product->id_type ]);
+        ->where(['products.id_type >=' => $product->id_type ],
+                ['products.id !=' => $product->id]
+            );
         $this->paginate= array(
             'limit' => 9,
             'order' => [
