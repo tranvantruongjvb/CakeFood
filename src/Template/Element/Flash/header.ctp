@@ -89,6 +89,8 @@
 								<?php if($read){ ?>
 											<?php echo count($read); ?>
 										<?php }else echo "Trống"; ?></span>)<i class="fa fa-chevron-down"></i> </a>
+								<?php if($read){ ?>
+								
 								<ul class="dropdown-menu">
 									<?php foreach ($read as $key): { ?>
 								  					<li style=" font-size: 13px;padding-left: 2px">
@@ -97,22 +99,22 @@
 								  						</tr>
 								  					</li>
 								  				
-								  				<li style=" font-size: 13px; padding-left: 2px"> Số lượng <input type="number"  id=" tinh idquantity" value="<?php echo $key['quantity'] ?>" min="1" max="1000"></li>
-								  				<li style=" font-size: 13px; padding-left: 2px" > Đơn giá <?php echo $key['price'] ?>
+								  				<li style=" font-size: 13px; padding-left: 2px"> Số lượng <input type="number" class="key getquan"  id="getquan" value="<?php echo $key['quantity'] ?>" min="1" max="1000"></li>
+								  				<li style=" font-size: 13px; padding-left: 2px" class="key getprice" id="getprice" value="<?php echo $key['price'] ?>"> Đơn giá <?php echo $key['price'] ?>
 								  				<div class="space10">&nbsp;</div>
 								  			<?php } ?>
 								  		<?php endforeach; ?>
-								  		
+								  		<p type="text" class="key" id="result" ></p>
 								  		<?php if ($checkpayment2) { ?>
 								  			<p><b>Tổng số tiền : </b><?php echo $PaymentTotal2;echo "xóa"; ?> đồng</p>
 								  		<?php  } else { ?>
 								  		<p><b>Tổng số tiền : </b>  <?php echo $PaymentTotal; echo "thêm"; ?> đồng</p>
 								  		<?php } ?>
-										<button type="submit" name="btn_login" class="btn btn-warning" style="width: 250px">Thanh Toán</button> 
+										<a type="submit" name="btn_login" class="btn btn-warning" style="width: 250px" href="\cakecosy/order">Thanh Toán</a> 
 
 
 								</ul>
-					        
+					        <?php } ?>
 					      </li>
 					    </ul>
 					  	<form class="navbar-form form-inline search-form" method="get" id="searchform" action="getSearch">
@@ -154,4 +156,30 @@
 			</div> <!-- .container -->
 		</div> <!-- .header-bottom -->
 	</div> <!-- #header -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+            
+          
+
+            $(document).on('click', '.key', function () {
+                 
+                    var a = $(this).parents('div').find('.getquan').val();
+                    
+                    var b = $(this).parents('div').find('.getprice').val();
+                   
+                    var result= $(this).parents('div').find('#result').empty();
+                    result= $(this).parents('div').find('#result').append(a*b);
+                    
+                    //alert('result = ' + result.vaL());                 
+            });
+           
+          
+          
+             
+</script>
+</body>
+</html>
+
+
 
