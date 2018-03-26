@@ -4,8 +4,15 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\View\View;
 use App\Controller\component\Email;
+use App\Controller\component\Upload;
 use Cake\View\Helper;
+use Cake\Utility\Text;
 use Cake\ORM\TableRegistry;
+use Cake\Network\Exception\InternalErrorException;
+use Cake\Controller\Component;
+use Cake\Network\Session\DatabaseSession;
+use Cake\View\Helper\SessionHelper;
+use Cake\Collection\Collection;
 
 class UsersController extends AppController{
 	var $paginate = array();
@@ -15,7 +22,6 @@ class UsersController extends AppController{
     public function initialize()
     {
         parent::initialize();
-		$this->Auth->allow(['logout','trangchu']);
     }
 
 
@@ -27,18 +33,17 @@ class UsersController extends AppController{
 			
 			if ($user) {
 				$this->Auth->setUser($user);
-				//print_r($this->request->session()->check($user));die;
-				
 				return $this->redirect(URL_Profile);
-
 			}
 			$this->Flash->error(__('Invalid username or password, try again.'));
+			$this->redirect($this->referer());
 		}
 	}
 	
 	public function logout(){
-		$this->Flash->success('You successfully have loged out');	
-		return	$this->redirect($this->Auth->logout());
+		$this->Flash->success('You successfully have loged out');
+		$this->Auth->logout();
+		$this->redirect(URL_INDEX);
 	}
 	public function listUser()
 	{
@@ -52,10 +57,6 @@ class UsersController extends AppController{
 		$this->set('users',$user);		
 	}
 	
-	public function admin()
-	{
-
-	}
 	public function news()
 	{
 		# code...
@@ -65,6 +66,19 @@ class UsersController extends AppController{
 		$typeProducts = TableRegistry::get('typeproducts');
         $query = $typeProducts->find("all")-> toArray();
         $this->set('typeproducts',$query);
+
+        if($this->request->is('post')) {
+        	$data =$this->request->data();
+			$name = $this->request->data['your-name'];
+			$email = $this->request->data['your-email'];
+			$subject = $this->request->data['your-subject'];
+			$message = $this->request->data['your-message'];
+			$array  = array('name'=>$name,'email'=>$email,'subject'=>$subject, 'message'=>$message );
+			$this->Email->sendUserEmail($email,'CakeFoody',$array,'contact');
+			$this->Flash->success(__('Thank you so much for your message '.$name));
+	        $this->redirect(URL_INDEX);	
+		}
+
 	}
 	
 	public function userview()
@@ -77,7 +91,9 @@ class UsersController extends AppController{
 		$this->set('user',$user);
 	}
 	public function adduser()
-	{	
+	{	$typeProducts = TableRegistry::get('typeproducts');
+        $query = $typeProducts->find("all")-> toArray();
+        $this->set('typeproducts',$query);
 		$user = $this->Users->newEntity();
 		if($this->request->is('post')) {
 			$this->Users->patchEntity($user,$this->request->data);
@@ -98,9 +114,13 @@ class UsersController extends AppController{
 		$this->set('user',$user);
 			}
 	public function edituser($id)
-	{	
+	{	$typeProducts = TableRegistry::get('typeproducts');
+        $query = $typeProducts->find("all")-> toArray();
+        $this->set('typeproducts',$query);
 		$user = $this->Users->get($id);
+
 		if ($this->request->is(['post', 'put'])) {
+			
 			$name = $this->request->data['name'];
 			$this->Users->patchEntity($user, $this->request->data);
 			if ($this->Users->save($user)) {
