@@ -42,7 +42,7 @@
 			                      </tr>
 			                      <tr>
 			                        <td>Description (): </td>
-			                        <td><input type="textarea" name="description" value="<?php echo $product->description ?>"></td>
+			                        <td><input type="text" name="description" value="<?php echo $product->description ?>"></td>
 			                      </tr>
 			                      <tr>
 			                        <td>Product New or not:</td>
@@ -54,15 +54,15 @@
 			                      </tr>
 			                      <tr>
 			                        <td>Promotion_price:</td>
-			                        <td><input type="text" name="promotion_price" value="<?php echo $product->promotion_price ?>"></td>
+			                        <td><input type="hiden" name="promotion_price" value="<?php echo $product->promotion_price ?>"></td>
 			                      </tr>
 			                      <tr>
 			                        <td>image</td>
-			                        <td><input type="file" name="image"></td>
+			                        <td><input type="file" name="image" ></td>
 			                      </tr>
 			                   	  <tr>
-			                        <td>Created_at</td>
-			                        <td><input type="date" name="created_at" value="<?php echo $product->created_at ?>"></td>
+			                        <td>Updated_at</td>
+			                        <td><input type="date" value="<?php echo date('Y-m-d'); ?>" /></td>
 			                      </tr>
 			                      <?php } ?>
 			                    </tbody>
@@ -72,6 +72,7 @@
 		            	</div>
 		           </div>
 		                 <div class="panel-footer" align="center">
+		                 
 		                        <button data-original-title="Logout" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><?= $this->Html->link("Login",['action' => 'logout']) ?></button>
 	                        	<button data-original-title="addproduct" data-toggle="tooltip" type="submit" class="btn btn-sm btn-warning">Save</i></button>     
 		                 </div>
@@ -81,8 +82,11 @@
       </div>
     </div>
 
-<script type="text/javascript">   
+
+<script type="text/javascript">
+
     $(document).ready(function() {
+    
         //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
         $("#myForm").validate(
         {
