@@ -57,17 +57,30 @@ $routes->resources('Topics');
      * ...and connect the rest of 'Pages' controller's URLs.
      */
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+
     $routes->connect('/index/',['controller'=>'products','action'=>'index']);
+
     $routes->connect('/addproduct/',['controller'=>'products','action'=>'addproduct']);
-    $routes->connect('/editproduct/',['controller'=>'products','action'=>'editproduct']);
+
+    $routes->connect('/editproduct/*',['controller'=>'products','action'=>'editproduct']);
+
     $routes->connect('/typeproduct/*',['controller'=>'products','action'=>'typeproduct']);
+
     $routes->connect('/getSearch/*',['controller'=>'products','action'=>'getSearch']);
+
     $routes->connect('/viewproduct/*',['controller'=>'products','action'=>'viewproduct']);
-    $routes->connect('/contact/*',['controller'=>'users','action'=>'contact']);
-    $routes->connect('/login/*',['controller'=>'users','action'=>'login']);
+
+    $routes->connect('/order/*',['controller'=>'products','action'=>'order']);
+
+    $routes->connect('/contact/',['controller'=>'users','action'=>'contact']);
+
+    $routes->connect('/login/',['controller'=>'users','action'=>'login']);
+
     $routes->connect('/userview/*',['controller'=>'users','action'=>'userview']);
+    
     $routes->connect('/edituser/*',['controller'=>'users','action'=>'edituser']);
-    $routes->connect('/adduser/*',['controller'=>'users','action'=>'adduser']);
+
+    $routes->connect('/adduser/',['controller'=>'users','action'=>'adduser']);
 
 
     /**
