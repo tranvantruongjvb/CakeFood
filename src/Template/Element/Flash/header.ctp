@@ -1,6 +1,6 @@
 <body>
 <div id="header">
-	
+		
 		<!-- .header-top -->
 		<!-- .header-body -->
 		<div class="header-body">
@@ -19,12 +19,11 @@
 				</div>
 
 				<div class="hiden">
-
-					<?php pr($this->request->session()->read('cart')); ?>
+					
 					<?php $read = $this->request->session()->read('cart'); ?>
-					<?php $PaymentTotal = $this->request->session()->read('payment.total'); ?>
-					<?php $checkpayment = $this->request->session()->check('payment.total') ?>
-					<?php $PaymentTotal2 = $this->request->session()->read('payment.total2'); ?>
+					<?php $readpayment1 = $this->request->session()->read('payment.total'); ?>
+					<?php $checkpayment1 = $this->request->session()->check('payment.total') ?>
+					<?php $readpayment2 = $this->request->session()->read('payment.total2'); ?>
 					<?php $checkpayment2 = $this->request->session()->check('payment.total2') ?>
 					<?php $check = $this->request->session()->check('cart') ?>
 				</div>
@@ -40,8 +39,8 @@
 								<ul class="dropdown-menu">
 									<li><a href="\cakecosy/products/listcustomer" class="dropdown-item">List Customers</a></li>					
 									<li><a href="\cakecosy/edituser/<?php echo $readuser['id'] ?>" class="dropdown-item">Update Information</a></li>
-									<li><a href="\cakecosy/adduser" class="dropdown-item">Add New Product</a></li>
-									<li><a href="\cakecosy/addproduct" class="dropdown-item">Add New Admin</a></li>
+									<li><a href="\cakecosy/addproduct" class="dropdown-item">Add New Product</a></li>
+									<li><a href="\cakecosy/adduser" class="dropdown-item">Add New Admin</a></li>
 									
 									<li><a href="\cakecosy/users/logout" class="dropdown-item">Logout</a></li>
 								</ul>
@@ -57,25 +56,25 @@
 					  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
 
 					    <ul class="nav navbar-nav navbar-right ml-auto">
-					      <li class="nav-item dropdown">
-					        <a class="nav-link dropdown-toggle" href="\cakecosy/users/login"><i class="fa fa-user-o"></i> Login</a>
-					       <!--  <ul class="dropdown-menu">
-					          <li>
-					                <form class="form-inline login-form" action="login" method="post">
-					                <div class="input-group">
-					                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-					                    <input type="text" class="form-control" placeholder="email"  name="email" id="email" required>
-					                </div>
-					                <div class="input-group">
-					                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-					                    <input type="text" class="form-control" placeholder="Password" name="password" id="password" required>
-					                    </div>
-					                    <button type="submit" name="btn_login" class="btn btn-primary">Login</button>
-					                 </form>                        
-					          </li>
-					        </ul> -->
-					      </li>
-					    </ul>
+			<li class="nav-item dropdown">
+				<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-user-o"></i> Login</a>
+				<ul class="dropdown-menu">
+					<li>
+                        <form class="form-inline login-form" comtroller='Users' action="\cakecosy/login" method="post">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input type="text" class="form-control" name="email" id="email" placeholder="Email" required>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input type="text" class="form-control" name="password" id="password" placeholder="Password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+                        </form>                        
+					</li>
+				</ul>
+			</li>
+		</ul>
 					  </div>
 					</nav>
 				<?php } ?>
@@ -93,31 +92,40 @@
 								
 								<ul class="dropdown-menu">
 									<?php foreach ($read as $key): { ?>
-								  					<li style=" font-size: 13px;padding-left: 2px">
+										<div class="getkey">
+											<li style=" font-size: 13px;padding-left: 2px">
 								  						<tr> <b><?php echo $key['name'] ?>
 								  							<a style=" width: 5px" href="\cakecosy/products/deleteitems/<?php echo $key['id'] ?>" value="<?php echo $key['id'] ?>" ><i class="fa fa-times"></i></a> </b>
 								  						</tr>
 								  					</li>
 								  				
-								  				<li style=" font-size: 13px; padding-left: 2px"> Số lượng <input type="number" class="key getquan"  id="getquan" value="<?php echo $key['quantity'] ?>" min="1" max="1000"></li>
-								  				<li style=" font-size: 13px; padding-left: 2px" class="key getprice" id="getprice" value="<?php echo $key['price'] ?>"> Đơn giá <?php echo $key['price'] ?>
-								  				<div class="space10">&nbsp;</div>
+								  				<li style=" font-size: 13px; padding-left: 2px">
+								  				 Số lượng
+								  				  <input type="number" class=" getquan"  value="<?php echo $key['quantity'] ?>" min="1" max="1000">
+								  				</li>
+
+								  				<li style=" font-size: 13px; padding-left: 2px" class="getprice"  value="<?php echo $key['price'] ?>"> Đơn giá <?php echo $key['price'] ?>
+								  				<div class="space10">&nbsp;</div>			
 								  			<?php } ?>
+								  		</div>
 								  		<?php endforeach; ?>
-								  		<p type="text" class="key" id="result" ></p>
-								  		<?php if ($checkpayment2) { ?>
-								  			<p><b>Tổng số tiền : </b><?php echo $PaymentTotal2;echo "xóa"; ?> đồng</p>
+								  		
+								  		<p type="text" class="result" ></p>
+								  		
+								  		<?php if ($checkpayment2 ) { ?>
+								  			<p><b>Tổng số tiền :</b> <?php echo $readpayment2; ?> đồng</p>
 								  		<?php  } else { ?>
-								  		<p><b>Tổng số tiền : </b>  <?php echo $PaymentTotal; echo "thêm"; ?> đồng</p>
+								  		
+								  		<p><b>Tổng số tiền :</b> <?php echo $readpayment1; ?> đồng</p>
 								  		<?php } ?>
 										<a type="submit" name="btn_login" class="btn btn-warning" style="width: 250px" href="\cakecosy/order">Thanh Toán</a> 
 
-
+									<?php } ?>
 								</ul>
-					        <?php } ?>
+					        
 					      </li>
 					    </ul>
-					  	<form class="navbar-form form-inline search-form" method="get" id="searchform" action="getSearch">
+					  	<form class="navbar-form form-inline search-form" method="get" id="searchform" action="\cakecosy\getSearch">
 							<div class="input-group">
 								<input type="text" class="form-control" name="key" id="key" placeholder="Search...">
 								<span class="input-group-btn">
@@ -149,37 +157,28 @@
 							</ul>
 						</li>
 						<li><?= $this->Html->link('Liên Hệ', ['controller' =>'users' ,'action' => 'contact']) ?></li>
-						<li><?= $this->Html->link(' Xóa session',['controller'=>'products','action'=>'destroy']) ?></li>
+						<!-- <li><?= $this->Html->link(' Xóa session',['controller'=>'products','action'=>'destroy']) ?></li>  -->
 					</ul>
 					<div class="clearfix"></div>
 				</nav>
 			</div> <!-- .container -->
 		</div> <!-- .header-bottom -->
+		<div class="message success " onclick="this.classList.add('hidden') ""></div>
 	</div> <!-- #header -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
             
           
-
-            $(document).on('click', '.key', function () {
+            $(document).on('click', '.getkey', function () {
                  
-                    var a = $(this).parents('div').find('.getquan').val();
-                    
-                    var b = $(this).parents('div').find('.getprice').val();
-                   
-                    var result= $(this).parents('div').find('#result').empty();
-                    result= $(this).parents('div').find('#result').append(a*b);
-                    
-                    //alert('result = ' + result.vaL());                 
+                    var key = $('.getkey');
+                    console.log(key.length);
+                    for (var i = 0; i < key.length; i++) {
+                    	var a = $(key[i]).parents('div').find('.getquan').val();
+                    	console.log(a);
+                    }
+
             });
-           
           
-          
-             
 </script>
-</body>
-</html>
-
-
-
