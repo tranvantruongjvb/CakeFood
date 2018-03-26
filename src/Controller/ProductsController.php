@@ -32,11 +32,11 @@ class ProductsController  extends AppController{
 	{
 
         $promotion = $this->Products->find("all")
-        ->where(['products.promotion_price >=' => 1 ]);
+        ->where( ['products.promotion_price >=' => 1]);
         $this->paginate= array(
             'limit' => 8,
             'order' => [
-            'products.id' => 'asc'
+            'products.id' =>  'asc',
             ]
         );
         $promotion_price = $this->paginate($promotion);
@@ -46,16 +46,13 @@ class ProductsController  extends AppController{
         ->where(['products.new >=' => 1 ]);
         $this->paginate= array(
             'limit' => 8,
-            'order' => [
-            'products.id' => 'asc'
-            ]
+            'order' => array('products.id' => 'DESC'),
         );
+
         $product = $this->paginate($new)->toArray();
         $this->set('products',$product);
 
-        $typeProducts = TableRegistry::get('typeproducts');
-        $query = $typeProducts->find("all")-> toArray();
-        $this->set('typeproducts',$query);
+        $this->readtypeproduct();
 	}
 
     public function getAddToCart($id){
@@ -113,11 +110,10 @@ class ProductsController  extends AppController{
      }
 
      public function order(){
-        $typeProducts = TableRegistry::get('typeproducts');
-        $query = $typeProducts->find("all")-> toArray();
-        $this->set('typeproducts',$query);
 
-         $session = $this->request->session();
+        $this->readtypeproduct();
+
+        $session = $this->request->session();
         if($session->check('cart')){
             $oldCart = $session->read('cart');
             foreach ($oldCart as $value) {
@@ -133,7 +129,6 @@ class ProductsController  extends AppController{
 
     public function postCheckout(){
         $session = $this->request->session();
-
         // khai báo database để lấy dữ liệu table
         $cus = TableRegistry::get('customer');
         $getbill = TableRegistry::get('bills');
@@ -195,15 +190,16 @@ class ProductsController  extends AppController{
 
     public function listcustomer()
     {
-         $typeProducts = TableRegistry::get('typeproducts');
-        $typeproducts = $typeProducts->find("all")-> toArray();
+        $this->readtypeproduct();
 
         $customer = TableRegistry::get('customer');
         $customer = TableRegistry::get('customer');
         $bill = TableRegistry::get('bills');
         $bill_detail = TableRegistry::get('bill_detail');
 
-        $customers = $customer->find('all');
+        $find = $customer->find('all');
+        
+        $customers = $this->paginate($find);
         $bills = $bill->find('all');
         $bill_details = $bill_detail->find('all');
 
@@ -215,8 +211,7 @@ class ProductsController  extends AppController{
     public function listbill($id)
     {
 
-        $typeProducts = TableRegistry::get('typeproducts');
-        $typeproducts = $typeProducts->find("all")-> toArray();
+        $this->readtypeproduct();
 
         $customer = TableRegistry::get('customer');
         $bill = TableRegistry::get('bills');
@@ -262,7 +257,7 @@ class ProductsController  extends AppController{
     }
 
     public function getSearch(){
-
+         $this->readtypeproduct();
         $key= $this->request->query;
         $find = $this->Products->find("all")
        ->where(['name LIKE' => '%'.$key['key'].'%']);
@@ -277,11 +272,21 @@ class ProductsController  extends AppController{
 
      }
 
+     public function readtypeproduct()
+     {
+         $typeProducts = TableRegistry::get('typeproducts');
+        $query = $typeProducts->find("all")-> toArray();
+        $this->set('typeproducts',$query);
+     }
+
+
     public function typeproduct($id)
      {   
+        $this->readtypeproduct();
         $typeProducts = TableRegistry::get('typeproducts');
-        $typeproducts = $typeProducts->find("all")-> toArray();
         $gettype = $typeProducts->get($id)->id;
+
+        
         $getproduct = $this->Products->find("all")
         ->hydrate(false)
         ->join([
@@ -293,16 +298,19 @@ class ProductsController  extends AppController{
                 )     
         ])
         ->where(['products.id_type =' => $gettype ]);
-        
         $this->set(compact("typeproducts", "getproduct"));
     }
+
+
+
+
     public function viewproduct($id)
     {
+        $this->readtypeproduct();
         $product = $this->Products->get($id);
         $this->set('products', $product); 
-        $typeProducts = TableRegistry::get('typeproducts');
-        $query = $typeProducts->find("all")-> toArray();
-        $this->set('typeproducts',$query);
+       
+        
 
         $type = $this->Products->find("all")
         ->where(['products.id_type >=' => $product->id_type ],
@@ -327,19 +335,18 @@ class ProductsController  extends AppController{
 
 	public function addproduct()
     {   
-         $typeProducts = TableRegistry::get('typeproducts');
-        $query = $typeProducts->find("all")-> toArray();
-        $this->set('typeproducts',$query);
+        $this->readtypeproduct();
 
         $product = $this->Products->newEntity();
+        $this->Products->patchEntity($product,$this->request->data);
         if($this->request->is('post')) {
-            $data = $this->request->data();
-            $this->Products->patchEntity($product,$this->request->data);
+            $data = $this->request->data();           
             $name=$data['image'];
             $dir = WWW_ROOT .'img\uploads\ '. $name['name'] ;
             $a = move_uploaded_file($data['image']['tmp_name'], $dir);
             $product['image'] = '/webroot/img/uploads/'.$name['name'];
         }
+        
         // //now do the save
         if ($this->Products->save($product)) 
         {       
@@ -351,23 +358,37 @@ class ProductsController  extends AppController{
         }   
         $this->set('product',$product);
     }
-       
+    
+    public function login()
+    {
+        $this->Products->Users->login();
+    }
+
     public function editproduct($id)
     {   
-         $typeProducts = TableRegistry::get('typeproducts');
-        $query = $typeProducts->find("all")-> toArray();
-        $this->set('typeproducts',$query);
+        $this->readtypeproduct();
         $product = $this->Products->get($id);
+        $image = $product->image;
         if ($this->request->is(['post', 'put'])) {
             //$name = $this->request->data['name'];
             $data = $this->request->data();
             $this->Products->patchEntity($product, $this->request->data);
-             $name=$data['image'];
-            $dir = WWW_ROOT .'img\uploads\ '. $name['name'] ;
-            $a = move_uploaded_file($data['image']['tmp_name'], $dir);
-            $product['image'] = '/img/uploads/'.$name['name'];
+            
+                $name=$data['image'];
+                
+                if ($name['error'] == 0) {
+                        $dir = WWW_ROOT .'img\uploads\ '. $name['name'] ;
+                        $a = move_uploaded_file($data['image']['tmp_name'], $dir);
+                        $product['image'] = '/img/uploads/'.$name['name'];
+                }else { 
+                        $product['image'] = $image;
+                        pr( $product['image']);
+               }
+            
+
             if ($this->Products->save($product)) {
                 $this->Flash->success(__('Your information data has been updated.'));
+                
                 return $this-> redirect(array('action' => 'editproduct', $product->id));
             }
             $this->Flash->error(__('Unable to update your profile.'));
@@ -386,6 +407,5 @@ class ProductsController  extends AppController{
         }       
         
     }
-   
 }
 ?>
