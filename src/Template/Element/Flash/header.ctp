@@ -60,7 +60,7 @@
 				<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-user-o"></i> Login</a>
 				<ul class="dropdown-menu">
 					<li>
-                        <form class="form-inline login-form" comtroller='Users' action="\cakecosy/login" method="post">
+                        <form class="form-inline login-form" action="\cakecosy/login" method="post">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                 <input type="text" class="form-control" name="email" id="email" placeholder="Email" required>
@@ -90,39 +90,44 @@
 										<?php }else echo "Trống"; ?></span>)<i class="fa fa-chevron-down"></i> </a>
 								<?php if($read){ ?>
 								
-								<ul class="dropdown-menu">
-									<?php foreach ($read as $key): { ?>
+									<ul class="dropdown-menu">
+										
+										<?php foreach ($read as $key): { ?>
 										<div class="getkey">
-											<li style=" font-size: 13px;padding-left: 2px">
-								  						<tr> <b><?php echo $key['name'] ?>
-								  							<a style=" width: 5px" href="\cakecosy/products/deleteitems/<?php echo $key['id'] ?>" value="<?php echo $key['id'] ?>" ><i class="fa fa-times"></i></a> </b>
-								  						</tr>
-								  					</li>
-								  				
-								  				<li style=" font-size: 13px; padding-left: 2px">
-								  				 Số lượng
-								  				  <input type="number" class=" getquan"  value="<?php echo $key['quantity'] ?>" min="1" max="1000">
-								  				</li>
+											<form method="post" id="form_input">
+										
+													<li style=" font-size: 13px;padding-left: 2px">
+									  				<tr> <b><?php echo $key['name'] ?>
+							  							<a style=" width: 5px" href="\cakecosy/products/deleteitems/<?php echo $key['id'] ?>"  value="<?php echo $key['id'] ?>"><i class="fa fa-times"></i></a> </b>
+							  						</tr>
+									  				</li>
+									  				<li style=" font-size: 13px; padding-left: 2px">
+									  				 	Số lượng
+									  				 	<input type="number" class="getquan" name="getquan" value="<?php echo $key['quantity'] ?>" min="1" max="1000" onclick="load_ajax()" >
+									  				</li>
 
-								  				<li style=" font-size: 13px; padding-left: 2px" class="getprice"  value="<?php echo $key['price'] ?>"> Đơn giá <?php echo $key['price'] ?>
-								  				<div class="space10">&nbsp;</div>			
-								  			<?php } ?>
-								  		</div>
-								  		<?php endforeach; ?>
-								  		
-								  		<p type="text" class="result" ></p>
-								  		
-								  		<?php if ($checkpayment2 ) { ?>
-								  			<p><b>Tổng số tiền :</b> <?php echo $readpayment2; ?> đồng</p>
-								  		<?php  } else { ?>
-								  		
-								  		<p><b>Tổng số tiền :</b> <?php echo $readpayment1; ?> đồng</p>
-								  		<?php } ?>
-										<a type="submit" name="btn_login" class="btn btn-warning" style="width: 250px" href="\cakecosy/order">Thanh Toán</a> 
-
-									<?php } ?>
-								</ul>
-					        
+									  				<li style=" font-size: 13px; padding-left: 2px">
+									  				 	Đơn Giá<p class="getprice" name="getprice"><?php echo $key['price'] ?></p>
+									  				</li>
+									  				<div class="space10">&nbsp;</div>			
+									  			<?php } ?>
+									  			<p type="text" class="result" ><?php echo  $key['price'] * $key['quantity']?></p>
+									  		</form>			
+									  		</div>
+										  	<?php endforeach; ?>
+										  		<b>Tổng số tiền :</b>
+										  		<?php if ($checkpayment2 ) { ?>
+										  			<p type="text" class="result1" style="font-size: 20px;color: #FF0000"><?php echo $readpayment2; ?> </p>
+										  		<?php  } else { ?>
+										  		
+										  		<p type="text" class="result1" style="font-size: 20px;color: #FF0000"><?php echo $readpayment1; ?> </p>
+										  		<?php } ?>
+										  	<button   name="btn_login" class="btn btn-warning"  style="width: 250px">Thanh Toán</button> 
+												<!-- <a type="submit" name="btn_login" class="btn btn-warning" style="width: 250px" href="\cakecosy/order">Thanh Toán</a>  -->
+										
+									</ul>
+										
+								<?php } ?>
 					      </li>
 					    </ul>
 					  	<form class="navbar-form form-inline search-form" method="get" id="searchform" action="\cakecosy\getSearch">
@@ -157,7 +162,7 @@
 							</ul>
 						</li>
 						<li><?= $this->Html->link('Liên Hệ', ['controller' =>'users' ,'action' => 'contact']) ?></li>
-						<!-- <li><?= $this->Html->link(' Xóa session',['controller'=>'products','action'=>'destroy']) ?></li>  -->
+						 <li><?= $this->Html->link(' Xóa session',['controller'=>'products','action'=>'destroy']) ?></li> 
 					</ul>
 					<div class="clearfix"></div>
 				</nav>
@@ -167,18 +172,46 @@
 	</div> <!-- #header -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>	
 <script type="text/javascript">
-            
-          
-            $(document).on('click', '.getkey', function () {
-                 
-                    var key = $('.getkey');
-                    console.log(key.length);
-                    for (var i = 0; i < key.length; i++) {
-                    	var a = $(key[i]).parents('div').find('.getquan').val();
-                    	console.log(a);
-                    }
-
+            $(document).on('click', '.getquan', function () {
+                   var a = $(this).val();
+                   var b = $(this).parent().parent().find('.getprice').text();
+                  
+                   var c = $(this).parent().parent().find('.result').empty();
+					   c = $(this).parent().parent().find('.result').append(a*b);
             });
-          
+           
+             $(document).on('click', '.getkey', function () {
+                var result1=$('.result');
+                var sum = parseFloat(0);
+            	for (i=0;i<result1.length;i++) {
+                	if($(result1[i]).text() == null)
+                		$(result1[i]).text() = 0;
+                    sum= sum+ parseFloat($(result1[i]).text());
+                };
+                var result= $(this).parents('div').find('.result1').empty();
+                    result= $(this).parents('div').find('.result1').append(sum);
+            }); 
+
+            function load_ajax(){
+            	
+            	var data = $('form#form_input').serialize();
+            	console.log(data);
+				$.ajax({
+			              type : 'post', //Sử dụng kiểu gửi dữ liệu POST
+			              url : 'cakecosy/products/updatequantity.php', //gửi dữ liệu sang trang data.php
+			              data : data, //dữ liệu sẽ được gửi
+			              success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
+			                        { 
+			                           if(data == 'false') 
+			                           {
+			                             alert('Không có người dùng');
+			                           }else{
+			                            alert('Không có người dùng');
+			                           }
+			                        }
+			              });
+            };
+             
 </script>
