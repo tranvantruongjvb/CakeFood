@@ -102,16 +102,23 @@ class ProductsController  extends AppController{
 
      public function updatequantity()
      {   
-        pr("âfà");die;
-       //  pr($this->request->data());
-       //  $session = $this->request->session();
-       //  pr($session->read());die;
-      
-       // if ($session->check('cart.'.$id)) {
-       //      $items = $session->read('cart.'.$id);
-       //      $items['quantity'] +=1;
-       //  }
-       //   $this->redirect(URL_INDEX);
+         
+        $s= $this->request->data;
+        $id = $s['id'];
+        $b = $s['sl'];
+        $session = $this->request->session();
+       if ($session->check('cart.'.$id)) {
+            $items = $session->read('cart.'.$id);
+            $items['quantity'] = $b;
+        }
+        $session->delete('payment.total2');
+         $session->write('cart.'.$id, $items);
+         $s= $session->read('cart');
+         $total=0;
+         foreach ($s as $value) {
+             $total += $value['price'] * $value['quantity'];
+         }
+          $session->write('payment.total',$total);die;
 
      }
 
@@ -141,6 +148,7 @@ class ProductsController  extends AppController{
     }
 
     public function postCheckout(){
+        
         $session = $this->request->session();
         // khai báo database để lấy dữ liệu table
         $cus = TableRegistry::get('customer');
@@ -183,7 +191,7 @@ class ProductsController  extends AppController{
         ->last();
 
         foreach ($cart as $key) {
-            // pr($billid['id']);
+         
             $bill_detail = $getbill->newEntity();
             $bill_detail->id_bill = $billid['id'];
             $bill_detail->id_product = $key['id'];//$value['item']['id'];
@@ -193,6 +201,13 @@ class ProductsController  extends AppController{
             $get_bill_detail->save($bill_detail);
         }
 
+       
+                   
+        $array  = array('name'=>$name,'email'=>$email,'address'=>$address, 'phone'=>$phone ,'notes'=>$notes ,'payment_method'=>$payment_method);
+        $this->Email->sendUserEmail($email,'CakeFoody',$array,'order');
+                    
+                    
+        
         $session->delete('cart');
         $session->delete('payment.total');
         $this->Flash->success(__('Cảm ơn bạn đã mua sản phẩm của chúng tôi. Đơn hàng đang được sử lý'));
@@ -265,6 +280,7 @@ class ProductsController  extends AppController{
                    'p.id = b.id_product',
                 )],
         ])->toArray();
+       
        
        $this->set(compact('listbills','customers','bills','bill_details','typeproducts'));
     }
