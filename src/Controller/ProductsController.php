@@ -83,8 +83,6 @@ class ProductsController  extends AppController{
          }
           $session->write('payment.total',$total);
         $this->redirect($this->referer());
-
-        
      }
 
      public function deleteitems($id)
@@ -100,6 +98,21 @@ class ProductsController  extends AppController{
          }
           $session->write('payment.total2',$total);
         $this->redirect($this->referer());
+     }
+
+     public function updatequantity()
+     {   
+        pr("âfà");die;
+       //  pr($this->request->data());
+       //  $session = $this->request->session();
+       //  pr($session->read());die;
+      
+       // if ($session->check('cart.'.$id)) {
+       //      $items = $session->read('cart.'.$id);
+       //      $items['quantity'] +=1;
+       //  }
+       //   $this->redirect(URL_INDEX);
+
      }
 
      public function destroy()
