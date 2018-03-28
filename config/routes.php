@@ -69,6 +69,8 @@ $routes->resources('Topics');
     $routes->connect('/getSearch/*',['controller'=>'products','action'=>'getSearch']);
 
     $routes->connect('/viewproduct/*',['controller'=>'products','action'=>'viewproduct']);
+    
+    $routes->connect('/updatequantity/*',['controller'=>'products','action'=>'updatequantity']);
 
     $routes->connect('/order/*',['controller'=>'products','action'=>'order']);
 
