@@ -1,6 +1,6 @@
+
 <body>
 <div id="header">
-		
 		<!-- .header-top -->
 		<!-- .header-body -->
 		<div class="header-body">
@@ -9,12 +9,6 @@
 				<div class="pull-left">
 					<a href="" id="logo"><img src="/cakecosy/webroot/img/foody-vn.png" style ="width:100px; height: 50%"></a>
 					<div class="space10">&nbsp;</div>
-
-				</div>
-
-				<div class="pull-left">
-					<a href="" id="logo"><img src="/cakecosy/webroot/img/foody-vn.png" style ="width:100px; height: 50%"></a>
-					
 
 				</div>
 
@@ -28,59 +22,60 @@
 					<?php $check = $this->request->session()->check('cart') ?>
 				</div>
 				<?php $readuser = $this->request->session()->read('Auth.User') ?>
-				<?php if ($readuser) { ?>
-					<nav class="navbar navbar-default navbar-expand-lg navbar-light navbar-right">
-					  <!-- Collection of nav links, forms, and other content for toggling -->
-					  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
-						
-						<ul class="nav navbar-nav navbar-right ml-auto">
-					      <li class="nav-item dropdown">
-								<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-user-o"></i> Acount <i class="fa fa-chevron-down"></i></a>
-								<ul class="dropdown-menu">
-									<li><a href="\cakecosy/products/listcustomer" class="dropdown-item">List Customers</a></li>					
-									<li><a href="\cakecosy/edituser/<?php echo $readuser['id'] ?>" class="dropdown-item">Update Information</a></li>
-									<li><a href="\cakecosy/addproduct" class="dropdown-item">Add New Product</a></li>
-									<li><a href="\cakecosy/adduser" class="dropdown-item">Add New Admin</a></li>
-									
-									<li><a href="\cakecosy/users/logout" class="dropdown-item">Logout</a></li>
-								</ul>
-					        
-					      </li>
-					    </ul>
-					  </div>
-					</nav>
-
-				<?php }else {?>
-						<nav class="navbar navbar-default navbar-expand-lg navbar-light navbar-right">
-					  <!-- Collection of nav links, forms, and other content for toggling -->
-					  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
-
-					    <ul class="nav navbar-nav navbar-right ml-auto">
-			<li class="nav-item dropdown">
-				<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-user-o"></i> Login</a>
-				<ul class="dropdown-menu">
-					<li>
-                        <form class="form-inline login-form" action="\cakecosy/login" method="post">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                <input type="text" class="form-control" name="email" id="email" placeholder="Email" required>
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                <input type="text" class="form-control" name="password" id="password" placeholder="Password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
-                        </form>                        
-					</li>
-				</ul>
-			</li>
-		</ul>
-					  </div>
-					</nav>
-				<?php } ?>
+				
 				<nav class="navbar navbar-default navbar-expand-lg navbar-light navbar-right">
-					  <!-- Collection of nav links, forms, and other content for toggling -->
+					
 					  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+
+					  	<?php if ($readuser['permission'] ==2) { ?>	
+							<ul class="nav navbar-nav navbar-right ml-auto">
+						      <li class="nav-item dropdown">
+									<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-user-o"></i> Tài Khoản <i class="fa fa-chevron-down"></i></a>
+									<ul class="dropdown-menu">
+										<li><a href="\cakecosy/products/listcustomer" class="dropdown-item">Danh sách đơn hàng</a></li>
+										<li><a href="\cakecosy/userview/<?php echo $readuser['id'] ?>" class="dropdown-item">Thông tin </a></li>
+										<li><a href="\cakecosy/edituser/<?php echo $readuser['id'] ?>" class="dropdown-item">Cập nhật thông tin </a></li>
+										<li><a href="\cakecosy/addproduct" class="dropdown-item">Thêm sản phẩm</a></li>
+										<li><a href="\cakecosy/adduser" class="dropdown-item">Thêm Thành Viên</a></li>
+										
+										<li><a href="\cakecosy/users/logout" class="dropdown-item">LogOut</a></li>
+									</ul>
+						      </li>
+						    </ul>
+						 <?php } elseif ($readuser['permission'] == 1) {?>
+						 	<ul class="nav navbar-nav navbar-right ml-auto">
+						      <li class="nav-item dropdown">
+									<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-user-o"></i> Tài khoản <i class="fa fa-chevron-down"></i></a>
+									<ul class="dropdown-menu">
+										<li><a href="\cakecosy/products/customerbill/<?php echo $readuser['id'] ?>" class="dropdown-item">Đơn hàng đã mua </a></li>
+										<li><a href="\cakecosy/edituser/<?php echo $readuser['id'] ?>" class="dropdown-item">Cập nhật thông tin</a></li>								
+										<li><a href="\cakecosy/users/logout" class="dropdown-item">Logout</a></li>
+									</ul>
+						      </li>
+						    </ul>
+					<?php }else {?>
+						    <ul class="nav navbar-nav navbar-right ml-auto">
+								<li class="nav-item dropdown">
+									<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-user-o"></i> Đăng Nhập</a>
+									<ul class="dropdown-menu">
+										<li>
+					                        <form class="form-inline login-form" action="\cakecosy/login" method="post">
+					                            <div class="input-group">
+					                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+					                                <input type="text" class="form-control" name="email" id="email" placeholder="Email" required>
+					                            </div>
+					                            <div class="input-group">
+					                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+					                                <input type="text" class="form-control" name="password" id="password" placeholder="Password" required>
+					                            </div>
+					                            <button type="submit" class="btn btn-primary" style="width: 100%;">Đăng Nhập</button>
+					                        </form>                        
+										</li>
+									</ul>
+								</li>
+								<li><a  class="nav-link " href="\cakecosy/adduser"><i class="far fa-registered"></i>Đăng Ký</a></li>
+							</ul>
+					<?php } ?>
 
 					  	<ul class="nav navbar-nav navbar-right ml-auto">
 					      <li class="nav-item dropdown">
@@ -103,7 +98,7 @@
 									  				</li>
 									  				<li style=" font-size: 13px; padding-left: 2px">
 									  				 	Số lượng
-									  				 	<input type="number" class="getquan" name="getquan" value="<?php echo $key['quantity'] ?>" min="1" max="1000" onclick="load_ajax()" >
+									  				 	<input type="number" class="getquan" name="getquan" value="<?php echo $key['quantity'] ?>" min="1" max="1000"  >
 									  				</li>
 
 									  				<li style=" font-size: 13px; padding-left: 2px">
@@ -111,6 +106,7 @@
 									  				</li>
 									  				<div class="space10">&nbsp;</div>			
 									  			<?php } ?>
+									  			<p type="text" class="hidden" id="getid"><?php echo  $key['id']?></p>
 									  			<p type="text" class="result" ><?php echo  $key['price'] * $key['quantity']?></p>
 									  		</form>			
 									  		</div>
@@ -122,8 +118,8 @@
 										  		
 										  		<p type="text" class="result1" style="font-size: 20px;color: #FF0000"><?php echo $readpayment1; ?> </p>
 										  		<?php } ?>
-										  	<button   name="btn_login" class="btn btn-warning"  style="width: 250px">Thanh Toán</button> 
-												<!-- <a type="submit" name="btn_login" class="btn btn-warning" style="width: 250px" href="\cakecosy/order">Thanh Toán</a>  -->
+										  	
+												<a type="submit" name="btn_login" class="btn btn-warning" style="width: 250px" href="\cakecosy/order">Thanh Toán</a> 
 										
 									</ul>
 										
@@ -162,7 +158,7 @@
 							</ul>
 						</li>
 						<li><?= $this->Html->link('Liên Hệ', ['controller' =>'users' ,'action' => 'contact']) ?></li>
-						 <li><?= $this->Html->link(' Xóa session',['controller'=>'products','action'=>'destroy']) ?></li> 
+						 
 					</ul>
 					<div class="clearfix"></div>
 				</nav>
@@ -177,12 +173,23 @@
             $(document).on('click', '.getquan', function () {
                    var a = $(this).val();
                    var b = $(this).parent().parent().find('.getprice').text();
-                  
+                   var id = $(this).parent().parent().find('#getid').text();
                    var c = $(this).parent().parent().find('.result').empty();
 					   c = $(this).parent().parent().find('.result').append(a*b);
+					   
+					$.ajax({
+			              type : 'post', 
+			              url : '\\cakecosy/updatequantity', 
+			              data : {sl :a,
+			              	id: id,
+			              		}, 
+			              success : function(data)  
+			                         { 
+			                          
+			                        }
+			              });
             });
-           
-             $(document).on('click', '.getkey', function () {
+            $(document).on('click', '.getkey', function () {
                 var result1=$('.result');
                 var sum = parseFloat(0);
             	for (i=0;i<result1.length;i++) {
@@ -193,25 +200,5 @@
                 var result= $(this).parents('div').find('.result1').empty();
                     result= $(this).parents('div').find('.result1').append(sum);
             }); 
-
-            function load_ajax(){
-            	
-            	var data = $('form#form_input').serialize();
-            	console.log(data);
-				$.ajax({
-			              type : 'post', //Sử dụng kiểu gửi dữ liệu POST
-			              url : 'cakecosy/products/updatequantity.php', //gửi dữ liệu sang trang data.php
-			              data : data, //dữ liệu sẽ được gửi
-			              success : function(data)  // Hàm thực thi khi nhận dữ liệu được từ server
-			                        { 
-			                           if(data == 'false') 
-			                           {
-			                             alert('Không có người dùng');
-			                           }else{
-			                            alert('Không có người dùng');
-			                           }
-			                        }
-			              });
-            };
              
 </script>
