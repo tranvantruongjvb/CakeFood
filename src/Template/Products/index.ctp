@@ -1,14 +1,16 @@
-
-<style type="text/css">
+	<style type="text/css">
 	img {
-border:none;
-max-width:100%
-border-radius: 20px;
-height: 250px;
+		border:none;
+		max-width:100%
+		border-radius: 20px;
+		height: 250px;}
+	.ribbon-wrapper {
+    float: right;
 }
+
 </style>
 
-	<div class="container">
+<div class="container">
 		<div id="content" class="space-top-none">
 			<div class="main-content">
 				<div class="space60"></div>
@@ -17,35 +19,30 @@ height: 250px;
 						<div class="beta-products-list">
 							<h4>Sản phẩm mới</h4>
 							<div class="beta-products-details">
-								<p class="pull-left">Tìm thấy <?php echo count($products) ?> sản phẩm</p>
+								<!-- <p class="pull-left pagination">Tìm thấy <?php echo count($products) ?> sản phẩm</p> -->
 								<div class="clearfix"></div>
-							</div>
+							</div> 
 							<div class="row">
 							<?php foreach($products as $new): {?>
-						
-								
+
 								<div class="col-sm-3">
 									<div class="single-item">
 										<div class="single-item-header">
-										<?php if ($new->promotion_price !=0) {?>
-											<div class="ribbon-wrapper">
-												<div class="ribbon sale">Sale</div>
-											</div>
-										<?php } ?>
-										
-												 <a href="products/viewproduct/<?php echo $new->id ?>"><img src="<?php echo '/cakecosy/'.$new->image ?>" ></a>
+											<a href="products/viewproduct/<?php echo $new->id ?>"><img src="<?php echo '/cakecosy/'.$new->image ?>" ></a>
 										</div>
 										<div class="single-item-body">
 										<p class="single-item-title"><?php echo $new->name ?></p>
 											<p class="single-item-price" style ="font-size: 16px">
-												<span class="flash-del"><?php echo $new->unit_price ?>đồng</span>
-												<span class="flash-sale"><?php echo $new->promotion_price ?>đồng</span>
+												<span class="flash-sale"><?php echo $new->unit_price ?> đồng</span>
 											</p>
 										</div>
 										<div class="single-item-caption">
-											<div class="add-to-cart pull-left"><?php $this->Html->link('Giỏ hàng',['action'=>'cart-shop',$new->id]) ?><i class="fa fa-shopping-cart"></i> </div>
+											<div class="add-to-cart pull-left">
+													<a href="\cakecosy/products/getAddToCart/<?php echo $new->id ?>">
+													<i class="fa fa-shopping-cart"></i>
+												</div>
 											<div class="beta-btn primary"><?php echo $this->Html->link('chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
-											<?php  if ($this->request->session()->read('Auth.User')) {?>
+											<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
 											<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 											<div class="clearfix"></div>
 											<div class="beta-btn primary"><?= $this->Form->postLink(
@@ -81,10 +78,10 @@ height: 250px;
 
 					<div class="beta-products-list">
 							<h4>Sản Phẩm Khuyễn Mãi</h4>
-							<div class="beta-products-details">
+							<!-- <div class="beta-products-details">
 								<p class="pull-left"> Tìm thấy <?php echo count($promotion_price) ?> sản phẩm</p>
 								<div class="clearfix"></div>
-							</div>
+							</div> -->
 							
 							<?php foreach($promotion_price as $new): 
 							?>
@@ -93,7 +90,7 @@ height: 250px;
 										<div class="single-item">
 											<div class="single-item-header">
 											<?php if ($new->promotion_price !=0) {?>
-												<div class="ribbon-wrapper">
+												<div class="ribbon-wrapper" >
 													<div class="ribbon sale">Sale</div>
 												</div>
 											<?php } ?>
@@ -104,13 +101,16 @@ height: 250px;
 											<p class="single-item-title"><?php echo $new->name ?></p>
 												<p class="single-item-price" style ="font-size: 16px">
 													<span class="flash-del"><?php echo $new->unit_price ?>đồng</span>
-													<span class="flash-sale"><?php echo $new->promotion_price ?>đồng</span>
+													<span class="flash-sale"><?php echo $new->promotion_price ?> đồng</span>
 												</p>
 											</div>
 											<div class="single-item-caption">
-												<div class="add-to-cart pull-left"><?php $this->Html->link('Giỏ hàng',['action'=>'cart-shop',$new->id]) ?><i class="fa fa-shopping-cart"></i> </div>
+												<div class="add-to-cart pull-left">
+													<a href="\cakecosy/products/getAddToCart/<?php echo $new->id ?>">
+													<i class="fa fa-shopping-cart"></i>
+												</div>
 												<div class="beta-btn primary"><?php echo $this->Html->link('chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
-												<?php  if ($this->request->session()->read('Auth.User')) {?>
+												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
 												<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
@@ -123,12 +123,9 @@ height: 250px;
 												<div class="space50">&nbsp;</div>
 											</div>
 										</div>
-									</div>
-								
-							<?php endforeach; ?>
-							
+									</div>							
+							<?php endforeach; ?>						
 					</div>
-
 				</div>
 			</div>
 		</div>
