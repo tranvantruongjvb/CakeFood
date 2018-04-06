@@ -65,11 +65,7 @@ class AppController extends Controller
 			       	'userModel' => 'Users',
 		       	] 
 		    ],
-		       	    	  
-		    'unauthorizedRedirect' => [
-				'controller' => 'UsersTable',
-				'action' => 'listUser'//,
-			],
+		    
 			'authError' => 'Did you really think you are allowed to see that?',	
 		]);
     }
@@ -84,7 +80,7 @@ class AppController extends Controller
 	public function beforeFilter(Event $event)
 	{
 		
-		$this->Auth->allow(['index','contact','typeproduct','viewproduct','getsearch','getAddToCart','destroy']);
+		$this->Auth->allow(['index','contact','typeproduct','viewproduct','getsearch','getAddToCart','destroy','order','deleteitems','updatequantity','adduser','postCheckout','getnews']);
 	}
     /**
      * Before render callback.
