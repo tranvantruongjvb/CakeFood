@@ -37,12 +37,10 @@
 			                        <td>
 			                        	<select name="id_type"><?php foreach ($typeproducts as $key) { ?>
 			                    			<option value="<?php echo $key->id ?>">
-			                    				<?php echo $key->id ?>
 			                    				<?php echo $key->name ?>
 			                    			</option> <?php  } ?>  
-
 			                       		 </select>
-			                        
+			                       
 			                    </td>
 			                      </tr>
 			                      <tr>
@@ -60,6 +58,14 @@
 			                      <tr>
 			                        <td>Unit Price:</td>
 			                        <td><input type="text" name="unit_price"  placeholder="Enter Price"></td>
+			                      </tr>
+			                      <tr>
+			                        <td>Unit :</td>
+			                        <td><select name="unit">
+			                        	<option value="cái">Cái</option>
+			                    		<option value="hộp">Hộp</option>
+			                        	</select>
+			                        </td>
 			                      </tr>
 			                      <tr>
 			                        <td>Promotion_price:</td>
@@ -89,12 +95,12 @@
 		</div>
 	</div>
 </div>
-
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 <script type="text/javascript">
 
     $(document).ready(function() {
     
-        //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+       
         $("#myForm").validate(
         {
             rules: {
@@ -104,7 +110,7 @@
                 new : "required", 
                	unit_price : "required",
                	
-               	image :"required",     
+                 
             },
             messages: {
                 name: "Please enter name valid",
@@ -113,7 +119,7 @@
                 new : "is it new?",
                 unit_price :"Please enter unit Price valid ",
                
-                image: "it have not image.",
+               
                
             }
         }); 
