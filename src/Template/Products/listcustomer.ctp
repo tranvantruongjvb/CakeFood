@@ -12,31 +12,34 @@
 							</div>
 
 							<div class="row">
-						
-
+							<nav class="navbar navbar-default navbar-expand-lg navbar-light nav-item dropdown">
+									<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+										<ul class="nav navbar-nav" style="width: 100%">
+											<li class="nav-item active" style="width: 20%">Name</li>
+											<li class="nav-item active" style="width: 20%">Email</a></li>
+											<li class="nav-item active" style="width: 15%">Số Điện Thoại</li>
+											<li class="nav-item active" style="width: 30%">Địa Chỉ</li>
+											<li class="nav-item active" style="width: 15%">    Chi Tiết</li>
+										</ul>
+									</div>
+									<div class="space20">&nbsp;</div>
 							<?php foreach($customers as $cus): ?>
-								<nav class="navbar navbar-default navbar-expand-lg navbar-light">
-								<div class="navbar-header d-flex col">
-									<a class="navbar-brand" href="#"><b><?php echo $cus->name ?></b></a> 
-								</div>
-								<div class="space50">&nbsp;</div>
-								<!-- Collection of nav links, forms, and other content for toggling -->
-								<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
-									<ul class="nav navbar-nav">
-										<li class="nav-item active"><a href="#" class="nav-link"><?php echo $cus->email ?></a></li>
-										<li class="nav-item active"><a href="#" class="nav-link"><?php echo $cus->phone_number;?></a></li>
-										<li class="nav-item active"><a href="#" class="nav-link"><?php echo $cus->address ?></a></li>
-										<li class="nav-item active"><a href="\cakecosy/products/listbill/<?php echo $cus->id ?>" class="nav-link">Xem chi tiết đơn hàng</a></li>
-										
-									</ul>
-								</div>
-							</nav>
+									<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+										<ul class="nav navbar-nav" style="width: 100%">
+											<li class="nav-item active" style="width: 20%"><?php echo $cus->name ?></a></li>
+											<li class="nav-item active" style="width: 20%"><?php echo $cus->email ?></a></li>
+											<li class="nav-item active" style="width: 15%"><?php echo $cus->phone_number;?></a></li>
+											<li class="nav-item active" style="width: 30%"><?php echo $cus->address ?></a></li>
+											<li class="nav-item active" style=" width: 15%"><a href="\cakecosy/products/billdetail/<?php echo $cus->id ?>">Chi Tiết</a></li>
+											
+										</ul>
+									</div>
+							<div class="space50">&nbsp;</div>
 
 							<?php endforeach;?>
-							<div class="space50">&nbsp;</div>
 							
+							</nav>	
 							</div>
-							
 						</div> <!-- .beta-products-list -->
 
 						<div class="space50">&nbsp;</div>
