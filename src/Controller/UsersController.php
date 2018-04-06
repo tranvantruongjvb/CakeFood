@@ -25,7 +25,7 @@ class UsersController extends AppController{
     }
 
 
-	public funcAtion login()
+	public function login()
 	{	
 		if ($this->request->is('post')) {
 			// Auth component identify if sent user data belongs to a user
@@ -40,27 +40,13 @@ class UsersController extends AppController{
 		}
 	}
 
-	public function login1()
-	{	
-		if ($this->request->is('post')) {
-			// Auth component identify if sent user data belongs to a user
-			$user = $this->Auth->identify();
-			
-			if ($user) {
-				$this->Auth->setUser($user);
-				return $this->redirect($this->referer());
-			}
-			$this->Flash->error(__('Email Hoặc Password Của Bạn Không Đúng. Thử Lại'));
-			$this->redirect($this->referer());
-		}
-	}
 	
 	public function logout(){
 		$this->Flash->success('Bạn Đã Logout Thành Công ');
 		$this->Auth->logout();
 		$session = $this->request->session();
         $session->destroy();
-           $this->redirect($this->referer());
+           $this->redirect(URL_INDEX);
 	}
 	public function listUser()
 	{
