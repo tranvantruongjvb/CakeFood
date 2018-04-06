@@ -25,7 +25,7 @@ class UsersController extends AppController{
     }
 
 
-	public function login()
+	public funcAtion login()
 	{	
 		if ($this->request->is('post')) {
 			// Auth component identify if sent user data belongs to a user
@@ -33,17 +33,34 @@ class UsersController extends AppController{
 			
 			if ($user) {
 				$this->Auth->setUser($user);
-				return $this->redirect(URL_Profile);
+				return $this->redirect($this->referer());
 			}
-			$this->Flash->error(__('Invalid username or password, try again.'));
+			$this->Flash->error(__('Email Hoặc Password Của Bạn Không Đúng. Thử Lại'));
+			$this->redirect($this->referer());
+		}
+	}
+
+	public function login1()
+	{	
+		if ($this->request->is('post')) {
+			// Auth component identify if sent user data belongs to a user
+			$user = $this->Auth->identify();
+			
+			if ($user) {
+				$this->Auth->setUser($user);
+				return $this->redirect($this->referer());
+			}
+			$this->Flash->error(__('Email Hoặc Password Của Bạn Không Đúng. Thử Lại'));
 			$this->redirect($this->referer());
 		}
 	}
 	
 	public function logout(){
-		$this->Flash->success('You successfully have loged out');
+		$this->Flash->success('Bạn Đã Logout Thành Công ');
 		$this->Auth->logout();
-		$this->redirect(URL_INDEX);
+		$session = $this->request->session();
+        $session->destroy();
+           $this->redirect($this->referer());
 	}
 	public function listUser()
 	{
@@ -75,7 +92,7 @@ class UsersController extends AppController{
 			$message = $this->request->data['your-message'];
 			$array  = array('name'=>$name,'email'=>$email,'subject'=>$subject, 'message'=>$message );
 			$this->Email->sendUserEmail($email,'CakeFoody',$array,'contact');
-			$this->Flash->success(__('Thank you so much for your message '.$name));
+			$this->Flash->success(__('Cảm Ơn Bạn Đã Góp Ý Cho CakeFoody '.$name ));
 	        $this->redirect(URL_INDEX);	
 		}
 
@@ -91,25 +108,47 @@ class UsersController extends AppController{
 		$this->set('user',$user);
 	}
 	public function adduser()
-	{	$typeProducts = TableRegistry::get('typeproducts');
+	{	
+		$typeProducts = TableRegistry::get('typeproducts');
         $query = $typeProducts->find("all")-> toArray();
         $this->set('typeproducts',$query);
+
+        
+
 		$user = $this->Users->newEntity();
 		if($this->request->is('post')) {
+			
 			$this->Users->patchEntity($user,$this->request->data);
 			$name = $this->request->data['name'];
 			$username = $this->request->data['username'];
 			$email = $this->request->data['email'];
 			$phone = $this->request->data['phone'];
 			$array  = array('name'=>$name,'username'=>$username,'email'=>$email,'phone'=>$phone );
+
+			$olduser = $this->Users->find('all')->toArray();
+		       foreach ($olduser as $key) {
+		       		if($key['username'] == $username){
+		       			$this->Flash->error(__('UserName của bạn đã tồn tại'));
+		       			return $this->redirect($this->referer());
+		       		}
+			       	elseif($key['email'] == $email){
+			       		$this->Flash->error(__('Email của bạn đã tồn tại'));
+			       		return $this->redirect($this->referer());
+			       	}
+			       	elseif($key['phone'] == $phone){
+			       		$this->Flash->error(__('Số Điện của bạn đã tồn tại'));
+			       		return $this->redirect($this->referer());
+			       	}
+			       
+		       }
 			if($this->Users->save($user)){
 
 				$this->Email->sendUserEmail($email,'Register',$array,'add');
-	            $this->Flash->success(__($name.' has been registered .'));
+	            $this->Flash->success(__($name.' Đã Được Thêm  .'));
 	            return $this->redirect(URL_INDEX);
 			}
 
-			$this->Flash->error(__('Unable to register your account.'));
+			$this->Flash->error(__('Không thể Đăng Ký Tài Khoản.'));
 		}
 		$this->set('user',$user);
 			}
@@ -125,10 +164,10 @@ class UsersController extends AppController{
 			$this->Users->patchEntity($user, $this->request->data);
 			if ($this->Users->save($user)) {
 				$this->Email->sendUserEmail($this->request->data['email'],'Update profile',$name,'update');
-				$this->Flash->success(__('Your profile data has been updated.'));
-				return $this->redirect(URL_INDEX);
+				$this->Flash->success(__('Thông Tin Của Bạn Được Cập Nhật.'));
+				return $this->redirect($this->referer());
 			}
-			$this->Flash->error(__('Unable to update your profile.'));
+			$this->Flash->error(__('Không Thể Cập Nhật Thông Tin Của Bạn.'));
 		}
 	
 		$this->set('user', $user);		
@@ -140,7 +179,7 @@ class UsersController extends AppController{
 	
 		$user = $this->Users->get($id);
 		if ($this->Users->delete($user)) {
-			$this->Flash->success(__('The user with id: {0} has been deleted.', h($id)));
+			$this->Flash->success(__('Người Dùng Có id: {0} Đã Được Xóa.', h($id)));
 			return $this->redirect(URL_INDEX);
 		}		
 		
