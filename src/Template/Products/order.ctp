@@ -1,6 +1,20 @@
+<style type="text/css">
+	.error{
+		display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    color: red;
+	}
+</style>
+
+
 <div class="hiden">
 					<?php $read = $this->request->session()->read('cart'); ?>
 					<?php $check = $this->request->session()->check('cart') ?>
+					<?php $readpayment1 = $this->request->session()->read('payment.total'); ?>
+					<?php $checkpayment1 = $this->request->session()->check('payment.total') ?>
+					<?php $readpayment2 = $this->request->session()->read('payment.total2'); ?>
+					<?php $checkpayment2 = $this->request->session()->check('payment.total2') ?>
 
 </div>
 <div class="inner-header">
@@ -19,8 +33,7 @@
 
 <div class="container">
 	<div id="content">
-		<form action="#" method="post" class="beta-form-checkout">
-			<input type="hidden" name="_token" value="">
+		<form action="postCheckout" method="post" class="beta-form-checkout" id="myForm">
 			<div class="row">
 				<div class="col-sm-6">
 					<h4>Thông tin khách hàng</h4>
@@ -28,26 +41,22 @@
 
 					<div class="form-block">
 						<label for="your_first_name">Họ tên*</label>
-						<input type="text" id="name" name="full_name" required placeholder="Nhập họ và tên">
+						<input type="text" id="full_name" name="full_name"  placeholder="Nhập họ và tên">
 					</div>
-					<div class="form-block">
-						<label for="your_first_name">Giới tính</label>
-						<input type="radio" name="gender" value="Nữ" checked="checked" style="width: 10%"><span style="padding-right: 20%">Nữ</span>
-						<input type="radio" name="gender" value="Nam" checked="checked" style="width: 10%"><span>Nam</span>
-					</div>
+					
 					<div class="form-block">
 						<label for="adress">Địa chỉ*</label>
-						<input type="text" id="address" name="address" placeholder="Street Address" required>
+						<input type="text" id="address" name="address" placeholder="Street Address" >
 					</div>
 
 					<div class="form-block">
 						<label for="email">Email*</label>
-						<input type="email" name="email" required placeholder="example@gmail.com">
+						<input type="email" name="email" placeholder="example@gmail.com">
 					</div>
 
 					<div class="form-block">
 						<label for="phone">Điện thoại*</label>
-						<input type="text" name="phone" required>
+						<input type="text" name="phone">
 					</div>
 					
 					<div class="form-block">
@@ -58,31 +67,39 @@
 				<div class="col-sm-6">
 					<div class="your-order">
 						<div class="your-order-head"><h5>Đơn hàng của bạn</h5></div>
-						<div class="your-order-body">
-							<div class="your-order-item">
-								<div>
-								<?php if ($check) ?>
+						<div class="your-order-body ">
+							<div class="your-order-item ">
+								<div >
+								<?php if ($check) { ?>
 								<?php foreach($read as $cart): ?>
 								<!--  one item	 -->
-									<div class="media">
+									<div class="media getkey1">
 										<img width="35%" src="<?php echo '/cakecosy/'.$cart['image']?>" alt=""class="pull-left" style=" width: 100px;">
 										<div class="media-body">
 										<?php $total = $cart['quantity'] *  $cart['price'] ?>
-											<p class="font-large"><?php print_r($cart['name'])?></p>
-											<span class="color-gray your-order-info">Số lượng: <?php print_r($cart['quantity'])?></span>
-											<span class="color-gray your-order-info">Đơn giá: <?php print_r($cart['price']) ?> đồng</span>
+										<p class="font-large"><?php print_r($cart['name'])?></p>
+										<p type="text" class="hidden" id="getid"><?php echo $cart['id']?></p>
+
+										<span class="color-black your-order-info">Số lượng:<input type="number" name="" class="getquan" style="color: black;" value="<?php echo $cart['quantity']?>" min='1' max='1000'> </span>
+										<span class="color-black your-order-info" >Đơn giá: <p class="getprice"><?php echo $cart['price']?></p></span>
+										<p type="text"  class="total123"> <?php echo  $cart['price'] * $cart['quantity']?></p>
 										</div>
 									</div>
 								<!-- end one item -->
 								<?php endforeach; ?>
-								
+								<?php }elseif(!$check) {
+									echo "Bạn chưa chọn mua sản phẩm";
+								} ?>	
 								</div>
 								<div class="clearfix"></div>
-							</div>
-							<div class="your-order-item">
-								<div class="pull-left"><p class="your-order-f18">Tổng tiền:</p></div>
-								<?php $total = $this->request->session()->read('payment.total'); ?>
-								<div class="pull-right"><h5 class="color-black"><?php echo $total ?> đồng</h5></div>
+							
+								<div class="pull-left"><p class="your-order-f18">Tổng tiền: </p></div>
+								<?php if ($checkpayment2 ) { ?>
+										<p type="text" class="t" style="font-size: 20px;color: #FF0000"> <?php echo $readpayment2; ?> </p>
+										  <?php  } else { ?>
+										  		
+										  <p type="text" class="t" style="font-size: 20px;color: #FF0000"> <?php echo $readpayment1; ?> </p>
+										  <?php } ?>
 								<div class="clearfix"></div>
 							</div>
 						</div>
@@ -111,11 +128,74 @@
 							</ul>
 						</div>
 
-						<div class="text-center"><button type="submit" class="beta-btn primary" href="#">Checkout <i class="fa fa-chevron-right"></i></button></div>
+						<div class="text-center">
+							<button type="submit" class="beta-btn primary">Checkout <i class="fa fa-chevron-right"></i>
+							</button>
+						</div>
 					</div> <!-- .your-order -->
 				</div>
 			</div>
 		</form>
 	</div> <!-- #content -->
 </div> <!-- .container -->
-@endsection
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+    
+        //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+	        $("#myForm").validate(
+	        {
+	            rules: {
+	                full_name: "required",
+	                address: "required",
+	                phone: "required",
+	                email : "required", 
+	               	  
+	            },
+	            messages: {
+	                full_name: "Please enter name valid",
+	                address: "Please Enter Address ",
+	                phone :"Please Enter Number Phone",
+	                email : "Please Enter Email",
+	            }
+	        }); 
+	    });   
+
+
+            $(document).on('click', '.getquan', function () {
+                   var a = $(this).val();
+                   var b = $(this).parent().parent().find('.getprice').text();
+                   var id = $(this).parent().parent().find('#getid').text();
+                   var c = $(this).parent().parent().find('.total123').empty();
+					   c = $(this).parent().parent().find('.total123').append(a*b);
+					 
+					$.ajax({
+			              type : 'post', 
+			              url : '\\cakecosy/updatequantity', 
+			              data : {sl :a,
+			              	id: id,
+			              		}, 
+			              success : function(data)  
+			                         { 
+			                          
+			                        }
+			              });
+            });
+             $(document).on('click', '.getkey1', function () {
+               var re=$('.total123');
+               var s = parseFloat(0);
+               for (i=0;i<re.length;i++) {
+                	if($(re[i]).text() == null)
+                		$(re[i]).text() = 0;
+                    s= s+ parseFloat($(re[i]).text());
+                };
+               	var result= $(this).parent().parent().parent().find('.t').empty();
+               		result= $(this).parent().parent().parent().find('.t').append(s);});
+
+             
+</script>
+
