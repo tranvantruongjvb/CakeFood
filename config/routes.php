@@ -72,7 +72,9 @@ $routes->resources('Topics');
     
     $routes->connect('/postCheckout/',['controller'=>'products','action'=>'postCheckout']);
 
-    $routes->connect('/updatequantity/*',['controller'=>'products','action'=>'updatequantity']);
+    $routes->connect('/getnews/',['controller'=>'products','action'=>'getnews']);
+
+    $routes->connect('/updatequantity/',['controller'=>'products','action'=>'updatequantity']);
 
     $routes->connect('/order/*',['controller'=>'products','action'=>'order']);
 
