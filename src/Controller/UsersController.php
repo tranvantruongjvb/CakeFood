@@ -33,7 +33,8 @@ class UsersController extends AppController{
 			
 			if ($user) {
 				$this->Auth->setUser($user);
-				return $this->redirect($this->referer());
+				$this->Flash->success(__("Đăng nhập thành công.."));
+				return $this->redirect(URL_INDEX);
 			}
 			$this->Flash->error(__('Email Hoặc Password Của Bạn Không Đúng. Thử Lại'));
 			$this->redirect($this->referer());
@@ -42,24 +43,38 @@ class UsersController extends AppController{
 
 	
 	public function logout(){
-		$this->Flash->success('Bạn Đã Logout Thành Công ');
+		
 		$this->Auth->logout();
+		$this->Flash->success('Bạn Đã Logout Thành Công ');
 		$session = $this->request->session();
         $session->destroy();
-           $this->redirect(URL_INDEX);
+        $this->redirect(URL_INDEX);
 	}
 	public function listUser()
 	{
 		$this->paginate= array(
-			'limit' => LIMITED,
+			'limit' => 8,
 			'order' => [
-            'users.id' => 'asc'
+            'users.id' => 'DESC'
         	],
         );
 		$user = $this->paginate('Users');
 		$this->set('users',$user);		
 	}
 	
+	// public function resetpass()
+	// {
+	// 	    	 $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+	// 	    $pass = array(); //remember to declare $pass as an array
+	// 	    $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+	// 	    for ($i = 0; $i < 8; $i++) {
+	// 	        $n = rand(0, $alphaLength);
+	// 	        $pass[] = $alphabet[$n];
+	// 	    }
+		    
+	// 	pr($pass);die;
+	// }
+
 	public function news()
 	{
 		# code...
@@ -144,16 +159,23 @@ class UsersController extends AppController{
         $this->set('typeproducts',$query);
 		$user = $this->Users->get($id);
 
+		$passold =  $user['password'];
+		//pr($passold);die;
 		if ($this->request->is(['post', 'put'])) {
-			
-			$name = $this->request->data['name'];
 			$this->Users->patchEntity($user, $this->request->data);
-			if ($this->Users->save($user)) {
-				$this->Email->sendUserEmail($this->request->data['email'],'Update profile',$name,'update');
-				$this->Flash->success(__('Thông Tin Của Bạn Được Cập Nhật.'));
-				return $this->redirect($this->referer());
+			$pass = $this->request->data['password'];
+			if($pass =='******'){
+				$user['password'] = $passold;
+				
+			}else {
+				$user['password'] = $pass;
 			}
-			$this->Flash->error(__('Không Thể Cập Nhật Thông Tin Của Bạn.'));
+			$name = $this->request->data['name'];
+				if ($this->Users->save($user)) {
+					$this->Email->sendUserEmail($this->request->data['email'],'Update profile',$name,'update');
+					$this->Flash->success(__('Thông Tin Của Bạn Được Cập Nhật.'));
+					return $this->redirect($this->referer());
+				}$this->Flash->error(__('Không Thể Cập Nhật Thông Tin Của Bạn.'));
 		}
 	
 		$this->set('user', $user);		
@@ -165,8 +187,8 @@ class UsersController extends AppController{
 	
 		$user = $this->Users->get($id);
 		if ($this->Users->delete($user)) {
-			$this->Flash->success(__('Người Dùng Có id: {0} Đã Được Xóa.', h($id)));
-			return $this->redirect(URL_INDEX);
+			$this->Flash->success(__('Người Dùng Có Tên: {0} Đã Được Xóa.', h($id)));
+			return $this->redirect($this->referer());
 		}		
 		
 	}
