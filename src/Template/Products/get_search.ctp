@@ -13,7 +13,7 @@
 
 							<div class="row">
 							<?php foreach($products as $new): ?>
-								<div class="col-sm-3">
+								<div class="col-sm-5 col-md-4 col-lg-3 ">
 									<div class="single-item">
 										<div class="single-item-header">
 										<?php if($new->promotion_price != 0) ?>
@@ -25,11 +25,11 @@
 											<p class="single-item-title"><?php print_r($new['name']) ?></p>
 											<p class="single-item-price" style ="font-size: 16px">
 											<?php if($new->promotion_price ==0) { ?>
-												<span class="flash-del"><?php print_r($new['unit_price'])?></span>
-											<?php } else ?>
+												<span class="flash-sale"><?php print_r($new['unit_price'])?></span>
+											<?php } else {?>
 												<span class="flash-del"><?php print_r($new['unit_price'])?> đồng</span>
 												<span class="flash-sale"><?php print_r($new['promotion_price']) ?>đồng</span>
-											
+											<?php } ?>
 											</p>
 										</div>
 										<div class="single-item-caption">
