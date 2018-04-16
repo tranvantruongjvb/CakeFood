@@ -33,7 +33,7 @@ class UsersController extends AppController{
 			
 			if ($user) {
 				$this->Auth->setUser($user);
-				$this->Flash->success(__("Đăng nhập thành công.."));
+				$this->Flash->success(__("Đăng nhập thành công... Mời bạn mua hàng"));
 				return $this->redirect(URL_INDEX);
 			}
 			$this->Flash->error(__('Email Hoặc Password Của Bạn Không Đúng. Thử Lại'));
@@ -145,7 +145,7 @@ class UsersController extends AppController{
 			if($this->Users->save($user)){
 
 				$this->Email->sendUserEmail($email,'Register',$array,'add');
-	            $this->Flash->success(__($name.' Đã Được Thêm  .'));
+	            $this->Flash->success(__($name.' Tài khoản đã được đăng ký. Hãy đăng nhập  .'));
 	            return $this->redirect(URL_INDEX);
 			}
 
