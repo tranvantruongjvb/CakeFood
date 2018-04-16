@@ -1,4 +1,16 @@
 	
+<style type="text/css">
+	img {
+		border:none;
+		border-radius: 5px;
+		max-width:250px;
+
+		
+	}
+	
+}
+
+</style>
 	<div class="inner-header">
 		
 		<div class="container">
@@ -19,13 +31,13 @@
 	<div class="container">
 		<div id="content">
 			<div class="row">
-				<div class="col-sm-9">
+				<div class="col-sm-9 col-md-9">
 
 					<div class="row">
-						<div class="col-sm-4">
-							<a href="#"><img src="<?php echo '/cakecosy/'. $products->image;?>" height="250px" width='250px'></a>
+						<div class="col-sm-6 col-md-5">
+							<a href="#" class="img"><img src="<?php echo '/cakecosy/'. $products->image;?>" height=" 252px" ></a>
 						</div>
-						<div class="col-sm-8">
+						<div class="col-sm-6 col-md-5">
 						
 							<div class="single-item-body">
 								<p class="single-item-title"><h5><?php echo $products->name ?></h5></p>
@@ -82,7 +94,7 @@
 							<?php foreach($producttype as $sptt): 
 							?>
 								<?php if ($sptt->id != $products->id): ?>
-									<div class="col-sm-4">
+									<div class="col-md-4 col-sm-6">
 										<div class="single-item">
 											<div class="single-item-header">
 											<?php if ($sptt->promotion_price !=0) {?>
