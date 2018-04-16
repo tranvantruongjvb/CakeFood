@@ -10,7 +10,17 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="beta-products-list">
-							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>Xem Thêm Sản Phẩm</h4>
+							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>Xem Thêm Sản Phẩm
+								<span class="pull-right" style="font-size: 15px; color: black">
+									
+										<select id='select'>
+										<option value="0"> Bạn có thể xem theo</option>
+										<option value="1">Giá từ thấp lên cao</option>
+										<option value="2">Giá từ cao xuống thấp</option>
+										</select>
+
+								</span>
+							</h4>
 							<div class="beta-products-details">
 								<p class="pull-left"> Tìm Thấy <?php echo count($products) ?> 
 									<?php echo $name ?>
@@ -40,7 +50,7 @@
 											</p>
 										</div>
 										<div class="single-item-caption">
-											<a class="add-to-cart pull-left" href=""><i class="fa fa-shopping-cart"></i></a>
+											<a class="add-to-cart pull-left" href=" \cakecosy/products/getAddToCart/<?php echo $new->id ?>"><i class="fa fa-shopping-cart"></i></a>
 											<a class="beta-btn primary" href="viewproduct/<?php print_r($new['id'])?>">Chi tiết <i class="fa fa-chevron-right"></i></a>
 											<div class="clearfix"></div>
 										</div>
@@ -59,3 +69,6 @@
 			</div> <!-- .main-content -->
 		</div> 
 		</div><!-- #content -->
+<script type="text/javascript">
+	 
+</script>
