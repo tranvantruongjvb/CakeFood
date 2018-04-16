@@ -44,9 +44,6 @@ class ProductsController  extends AppController{
                  $this->Email->sendUserEmail($email,'CakeFoody',$array,'getnews');
                  $this->Flash->success(__('Cảm ơn bạn đăng ký'));
                  $this->redirect($this->referer());
-            
-           
-        
         }
 
     }
@@ -58,22 +55,73 @@ class ProductsController  extends AppController{
         ->where( ['products.promotion_price >=' => 1])
         ->order(['products.id' => 'DESC']);
         $this->paginate= array(
-            'limit' => 8);
-        $promotion_price = $this->paginate($promotion);
-        $this->set('promotion_price',$promotion_price);
+            'limit' => 4);
+        $promotion_price = $this->paginate($promotion)->toArray();
 
 		$new = $this->Products->find("all")
-        ->where(['products.new >=' => 1 ]);
-        $this->paginate= array(
-            'limit' => 8,
-            'order' => array('products.id' => 'DESC'),
-        );
+        ->where(['products.new >=' => 1 ])
+        ->order(['products.id' => 'desc'])
+        ->limit(4);
+        $productnew = $this->paginate($new)->toArray();
 
-        $product = $this->paginate($new)->toArray();
-        $this->set('products',$product);
+        $price100 = $this->Products->find("all")
+        ->where(['products.unit_price <=' => 100000 ])
+        ->limit(4);
+       
+
+        $price200 = $this->Products->find("all")
+        ->where(['products.unit_price <=' => 200000 , 'products.unit_price >=' => 100000])
+        ->limit(4);
+        
+        $price300 = $this->Products->find("all")
+        ->where(['products.unit_price <=' => 300000 , 'products.unit_price >=' => 200000])
+        ->limit(4)
+        ->order(['products.id' => 'desc']);
+        
+
+        $price400 = $this->Products->find("all")
+        ->where(['products.unit_price >=' => 300000])
+        ->limit(4);
+        
+    
+
+        $this->set(compact('productnew','promotion_price','price100','price200','price300','price400'));
 
         $this->readtypeproduct();
 	}
+
+    public function viewadd($id)
+    {
+        $this->readtypeproduct();
+        if($id ==1 ){
+            $products = $this->Products->find('all')
+        ->where(['products.promotion_price >' =>0])
+        ->toArray();
+        $name =" Sản Phẩm Khuyế Mãi";
+        }else if($id ==2 ){
+             $products = $this->Products->find('all')
+            ->where(['products.unit_price <=' =>100000])
+            ->toArray();
+            $name =" Sản Phẩm Có Giá Nhỏ hơn 100,000đ ";
+        }else if($id ==3 ){
+             $products = $this->Products->find('all')
+            ->where(['products.unit_price <=' =>200000, 'products.unit_price >=' =>100000])
+            ->toArray();
+            $name =" Sản Phẩm Có Giá Từ 100,000đ Đến 200,000đ ";
+        }else if($id ==4 ){
+             $products = $this->Products->find('all')
+            ->where(['products.unit_price <=' =>300000, 'products.unit_price >=' =>200000])
+            ->toArray();
+            $name =" Sản Phẩm Có Giá Từ 200,000đ Đến 300,000đ ";
+        }else if($id ==5 ){
+             $products = $this->Products->find('all')
+            ->where(['products.unit_price >' =>300000])
+            ->toArray();
+            $name =" Sản Phẩm Có Giá Lớn Hơn 300,000đ ";
+        }
+        $this->set(compact('products','name'));
+
+    }
 
     public function getAddToCart($id){
 
@@ -102,6 +150,7 @@ class ProductsController  extends AppController{
              $total += $value['price'] * $value['quantity'];
          }
           $session->write('payment.total',$total);
+         $this->Flash->success(__('Bạn đã chọn sản phẩm ' . $s[$product->id]['name']));
         $this->redirect($this->referer());
      }
 
@@ -180,6 +229,30 @@ class ProductsController  extends AppController{
         $this->set('billcustomer',$getcus);
     }
 
+    public function deletecustomer($id)
+    {   
+       $customer = TableRegistry::get('customer');
+        $bill = TableRegistry::get('bills');
+        $bill_detail = TableRegistry::get('bill_detail');
+        
+        
+        $cus = $customer->get($id);
+        $b = $bill->find()
+        ->where(['bills.id_customer =' => $id])->toArray();
+        $getidb = $bill->get($b['0']['id']);
+        
+
+        $bd = $bill_detail->find()
+        ->where(['bill_detail.id_bill =' => $getidb['id']])->toArray();
+        $g = $bill_detail->get($bd['0']['id']);
+
+        if ($bill->delete($getidb) && $customer->delete($cus) && $bill_detail->delete($g) ) {
+            $this->Flash->success(__('Khách hàng đã được xóa.'));
+            return $this->redirect($this->referer());
+        }
+        
+    }
+
     
 
      public function customer($id)
@@ -192,19 +265,16 @@ class ProductsController  extends AppController{
     public function listcustomer()
     {
         $this->readtypeproduct();
-
-        $customer = TableRegistry::get('customer');
         $customer = TableRegistry::get('customer');
         $bill = TableRegistry::get('bills');
         $bill_detail = TableRegistry::get('bill_detail');
-
         $find = $customer->find('all');
-        
+        $this->paginate= array(
+            'limit' => 8,
+        );
         $customers = $this->paginate($find);
         $bills = $bill->find('all');
         $bill_details = $bill_detail->find('all');
-
-
 
         $this->set(compact('customers','typeproducts'));
     }
@@ -297,12 +367,14 @@ class ProductsController  extends AppController{
         $totalPrice = $session->read('payment.total');
         $req= $this->request->data();
         $readcustomer = $cus->find('all');
+        
 
+        $cusumer = $cus->newEntity();
         if($readuser['permission']==1 || $readuser['permission']== 2 ){
             $cusumer->id_user = $readuser['id'];
         }
 
-        $cusumer = $cus->newEntity();
+        
         $cusumer->name = $req['full_name'];
         $cusumer->id_user = 0;
         $cusumer->email = $req['email'];
@@ -337,25 +409,23 @@ class ProductsController  extends AppController{
         ->where(['id !=' => 1])
         ->last();
 
+        $arrayName = array();
+        //pr($arrayName);;die;
         foreach ($cart as $key) {
          
             $bill_detail = $getbill->newEntity();
             $bill_detail->id_bill = $billid['id'];
             $bill_detail->id_product = $key['id'];//$value['item']['id'];
+            $arr =  array_push($arrayName, array($key['name'],$key['quantity']));
+
             $bill_detail->quantity = $key['quantity'];
             $bill_detail->subtotal = $key['quantity'] *  $key['price'];
             $bill_detail->unit_price = $key['price'];
             $get_bill_detail->save($bill_detail);
         }
-
-
-       
-                   
-        $array  = array('name'=>$cusumer->name);
+        $array  = array('name'=>$cusumer->name, 'address'=>$cusumer->address, 'phone'=>$cusumer->phone_number, 'notes'=> $cusumer->note,'totalpay'=>$bill->total, 'payment'=>$bill->payment, 'nameproduct'=>$arrayName);
         $this->Email->sendUserEmail($cusumer->email,'CakeFoody',$array,'order');
                     
-                    
-        
         $session->delete('cart');
         $session->delete('payment.total');
         $this->Flash->success(__('Cảm ơn bạn đã mua sản phẩm của chúng tôi. Đơn hàng đang được sử lý'));
@@ -448,10 +518,6 @@ class ProductsController  extends AppController{
         $this->set('product',$product);
     }
     
-    public function login()
-    {
-        $this->Products->Users->login();
-    }
 
     public function editproduct($id)
     {   
@@ -508,8 +574,7 @@ class ProductsController  extends AppController{
         $this->request->allowMethod(['post', 'delete']);
         
         $product = $this->Products->get($id);
-var_dump($id);
-die;
+
         if ($this->Products->delete($id)) {
             $this->Flash->success(__('Sản phẩm có id: {0} đã được xóa.', h($id)));
             return $this->redirect(URL_INDEX);
