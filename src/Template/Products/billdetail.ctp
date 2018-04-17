@@ -55,7 +55,7 @@
 
 					<div class="form-block">
 						<label for="notes">Ghi chú</label>
-						<textarea name="notes"><?php print_r($listbills['0']['c']['note'])?></textarea>
+						<textarea name="notes" readonly=""><?php print_r($listbills['0']['c']['note'])?></textarea>
 					</div>
 
 				</div>
