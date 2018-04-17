@@ -32,12 +32,18 @@
 											<?php } ?>
 											</p>
 										</div>
-										<div class="single-item-caption">
+										
+									</div>
+									<div class="single-item-caption">
 											<a class="add-to-cart pull-left" href="\cakecosy/products/getAddToCart/<?php echo $new['id']?>"><i class="fa fa-shopping-cart"></i></a>
+											<div class="beta-btn primary">
+													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
+												</div>
 											<a class="beta-btn primary" href="viewproduct/<?php print_r($new['id'])?>">Chi tiết <i class="fa fa-chevron-right"></i></a>
 											<div class="clearfix"></div>
 										</div>
-									</div>
+									<div class="clearfix"></div>
+									<div class="space50">&nbsp;</div>
 								</div>
 
 							<?php endforeach;?>
