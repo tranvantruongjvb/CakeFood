@@ -1,8 +1,8 @@
 	<style type="text/css">
 	img {
 		border:none;
-		max-width:100%
-		border-radius: 20px;
+		max-width:100%;
+		border-radius: 10px;
 		height: 250px;}
 	.ribbon-wrapper {
     float: right;
@@ -48,14 +48,14 @@
 													<a href="\cakecosy/products/getAddToCart/<?php echo $new->id ?>">
 													<i class="fa fa-shopping-cart"></i>
 												</div>
-											<div class="beta-btn primary"><?php echo $this->Html->link('chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
+											<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
 											<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
-											<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
+											<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 											<div class="clearfix"></div>
 											<div class="beta-btn primary"><?= $this->Form->postLink(
-									                'Delete',
+									                'Xóa sản phẩm',
 									                ['action' => 'delete', $new->id],
-									                ['confirm' => __('Are you sure you want to delete user with id # {0}?',$new->id)])
+									                ['confirm' => __('Bạn có chắc chắn muốn xóa sản phẩm có id # {0}?',$new->id)])
 									            ?>
 									        </div>
 									        <?php } ?>
@@ -68,9 +68,9 @@
 							<div class="clearfix"></div>
 							<div>
 								<ul class="pagination">
-								  <li><?= $this->Paginator->prev('« Previous ', array('class' => 'disabled'));?></li>
+								  <li><?= $this->Paginator->prev('« Trang trước ', array('class' => 'disabled'));?></li>
 								  <li> <?=  $this->Paginator->numbers(array('class'=> 'pagination_link')); //Shows the page numbers?></li>
-								  <li><?=  $this->Paginator->next(' Next »', array('class' => 'disabled')); //Shows the next and previous links?></li>
+								  <li><?=  $this->Paginator->next(' Trang sau »', array('class' => 'disabled')); //Shows the next and previous links?></li>
 								
 								</ul>
 							</div>
@@ -83,7 +83,7 @@
 
 					<div class="beta-products-list">
 								<h4 style="color: #f90; font-size: 22px">
-									<i class="fa fa-mail-forward"></i>  Sản Phẩm Khuyến Mãi<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/1" >xem thêm...</a></h4>
+									<i class="fa fa-mail-forward"></i>  Sản Phẩm Khuyến Mãi<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/1" >Xem thêm...</a></h4>
 								<div class="space30">&nbsp;</div>
 							<?php foreach($promotion_price as $new): 
 							?>
@@ -114,14 +114,14 @@
 													<a href="\cakecosy/products/getAddToCart/<?php echo $new->id ?>">
 													<i class="fa fa-shopping-cart"></i>
 												</div>
-												<div class="beta-btn primary"><?php echo $this->Html->link('chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
+												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
 												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
-												<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
+												<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
-										                'Delete',
+										                'Xóa sản phẩm',
 										                ['action' => 'delete', $new->id],
-										                ['confirm' => __('Are you sure you want to delete user with id # {0}?',$new->id)])
+										                ['confirm' => __('Bạn có chắc chắn muốn xóa sản phẩm có id # {0}?',$new->id)])
 										            ?></div>
 										            <?php } ?>
 												<div class="clearfix"></div>
@@ -133,7 +133,7 @@
 					</div>
 						<div class="clearfix"></div>
 					<div class="beta-products-list">
-							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm Dưới 100,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/2">xem thêm...</a></h4>
+							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm Dưới 100,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/80000">Xem thêm...</a></h4>
 							<div class="space30">&nbsp;</div>				
 							<?php foreach($price100 as $new): 
 							?>
@@ -169,9 +169,9 @@
 												<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
-										                'Delete',
+										                'Xóa sản phẩm',
 										                ['action' => 'delete', $new->id],
-										                ['confirm' => __('Are you sure you want to delete user with id # {0}?',$new->id)])
+										                ['confirm' => __('Bạn có chắc chắn muốn xóa sản phẩm có id # {0}?',$new->id)])
 										            ?></div>
 										            <?php } ?>
 												<div class="clearfix"></div>
@@ -183,7 +183,7 @@
 					</div>
 						<div class="clearfix"></div>
 					<div class="beta-products-list">
-							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm  100,000đ đến 200,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/3" >xem thêm...</a></h4>
+							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm  100,000đ đến 200,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/120000" >Xem thêm...</a></h4>
 							<div class="space30">&nbsp;</div>						
 							<?php foreach($price200 as $new): 
 							?>
@@ -214,14 +214,14 @@
 													<a href="\cakecosy/products/getAddToCart/<?php echo $new->id ?>">
 													<i class="fa fa-shopping-cart"></i>
 												</div>
-												<div class="beta-btn primary"><?php echo $this->Html->link('chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
+												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
 												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
-												<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
+												<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
-										                'Delete',
+										                'Xóa sản phẩm',
 										                ['action' => 'delete', $new->id],
-										                ['confirm' => __('Are you sure you want to delete user with id # {0}?',$new->id)])
+										                ['confirm' => __('Bạn có chắc chắn muốn xóa sản phẩm có id # {0}?',$new->id)])
 										            ?></div>
 										            <?php } ?>
 												<div class="clearfix"></div>
@@ -234,7 +234,7 @@
 						<div class="clearfix"></div>
 					<div class="beta-products-list">
 							
-							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm Giá Từ 200,000đ - 300,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/4" >xem thêm...</a></h4>	
+							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm Giá Từ 200,000đ - 300,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/220000" >Xem thêm...</a></h4>	
 							<div class="space30">&nbsp;</div>						
 							<?php foreach($price300 as $new): 
 							?>
@@ -265,14 +265,14 @@
 													<a href="\cakecosy/products/getAddToCart/<?php echo $new->id ?>">
 													<i class="fa fa-shopping-cart"></i>
 												</div>
-												<div class="beta-btn primary"><?php echo $this->Html->link('chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
+												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
 												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
-												<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
+												<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
-										                'Delete',
+										                'Xóa sản phẩm',
 										                ['action' => 'delete', $new->id],
-										                ['confirm' => __('Are you sure you want to delete user with id # {0}?',$new->id)])
+										                ['confirm' => __('Bạn có chắc chắn muốn xóa sản phẩm có # {0}?',$new->id)])
 										            ?></div>
 										            <?php } ?>
 												<div class="clearfix"></div>
@@ -284,7 +284,7 @@
 					</div>
 						<div class="clearfix"></div>
 					<div class="beta-products-list">	
-							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm Giá Trên 300,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/5" >xem thêm...</a></h4>	
+							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm Giá Trên 300,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/300000" >Xem thêm...</a></h4>	
 							<div class="space30">&nbsp;</div>
 							<?php foreach($price400 as $new): 
 							?>
@@ -315,14 +315,14 @@
 													<a href="\cakecosy/products/getAddToCart/<?php echo $new->id ?>">
 													<i class="fa fa-shopping-cart"></i>
 												</div>
-												<div class="beta-btn primary"><?php echo $this->Html->link('chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
+												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
 												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
-												<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
+												<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
-										                'Delete',
+										                'Xóa sản phẩm',
 										                ['action' => 'delete', $new->id],
-										                ['confirm' => __('Are you sure you want to delete user with id # {0}?',$new->id)])
+										                ['confirm' => __('Bạn có chắc chắn muốn xóa sản phẩm có id # {0}?',$new->id)])
 										            ?></div>
 										            <?php } ?>
 												<div class="clearfix"></div>
