@@ -9,9 +9,7 @@
               ?>
           </p> 
       </div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
-   
-   
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" style="text-align: center;">
           <div class="panel panel-info">
             <div class="panel-heading">
               <h3 class="panel-title"><?= h($user->name) ?></h3>
@@ -24,29 +22,29 @@
                   <table class="table table-user-information">
                     <tbody>
                       <tr>
-                        <td>Username : </td>
+                        <td>Tên người dùng : </td>
                         <td><?= h($user->username) ?> </td>
                       </tr>
                       <tr>
-                        <td>Name : </td>
+                        <td>Họ và tên : </td>
                         <td><?= h($user->name) ?> </td>
                       </tr>
                       <tr>
-                        <td>Email:</td>
+                        <td>Địa chỉ email:</td>
                         <td><?= h($user->email) ?></td>
                       </tr>
                       <tr>
-                        <td>Date of Birth</td>
+                        <td>Ngày sinh </td>
                         <td><?= h($user->birthdate) ?></td>
                       </tr>
                    
                          <tr>
                       <tr>
-                        <td>Phone</td>
+                        <td>Số điện thoại</td>
                         <td><?= h($user->phone) ?></td>
                       </tr>
                       <tr>
-                        <td>Created: </td>
+                        <td>Ngày đăng ký: </td>
                         <td><?= $user->created->format(DATE_RFC850) ?></td>
                       </tr>
       
@@ -58,21 +56,16 @@
             </div>
                  <div class="panel-footer" style="text-align: center;">
 
-                              <?php  if ($this->request->session()->read('Auth.User')['permission'] == 1) {?>
-                             <button type="button" class="btn btn-sm btn-warning" style="text-align: center;"><?= $this->Html->link("Logout",['action' => 'logout']) ?></button>
-                            <button type="button" style="text-align: center;" class="btn btn-sm btn-warning"><?= $this->Html->link('Update Information', ['action' => 'edituser', $user->id]) ?></button>
-                            <?php } ?>
+                              <?php  if ($this->request->session()->read('Auth.User')) {?>
+                             <button type="button" class="btn btn-sm btn-warning" style="text-align: center;"><?= $this->Html->link("Đăng Xuất",['action' => 'logout']) ?></button>
+                            <button type="button" style="text-align: center;" class="btn btn-sm btn-warning"><?= $this->Html->link('Cập nhật thông tin', ['action' => 'edituser', $user->id]) ?></button> 
+                            <button  type="button" style="text-align: center;" class="btn btn-sm btn-warning"><?= $this->Html->link('Thêm sản phẩm', ['controller' => 'products', 'action' => 'addproduct'] ); ?></button>
                             
-                            <?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
-                             <button type="button" class="btn btn-sm btn-warning" style="text-align: center;"><?= $this->Html->link("Logout",['action' => 'logout']) ?></button>
-                            <button  type="button" style="text-align: center;" class="btn btn-sm btn-warning"><?= $this->Html->link('Add product', ['controller' => 'products', 'action' => 'addproduct'] ); ?></button>
-                            
-                            <button  type="button" style="text-align: center;" class="btn btn-sm btn-warning"><?= $this->Html->link('Add New Admin', ['action' => 'adduser']) ?></button>
-                            <?php } ?>
-                        
-                    </div>
+                            <button  type="button" style="text-align: center;" class="btn btn-sm btn-warning"><?= $this->Html->link('Thêm thành viên', ['action' => 'adduser']) ?></button>
+                            <?php } ?> 
+                   </div>
             
           </div>
         </div>
       </div>
-    </div>
+</div>
