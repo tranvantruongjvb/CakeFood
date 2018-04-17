@@ -1,3 +1,5 @@
+<?php $readuser =  $this->request->session()->read('Auth.User') ?>
+
 <div class="container">
       <div class="row">
       <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
@@ -10,13 +12,13 @@
               ?>
           </p> 
       </div>
-        <div class="col-xs-10 col-sm-10 col-md-8 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-2 toppad" >
+        <div class="col-xs-10 col-sm-10 col-md-8 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-2 toppad" style="text-align: center;" >
         <form method="post" id="myForm"> 
    
           <div class="panel panel-info">
             <form method="post" id="myForm">
             <div class="panel-heading">
-              <h3 class="panel-title">Update Information</h3>
+              <h3 class="panel-title">Cập nhật thông tin </h3>
             </div>
 
             <div class="panel-body">
@@ -28,40 +30,40 @@
                     <tbody>
                    
                       <tr>
-                        <td>Username : </td>
+                        <td>Tên người dùng : </td>
                         <td><input type="text" name="username" value="<?php echo $user->username ?>"></td>
                       </tr>
                       <tr>
-                        <td>Name : </td>
+                        <td>Họ và tên : </td>
                         <td><input type="text" name="name" value="<?php echo $user->name ?>"></td>
                       </tr>
                       <tr>
-                        <td>Email:</td>
+                        <td>Địa chỉ email:</td>
                         <td><input type="text" name="email" id="email1" value="<?php echo $user->email ?>"></td>
                       </tr>
                       <tr>
-                        <td>Password:</td>
-                        <td><input type="password" name="password" id="password"  value="<?php echo $user->password ?>">
+                        <td>Mật khẩu:</td>
+                        <td><input type="password" name="password" id="password"  value="******">
                         </td>
 
                       </tr>
                       <tr>
-                        <td>Confirm Password:</td>
-                       <td><input type="password" name="password2"   value="<?php echo $user->password ?>"></td>
+                        <td>Nhập lại mật khẩu:</td>
+                       <td><input type="password" name="password2"   value="******"></td>
                       </tr>
                       <tr>
-                        <td>Date of Birth</td>
+                        <td>Ngày sinh</td>
                        <td><input type="date" name="birthdate"  value="<?php echo $user->birthdate->format('Y-m-d') ?>"></td>
                       </tr>
                    
                          <tr>
                       <tr>
-                        <td>Phone</td>
+                        <td>Số điện thoại</td>
                        <td><input type="text" name="phone"   id="phone" value="<?php echo $user->phone ?>"></td>
 
                       </tr>
                        <tr>
-                        <td>Updated_at</td>
+                        <td>Cập nhật ngày</td>
                        <td><input type="date" name="updated_at"  value="<?php echo date('Y-m-d'); ?>"></td>
                       </tr>
       
@@ -71,8 +73,11 @@
                 </div>
               </div>
             </div>
-                 <div class="panel-footer" style="text-align: center;"> <button data-original-title="Logout" data-toggle="tooltip" type="button " class="btn btn-sm btn-warning"><?= $this->Html->link("Logout",['action' => 'logout']) ?></button>   
-                    <button data-original-title="addproduct" data-toggle="tooltip" type="submit" class="btn btn-sm btn-warning">Save</i></button>   
+                 <div class="panel-footer" style="text-align: center;">
+                  <?php if($readuser) {?>
+                  <button data-original-title="Logout" data-toggle="tooltip" type="button " class="btn btn-sm btn-warning"><?= $this->Html->link("Logout",['action' => 'logout']) ?></button> 
+                  <?php } ?>  
+                  <button data-original-title="addproduct" data-toggle="tooltip" type="submit" class="btn btn-sm btn-warning">Lưu Thông Tin</i></button>   
                   </div>
             
           </div>
