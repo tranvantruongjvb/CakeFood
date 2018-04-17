@@ -224,9 +224,10 @@ class ProductsController  extends AppController{
     {
         $this->readtypeproduct();
         $cus = TableRegistry::get('customer');
-        $getid = $cus->get($id)->id;
+        //$getid = $cus->get($id)->id;
         $getcus= $cus->find('all')
-        ->where(['customer.id_user = ' => $getid ])
+        ->where(['customer.id_user = ' => $id ])
+        ->order(['customer.id' => 'desc'])
         ->toArray();
         $this->set('billcustomer',$getcus);
     }
@@ -249,11 +250,6 @@ class ProductsController  extends AppController{
         }
     }
 
-     public function customer($id)
-    {
-        $this->listbill($id);
-    }
-
 
     public function listcustomer()
     {
@@ -261,7 +257,8 @@ class ProductsController  extends AppController{
         $customer = TableRegistry::get('customer');
         $bill = TableRegistry::get('bills');
         $bill_detail = TableRegistry::get('bill_detail');
-        $find = $customer->find('all');
+        $find = $customer->find('all')
+        ->order(['customer.id' =>'desc']);
         $this->paginate= array(
             'limit' => 8,
         );
@@ -356,9 +353,12 @@ class ProductsController  extends AppController{
         $cusumer = $cus->newEntity();
         if($readuser['permission']==1 || $readuser['permission']== 2 ){
             $cusumer->id_user = $readuser['id'];
+        }else {
+             $cusumer->id_user = 0;
         }
+
         $cusumer->name = $req['full_name'];
-        $cusumer->id_user = 0;
+       
         $cusumer->email = $req['email'];
         $cusumer->address = $req['address'];
         $cusumer->phone_number = $req['phone'];
