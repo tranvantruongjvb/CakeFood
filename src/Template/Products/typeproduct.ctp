@@ -10,7 +10,7 @@
 				<div class="space60">&nbsp;</div>
 					<div class="row">
 						<div class="col-sm-3" >
-							<ul class="aside-menu">
+							<ul class="aside-menu primary-nav">
 
 							<?php foreach ($typeproducts as $type) { ?>
 								<li>
@@ -20,7 +20,7 @@
 							
 							</ul>
 						</div>
-						<div class="col-xs-10 col-sm-9 col-md-9 col-lg-9">
+						<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 							<div class="beta-products-list">
 							<div class="row"></div>
 							<?php foreach($getproduct as $new): 
@@ -52,14 +52,17 @@
 													<a href="\cakecosy/products/getAddToCart/<?php print_r($new['id']) ?>">
 													<i class="fa fa-shopping-cart"></i>
 												</div>
-												<div class="beta-btn primary"><?php echo $this->Html->link('chi tiết',['action'=>'viewproduct',$new['id']])  ?></div>
+												<div class="beta-btn primary">
+													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
+												</div>
+												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new['id']])  ?></div>
 												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
-												<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$new['id']])  ?></div>
+												<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new['id']])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
-										                'Delete',
+										                'Xóa sản phẩm',
 										                ['action' => 'delete', $new['id']],
-										                ['confirm' => __('Are you sure you want to delete user with id # {0}?',$new['id'])])
+										                ['confirm' => __('Bạn chắc chắn muốn xóa sản phẩm có id # {0}?',$new['id'])])
 										            ?></div>
 										            <?php } ?>
 												<div class="clearfix"></div>
