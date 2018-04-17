@@ -15,12 +15,12 @@
 							<nav class="navbar navbar-default navbar-expand-lg navbar-light nav-item dropdown">
 									<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
 										<ul class="nav navbar-nav" style="width: 100%">
-											<li class="nav-item active" style="width: 15%">Name</li>
-											<li class="nav-item active" style="width: 15%">Email</a></li>
-											<li class="nav-item active" style="width: 15%">Số Điện Thoại</li>
-											<li class="nav-item active" style="width: 27%">Địa Chỉ Người Nhận</li>
-											<li class="nav-item active" style="width: 15%">ngày mua</li>
-											<li class="nav-item active" style="width: 13%">Chi Tiết</li>
+											<li class="nav-item active" style="width: 15%">Tên</li>
+											<li class="nav-item active" style="width: 15%">Địa chỉ email</a></li>
+											<li class="nav-item active" style="width: 15%">Số điện thoại</li>
+											<li class="nav-item active" style="width: 27%">Địa chỉ người Nhận</li>
+											<li class="nav-item active" style="width: 15%">Ngày mua</li>
+											<li class="nav-item active" style="width: 13%">Chi tiết</li>
 										</ul>
 									</div>
 									<div class="space20">&nbsp;</div>
@@ -32,7 +32,7 @@
 											<li class="nav-item active" style="width: 15%"><?php echo $cus['phone_number']?></a></li>
 											<li class="nav-item active" style="width: 27%"><?php echo $cus['address'] ?></a></li>
 											<li class="nav-item active" style="width: 15%"><?php echo $cus['created_at'] ?></a></li>
-											<li class="nav-item active" style=" width: 13%"><a href="\cakecosy/products/billdetail/<?php echo $cus['id'] ?>">Chi Tiết</a></li>
+											<li class="nav-item active" style=" width: 13%"><a href="\cakecosy/products/billdetail/<?php echo $cus['id'] ?>">Chi tiết</a></li>
 											
 										</ul>
 									</div>
