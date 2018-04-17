@@ -14,22 +14,12 @@ input
 
 <div class="container">
 			<div class="row">
-				<div class="col-md-8  toppad  pull-right col-md-offset-3 ">
-					 <br>
-						 <p class=" text-info">
-							<?php
-							$date = new DateTime('NOW', new DateTimeZone('Asia/Ho_Chi_Minh'));
-							echo $date->format('Y-m-d H:i:s') . "\n";
-							?>
-					</p> 
-				</div>
 			<div class="col-xs-10 col-sm-10 col-md-8 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-2 col-lg-offset-2 toppad" >
 
 				<div class="panel panel-info">
 					<form method="post" id="myForm">
-						<div class="panel-heading">
-
-							<h3 class="panel-title">ADD New User </h3>
+						<div class="panel-heading" style="text-align: center">
+							<h3 class="panel-title">Thêm Tài Khoản Mới </h3>
 						</div>
 							
 						<div class="panel-body">
@@ -45,23 +35,23 @@ input
 											<tbody>
 												
 												<tr>
-													<td>Username : </td>
-													<td><input type="text" name="username" placeholder="Enter Username"></td>
+													<td>Tên người dùng : </td>
+													<td><input type="text" name="username" placeholder="Nhập username"></td>
 												</tr>
 												
 												<tr>
-													<td>Name : </td>
-													<td><input type="text" name="name" placeholder="Enter Name"> </td>
+													<td>Họ và tên : </td>
+													<td><input type="text" name="name" placeholder="Nhập tên"> </td>
 												</tr>
 												
 												<tr>
-													<td>Permission : </td>
+													<td>Quyền truy cập : </td>
 													<td><select name="permission">
 																<?php if ($readuser['permission'] == 2) { ?>
-																	<option value="2">  Admin</option>
-																<option value="1">  User</option>
+																	<option value="2">  Quản Lý</option>
+																<option value="1">  Người Dùng</option>
 																<?php }else {?>
-																<option value="1">  User</option>
+																<option value="1">  Người Dùng</option>
 																<?php } ?>
 														</select>
 													</td>
@@ -69,32 +59,37 @@ input
 												</tr>
 												
 												<tr>
-													<td>Email:</td>
-													<td><input type="email" name="email" id="email1" placeholder="Enter Email"></td>
+													<td>Địa chỉ email:</td>
+													<td><input type="email" name="email" id="email1" placeholder="Nhập địa chỉ email"></td>
 												</tr>
 												
 												<tr>
-													<td>Password:</td>
-													<td><input type="text" name="password" id="password1" placeholder="Enter Password">
+													<td>Mật khẩu:</td>
+													<td><input type="password" name="password" id="password1" placeholder="Nhập mật khẩu">
 													</td>
 												</tr>
 												
 												<tr>
-													<td>Confirm Password:</td>
-													<td><input type="text" name="password2" placeholder="Enter Password again">
+													<td>Nhập lại mật khẩu :</td>
+													<td><input type="password" name="password2" placeholder="Nhập lại mật khẩu">
 														
 													</td>
 													
 												</tr>
-									
+												
 												<tr>
-													<td>Date of Birth</td>
+													<td>Địa chỉ:</td>
+													<td><input type="text" name="address"  placeholder="Thông tin địa chỉ"></td>
+												</tr>
+
+												<tr>
+													<td>Ngày sinh</td>
 													<td><input type="date"  name="birthdate"></td>
 												</tr>
 											
 												<tr>
-													<td>Phone</td>
-													<td><input type="text" name="phone" id="phone" placeholder="Enter Number Phone"></td>
+													<td>Số điện thoại</td>
+													<td><input type="text" name="phone" id="phone" placeholder="Nhập số điện thoại"></td>
 												</tr>
 				
 											</tbody>
@@ -103,7 +98,7 @@ input
 								</div>
 							</div>
 						<div class="panel-footer" align="center">
-								<button data-original-title="Save" data-toggle="tooltip" type="submit" class="btn btn-sm btn-warning">Save</i></button>
+								<button data-original-title="Save" data-toggle="tooltip" type="submit" class="btn btn-sm btn-warning">Thêm Tài Khoản</i></button>
 						</div>
 					</form>
 				</div>
