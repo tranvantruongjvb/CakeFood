@@ -1,22 +1,14 @@
 <div class="message error " style="text-align: center;color: red;" onclick="this.classList.add('hidden');"></div>
 <div class="container">
     <div class="row">
-        <div class="col-md-8  toppad  pull-right col-md-offset-3 ">
-        <br>
-			<p class=" text-info">
-						<?php
-						$date = new DateTime('NOW', new DateTimeZone('Asia/Ho_Chi_Minh'));
-						echo $date->format('Y-m-d H:i:s') . "\n";
-						?>
-			</p>
-        </div>
-		<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1 toppad" >
+        
+		<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1 toppad" style="text-align: center" >
 		   
 		    <form method="post" enctype="multipart/form-data" id="myForm">
 		        <div class="panel panel-info">
 			          
 			            <div class="panel-heading">
-			              <h3 class="panel-title">Add New Product</h3>
+			              <h3 class="panel-title">Thêm Sản Phẩm Mới</h3>
 			            </div>
 			            <div class="panel-body">
 			              <div class="row">
@@ -28,11 +20,11 @@
 			                    <tbody>
 			                     
 			                      <tr>
-			                        <td>name product : </td>
-			                        <td><input type="text" name="name" id="name" placeholder="Enter Name Product"></td>
+			                        <td>Tên sản phẩm : </td>
+			                        <td><input type="text" name="name" id="name" placeholder="Nhập tên sản phẩm"></td>
 			                      </tr>
 			                      <tr>
-			                        <td>id_type : </td>
+			                        <td>Loại sản phẩm : </td>
 			                        
 			                        <td>
 			                        	<select name="id_type"><?php foreach ($typeproducts as $key) { ?>
@@ -44,11 +36,11 @@
 			                    </td>
 			                      </tr>
 			                      <tr>
-			                        <td>Description (): </td>
-			                        <td><input type="text" name="description"  placeholder="Say something"></td>
+			                        <td>Miêu tả sản phẩm (): </td>
+			                        <td><input type="text" name="description"  placeholder="Nói điều gì đó về sản phẩm"></td>
 			                      </tr>
 			                      <tr>
-			                        <td>Product New or not:</td>
+			                        <td>Có phải là 1 sản phẩm mới:</td>
 			                        <td> <select name="new">
 			                        		<option value="1"> Có </option>
 			                        		<option value="0"> Không </option>
@@ -56,11 +48,11 @@
 			                        </td>
 			                      </tr>
 			                      <tr>
-			                        <td>Unit Price:</td>
+			                        <td>Giá bán của sản phẩm:</td>
 			                        <td><input type="text" name="unit_price"  placeholder="Enter Price"></td>
 			                      </tr>
 			                      <tr>
-			                        <td>Unit :</td>
+			                        <td>Đơn vị :</td>
 			                        <td><select name="unit">
 			                        	<option value="cái">Cái</option>
 			                    		<option value="hộp">Hộp</option>
@@ -68,15 +60,15 @@
 			                        </td>
 			                      </tr>
 			                      <tr>
-			                        <td>Promotion_price:</td>
-			                        <td><input type="text" name="promotion_price"  placeholder="Enter Promotion_price (not important)"></td>
+			                        <td>Giảm giá sản phẩm:</td>
+			                        <td><input type="text" name="promotion_price"  placeholder="Nhập giá sản phẩm được giảm giá (không quan trọng)"></td>
 			                      </tr>
 			                      <tr>
-			                        <td>image</td>
-			                        <td><input type="file" name="image" placeholder="You must choose image"></td>
+			                        <td>Hình ảnh</td>
+			                        <td><input type="file" name="image" placeholder="Chọn hình ảnh cho sản phẩm"></td>
 			                      </tr>
 			                   	  <tr>
-			                        <td>Created_at</td>
+			                        <td>Ngày tạo sản phẩm</td>
 			                        <td><input type="date" name="created_at" value="<?php echo date('Y-m-d'); ?>" /></td>
 			                      </tr>
 			                    </tbody>
@@ -86,9 +78,9 @@
 			              </div>
 			            </div>
 			                 <div class="panel-footer" style="text-align: center;">
-			                    <button data-original-title="Logout" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><?= $this->Html->link("Login",['action' => 'logout']) ?></button>
+			                    <button data-original-title="Logout" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><?= $this->Html->link("Đăng Xuất",['action' => 'logout']) ?></button>
 			                      
-			                            	<button data-original-title="addproduct" data-toggle="tooltip" type="submit" class="btn btn-sm btn-warning">Save</i></button>
+			                            	<button data-original-title="addproduct" data-toggle="tooltip" type="submit" class="btn btn-sm btn-warning">Lưu Sản Phẩm</i></button>
 			                </div>       
 			    </div>
 			</form>
