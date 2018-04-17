@@ -20,7 +20,7 @@
 							<div class="clearfix"></div>
 							<div class="space50">&nbsp;</div>
 							<div class="beta-products-details">
-								<h4 style="color: #f90; font-size: 22px"><i class="fa fa-birthday-cake"></i>  Sản Phẩm Mới</h4>
+								<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i></i>  Sản Phẩm Mới</h4>
 								<div class="clearfix"></div>
 							</div> 
 							<div>
@@ -47,6 +47,9 @@
 											<div class="add-to-cart pull-left">
 													<a href="\cakecosy/products/getAddToCart/<?php echo $new->id ?>">
 													<i class="fa fa-shopping-cart"></i>
+												</div>
+											<div class="beta-btn primary">
+													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
 												</div>
 											<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
 											<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
@@ -114,6 +117,9 @@
 													<a href="\cakecosy/products/getAddToCart/<?php echo $new->id ?>">
 													<i class="fa fa-shopping-cart"></i>
 												</div>
+												<div class="beta-btn primary">
+													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
+												</div>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
 												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
@@ -164,9 +170,12 @@
 													<a href="\cakecosy/products/getAddToCart/<?php echo $new->id ?>">
 													<i class="fa fa-shopping-cart"></i>
 												</div>
-												<div class="beta-btn primary"><?php echo $this->Html->link('chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
+												<div class="beta-btn primary">
+													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
+												</div>
+												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
 												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
-												<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
+												<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
 										                'Xóa sản phẩm',
@@ -213,6 +222,9 @@
 												<div class="add-to-cart pull-left">
 													<a href="\cakecosy/products/getAddToCart/<?php echo $new->id ?>">
 													<i class="fa fa-shopping-cart"></i>
+												</div>
+												<div class="beta-btn primary">
+													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
 												</div>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
 												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
@@ -265,6 +277,9 @@
 													<a href="\cakecosy/products/getAddToCart/<?php echo $new->id ?>">
 													<i class="fa fa-shopping-cart"></i>
 												</div>
+												<div class="beta-btn primary">
+													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
+												</div>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
 												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
@@ -314,6 +329,9 @@
 												<div class="add-to-cart pull-left">
 													<a href="\cakecosy/products/getAddToCart/<?php echo $new->id ?>">
 													<i class="fa fa-shopping-cart"></i>
+												</div>
+												<div class="beta-btn primary">
+													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
 												</div>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
 												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
