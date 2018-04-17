@@ -4875,7 +4875,7 @@ position: relative;}
     -o-transition: all 0.17s ease-in-out;
 }
 .main-menu li{position: relative;}
-.main-menu ul.l-inline> li> a:hover{background: #e2aa83;;color:white;
+.main-menu ul.l-inline> li> a:hover{background: #f3a61b;color:white;
 transition: all 0.17s ease-in-out;
     -moz-transition: all 0.17s ease-in-out;
     -webkit-transition: all 0.17s ease-in-out;
