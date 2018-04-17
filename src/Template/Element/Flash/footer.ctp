@@ -36,7 +36,7 @@
 				<div class="col-sm-4">
 				 <div class="col-sm-10">
 					<div class="widget">
-						<h4 class="widget-title">Thông tin </h4>
+						<h4 class="widget-title">Giấy phép </h4>
 						<div>
 							<div class="contact-info">
 								<i class="fa fa-map-marker"></i>
@@ -53,7 +53,7 @@
 						<h4 class="widget-title">Nhận tin Cake </h4=>
 						<form action="\cakecosy/getnews" method="post">
 							<input type="email" name="your_email" id="input" placeholder="cakecosy@gmail.com">
-							<button class="pull-right"  type="submit" id="email">Nhận Tin <i class="fa fa-chevron-right"></i></button>
+							<button class="pull-right"  type="submit" id="getemail">Nhận Tin <i class="fa fa-chevron-right"></i></button>
 						</form>
 					</div>
 				</div>
@@ -63,7 +63,7 @@
 
 
 	<script type="text/javascript">
-		  $(document).on('click', '#email', function () {
+		  $(document).on('click', '#getemail', function () {
                 var email= $(this).parents().find('#input').val();
                 if(email == ''){
                 	alert('Email của bạn đang trống, hãy điền email của bạn');
