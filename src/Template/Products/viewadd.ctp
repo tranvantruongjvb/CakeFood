@@ -1,3 +1,4 @@
+
 <style type="text/css">
 	img{
 		border-radius: 5px;
@@ -10,27 +11,29 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="beta-products-list">
-							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>Xem Thêm Sản Phẩm
-								<span class="pull-right" style="font-size: 15px; color: black">
-									
-										<select id='select'>
-										<option value="0"> Bạn có thể xem theo</option>
-										<option value="1">Giá từ thấp lên cao</option>
-										<option value="2">Giá từ cao xuống thấp</option>
-										</select>
-
-								</span>
-							</h4>
-							<div class="beta-products-details">
-								<p class="pull-left"> Tìm Thấy <?php echo count($products) ?> 
-									<?php echo $name ?>
+							<form  action="\cakecosy/viewadd/<?php echo $products1['0']['unit_price'] ?>" method="post">
+								<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>Xem Thêm Sản Phẩm
+										<span class="pull-right" style="font-size: 15px; color: black">
+											<button type="submit" style="background-color: #ef9f68; color: "> Lọc theo</button>
+										</span>
+										<span class="pull-right" style="font-size: 15px; color: black">
+												<select name="sort">
+													<option value="thap" class="select"> Giá thấp đến cao</option>
+													<option value="cao" class="select"> Giá cao xuống thấp</option>
+												</select>
+										</span>
 										
+										
+								</h4>
+							</form>
+							<div class="beta-products-details">
+								<p class="pull-left"> Tìm Thấy <?php echo count($products1) ?> 
+									<?php echo $name ?>
 								</p>
 							<div class="clearfix"></div>
 							</div>
-
 							<div class="row">
-							<?php foreach($products as $new): ?>
+							<?php foreach($products1 as $new): ?>
 								<div class="col-sm-5 col-md-4 col-lg-3 ">
 									<div class="single-item">
 										<div class="single-item-header">
@@ -55,20 +58,15 @@
 											<div class="clearfix"></div>
 										</div>
 									</div>
+									<div class="clearfix"></div>
+												<div class="space50">&nbsp;</div>
 								</div>
-
 							<?php endforeach;?>
 							<div class="space50">&nbsp;</div>
 							</div>
-							
 						</div> <!-- .beta-products-list -->
-
-						<div class="space50">&nbsp;</div>
-					</div>
+						</div>
 				</div> <!-- end section with sidebar and main content -->
 			</div> <!-- .main-content -->
 		</div> 
 		</div><!-- #content -->
-<script type="text/javascript">
-	 
-</script>
