@@ -31,11 +31,8 @@ class ProductsController  extends AppController{
     {
           $news = TableRegistry::get('get_email');
         if($this->request->is('post')) {
-
             $data = $this->request->data();           
             print_r($data['email']);die;
-
-           
                  $email = $data['your_email'];
                  $array  = array('email'=>$email);
                  $get = $news->newEntity();
@@ -57,78 +54,92 @@ class ProductsController  extends AppController{
         $this->paginate= array(
             'limit' => 4);
         $promotion_price = $this->paginate($promotion)->toArray();
-
 		$new = $this->Products->find("all")
         ->where(['products.new >=' => 1 ])
         ->order(['products.id' => 'desc'])
         ->limit(4);
         $productnew = $this->paginate($new)->toArray();
-
         $price100 = $this->Products->find("all")
         ->where(['products.unit_price <=' => 100000 ])
         ->limit(4);
-       
-
         $price200 = $this->Products->find("all")
         ->where(['products.unit_price <=' => 200000 , 'products.unit_price >=' => 100000])
         ->limit(4);
-        
         $price300 = $this->Products->find("all")
         ->where(['products.unit_price <=' => 300000 , 'products.unit_price >=' => 200000])
         ->limit(4)
         ->order(['products.id' => 'desc']);
-        
-
         $price400 = $this->Products->find("all")
         ->where(['products.unit_price >=' => 300000])
         ->limit(4);
-        
-    
-
         $this->set(compact('productnew','promotion_price','price100','price200','price300','price400'));
 
         $this->readtypeproduct();
 	}
 
     public function viewadd($id)
-    {
+    {   
+        if($this->request->data()){
+            $s = $this->request->data();
+            $sort = $s['sort'];
+        }else{
+            $sort ='thấp';
+        }
         $this->readtypeproduct();
         if($id ==1 ){
             $products = $this->Products->find('all')
-        ->where(['products.promotion_price >' =>0])
-        ->toArray();
-        $name =" Sản Phẩm Khuyế Mãi";
-        }else if($id ==2 ){
+        ->where(['products.promotion_price >' =>0]);
+        //->order(['products.promotion_price >' =>'desc']);
+        if($sort == 'thấp'){
+            $products->order(['products.promotion_price' => 'asc']);
+        }else {
+            $products->order(['products.promotion_price' => 'desc']);
+        }
+        $name =" Sản Phẩm Khuyến Mãi";
+        }else if($id <100000 ){
              $products = $this->Products->find('all')
-            ->where(['products.unit_price <=' =>100000])
-            ->toArray();
+            ->where(['products.unit_price <' =>100000]);
+             if($sort  == 'thấp'){
+                $products->order(['products.promotion_price' => 'asc']);
+                }else {
+                    $products->order(['products.promotion_price' => 'desc']);   
+                }
             $name =" Sản Phẩm Có Giá Nhỏ hơn 100,000đ ";
-        }else if($id ==3 ){
+        }else if($id >= 100000 && $id <200000 ){
              $products = $this->Products->find('all')
-            ->where(['products.unit_price <=' =>200000, 'products.unit_price >=' =>100000])
-            ->toArray();
+            ->where(['products.unit_price <=' =>200000, 'products.unit_price >=' =>100000]);
+             if($sort  == 'thấp'){
+                $products->order(['products.promotion_price' => 'asc']);
+            }else {
+                $products->order(['products.promotion_price' => 'desc']);
+            }
             $name =" Sản Phẩm Có Giá Từ 100,000đ Đến 200,000đ ";
-        }else if($id ==4 ){
+        }else if($id >= 200000 && $id <300000){
              $products = $this->Products->find('all')
-            ->where(['products.unit_price <=' =>300000, 'products.unit_price >=' =>200000])
-            ->toArray();
+            ->where(['products.unit_price <=' =>300000, 'products.unit_price >' =>200000]);
+             if($sort  == 'thấp'){
+                $products->order(['products.promotion_price' => 'asc']);
+            }else {
+                $products->order(['products.promotion_price' => 'desc']);
+            }
             $name =" Sản Phẩm Có Giá Từ 200,000đ Đến 300,000đ ";
-        }else if($id ==5 ){
+        }else if($id >= 300000 ){
              $products = $this->Products->find('all')
-            ->where(['products.unit_price >' =>300000])
-            ->toArray();
+            ->where(['products.unit_price >' =>300000]);
+            if($sort  == 'thấp'){
+                $products->order(['products.promotion_price' => 'asc']);
+            }else {
+                $products->order(['products.promotion_price' => 'desc']);
+            }
             $name =" Sản Phẩm Có Giá Lớn Hơn 300,000đ ";
         }
-        $this->set(compact('products','name'));
-
+        $products1 = $products->toArray();
+        $this->set(compact('products1','name'));
     }
-
     public function getAddToCart($id){
 
         $product = $this->Products->get($id);
         $session = $this->request->session();
-      
-      
        if ($session->check('cart.'.$id)) {
             $items = $session->read('cart.'.$id);
             $items['quantity'] +=1;
@@ -139,7 +150,6 @@ class ProductsController  extends AppController{
             'image' => $product->image,
             'price' => $product->unit_price,
             'quantity'=> 1,
-
             );
         }
          $session->delete('payment.total2');
@@ -159,7 +169,6 @@ class ProductsController  extends AppController{
         $product = $this->Products->get($id);
         $session = $this->request->session();
         $session->delete('cart.'.$product->id);
-
         $s= $session->read('cart');
          $total=0;
          foreach ($s as $value) {
@@ -175,7 +184,6 @@ class ProductsController  extends AppController{
         $s= $this->request->data;
         $id = $s['id'];
         $b = $s['sl'];
-
         $session = $this->request->session();
        if ($session->check('cart.'.$id)) {
             $items = $session->read('cart.'.$id);
@@ -189,20 +197,16 @@ class ProductsController  extends AppController{
              $total += $value['price'] * $value['quantity'];
          }
           $session->write('payment.total',$total);die;
-
      }
 
      public function destroy()
      {    $session = $this->request->session();
           $session->destroy('cart');
            $this->redirect($this->referer());
-
      }
 
      public function order(){
-
         $this->readtypeproduct();
-
         $session = $this->request->session();
         if($session->check('cart')){
             $oldCart = $session->read('cart');
@@ -212,7 +216,6 @@ class ProductsController  extends AppController{
             }
             $session->write('order', $totalPrice);
              $s=$session->read('order');
-
         }
        
     }
@@ -222,7 +225,6 @@ class ProductsController  extends AppController{
         $this->readtypeproduct();
         $cus = TableRegistry::get('customer');
         $getid = $cus->get($id)->id;
-
         $getcus= $cus->find('all')
         ->where(['customer.id_user = ' => $getid ])
         ->toArray();
@@ -234,31 +236,22 @@ class ProductsController  extends AppController{
        $customer = TableRegistry::get('customer');
         $bill = TableRegistry::get('bills');
         $bill_detail = TableRegistry::get('bill_detail');
-        
-        
         $cus = $customer->get($id);
         $b = $bill->find()
         ->where(['bills.id_customer =' => $id])->toArray();
         $getidb = $bill->get($b['0']['id']);
-        
-
         $bd = $bill_detail->find()
         ->where(['bill_detail.id_bill =' => $getidb['id']])->toArray();
         $g = $bill_detail->get($bd['0']['id']);
-
         if ($bill->delete($getidb) && $customer->delete($cus) && $bill_detail->delete($g) ) {
             $this->Flash->success(__('Khách hàng đã được xóa.'));
             return $this->redirect($this->referer());
         }
-        
     }
-
-    
 
      public function customer($id)
     {
         $this->listbill($id);
-
     }
 
 
@@ -285,15 +278,12 @@ class ProductsController  extends AppController{
         $customer = TableRegistry::get('customer');
         $bill = TableRegistry::get('bills');
         $bill_detail = TableRegistry::get('bill_detail');
-
         $getid = $customer->get($id)->id;
         $customers = $customer->find('all');
         $bills = $bill->find('all')
         ->where(['bills.id_customer =' => $getid])
         ->toArray();
-
         $bill_details = $bill_detail->find('all');
-
         $listbills = $bill->find()
         ->select(['c.name','c.email','c.address','c.phone_number','c.note','bills.total',
             'b.quantity','b.unit_price','b.created_at','p.name','p.image'
@@ -320,15 +310,12 @@ class ProductsController  extends AppController{
                    'p.id = b.id_product',
                 )],
         ])->toArray();
-       
-       
        $this->set(compact('listbills','customers','bills','bill_details','typeproducts'));
     }
 
     public function getSearch(){
          $this->readtypeproduct();
         $key= $this->request->query;
-
         $findname = $this->Products->find("all")
        ->where(['name LIKE' => '%'.$key['key'].'%']);
         $this->paginate= array(
@@ -347,13 +334,10 @@ class ProductsController  extends AppController{
                 );
                $products = $this->paginate($findid);
         }
-        
         $this->set(compact('products'));
-
      }
 
      public function postCheckout(){
-        
         $session = $this->request->session();
         // khai báo database để lấy dữ liệu table
         $cus = TableRegistry::get('customer');
@@ -373,8 +357,6 @@ class ProductsController  extends AppController{
         if($readuser['permission']==1 || $readuser['permission']== 2 ){
             $cusumer->id_user = $readuser['id'];
         }
-
-        
         $cusumer->name = $req['full_name'];
         $cusumer->id_user = 0;
         $cusumer->email = $req['email'];
@@ -461,18 +443,11 @@ class ProductsController  extends AppController{
         ->where(['products.id_type =' => $gettype ]);
         $this->set(compact("typeproducts", "getproduct"));
     }
-
-
-
-
     public function viewproduct($id)
     {
         $this->readtypeproduct();
         $product = $this->Products->get($id);
         $this->set('products', $product); 
-       
-        
-
         $type = $this->Products->find("all")
         ->where(['products.id_type >=' => $product->id_type ]
             );
@@ -480,23 +455,19 @@ class ProductsController  extends AppController{
             'limit' => 10,
             'order' => [
             'products.id' =>' asc',
-
             ]
         );
         $producttype = $this->paginate($type);
         $this->set('producttype',$producttype);
-
         $new = $this->Products->find("all")
         ->limit('6')
         ->where(['products.new >=' => 1 ]);
-
         $this->set('productnew',$new);
     }
 
 	public function addproduct()
     {   
         $this->readtypeproduct();
-
         $product = $this->Products->newEntity();
         $this->Products->patchEntity($product,$this->request->data);
         if($this->request->is('post')) {
@@ -508,13 +479,11 @@ class ProductsController  extends AppController{
             if ($this->Products->save($product)) 
             {       
                 $this->Flash->success(__('Sản Phẩm đã được thêm.'));
-                
                 return $this->redirect(URL_INDEX);
             } else {
                 $this->Flash->error(__('Sản phẩm chưa được lưu. Thử lại.'));
             }   
         }
-        
         $this->set('product',$product);
     }
     
@@ -538,17 +507,12 @@ class ProductsController  extends AppController{
         ->toArray();
         // $getname = $get['0']['name'];
         $getname = $get['0']['c']['name'];
-
-       
         $image = $product->image;
         if ($this->request->is(['post', 'put'])) {
             //$name = $this->request->data['name'];
             $data = $this->request->data();
-            
             $this->Products->patchEntity($product, $this->request->data);
-            
                 $name=$data['image'];
-                
                 if ($name['error'] == 0) {
                         $dir = WWW_ROOT .'img\uploads\ '. $name['name'] ;
                         $a = move_uploaded_file($data['image']['tmp_name'], $dir);
@@ -557,10 +521,8 @@ class ProductsController  extends AppController{
                         $product['image'] = $image;
                         pr( $product['image']);
                }
-            
             if ($this->Products->save($product)) {
-                $this->Flash->success(__('Thông tin của sản phẩm đã được cập nhật.'));
-                
+                $this->Flash->success(__('Thông tin của sản phẩm đã được cập nhật.')); 
                 return $this-> redirect(array('action' => 'editproduct', $product->id));
             }
             $this->Flash->error(__('Không thể cập nhập thông tin cho sản phẩm. Thử lại .'));
@@ -572,9 +534,7 @@ class ProductsController  extends AppController{
     {
 
         $this->request->allowMethod(['post', 'delete']);
-        
         $product = $this->Products->get($id);
-
         if ($this->Products->delete($id)) {
             $this->Flash->success(__('Sản phẩm có id: {0} đã được xóa.', h($id)));
             return $this->redirect(URL_INDEX);
