@@ -72,6 +72,8 @@ $routes->resources('Topics');
     $routes->connect('/listcustomer/',['controller'=>'products','action'=>'listcustomer']);
     $routes->connect('/viewadd/*',['controller'=>'products','action'=>'viewadd']);
     $routes->connect('/sort/*',['controller'=>'products','action'=>'sort']);
+    $routes->connect('/billdetail/*',['controller'=>'products','action'=>'billdetail']);
+    
 
 
     // User
