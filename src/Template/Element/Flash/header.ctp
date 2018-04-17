@@ -21,7 +21,7 @@
 					<?php $check = $this->request->session()->check('cart') ?>
 				</div>
 				<?php $readuser = $this->request->session()->read('Auth.User') ?>
-				<nav class="navbar navbar-default navbar-expand-lg navbar-light navbar-right" style="width: 100%">
+				<nav class="navbar navbar-default navbar-expand-lg navbar-light navbar-right" style="width: 100%;     border-radius: 10px;">
 					  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
 					  	<?php if ($readuser['permission'] >= 2) { ?>	
 							<ul class="nav navbar-nav navbar-right ml-auto">
@@ -69,7 +69,6 @@
 					                            <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa fa-sign-in"></i>  Đăng Nhập</button>
 					                        </form>                    
 										</li>
-										<!--<button><a href="\cakecosy/resetpass">Quên mật khẩu</a></button>  -->
 									</ul>
 								</li>
 								<li><a  class="nav-link " href="\cakecosy/adduser"><i class="fa fa-user-plus"></i>Đăng Ký</a></li>
@@ -136,17 +135,17 @@
 				<div class="clearfix"></div>
 		 </div>
 		</div> <!-- .header-body -->
-		<div class="header-bottom" style="background-color:#e60f1e; ">
+		<div class="header-bottom" style="background-color:#ef7e30 ">
 			<div class="container ">
 				<a class="visible-xs beta-menu-toggle pull-right" href="#"><span class='beta-menu-toggle-text'>Menu</span> <i class="fa fa-bars"></i></a>
 				<div class="visible-xs clearfix"></div>
 				<nav class="main-menu " >
-					<ul class="l-inline ov" style="text-align: center;">
+					<ul class="l-inline ov" id="nav" style="text-align: center;">
 						<li>
 							<a href="\cakecosy/index" ><i style="font-size: 20px; color: white; ">Trang Chủ</i></a>
 						</li>
-						<li><a href="\cakecosy/typeproduct/1" ><i style="font-size: 20px; color: white;">Loại Sản Phẩm</i></a>
-							<ul class="sub-menu">
+						<li><a href="\cakecosy/typeproduct/1" ><i style="font-size: 20px; color: white;">Danh Mục Sản Phẩm</i></a>
+							<ul class="sub-menu" style="z-index: 999">
 								<?php foreach ($typeproducts as $type ) { ?>
 								<li><?= $this->Html->link($type->name, ['controller'=>'products','action' => 'typeproduct', $type->id]) ?></li>
 								<?php } ?>
@@ -217,4 +216,7 @@
                     result= $(this).parents('div').find('.result1').append(sum);
             }); 
              
+      $(document).on('click', '.parent-active', function () {
+                alert(ádfádfá);
+            }); 
 </script>
