@@ -15,30 +15,45 @@
 							<nav class="navbar navbar-default navbar-expand-lg navbar-light nav-item dropdown">
 									<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
 										<ul class="nav navbar-nav" style="width: 100%">
-											<li class="nav-item active" style="width: 20%">Name</li>
-											<li class="nav-item active" style="width: 20%">Email</a></li>
-											<li class="nav-item active" style="width: 15%">Số Điện Thoại</li>
-											<li class="nav-item active" style="width: 30%">Địa Chỉ</li>
-											<li class="nav-item active" style="width: 15%">    Chi Tiết</li>
+											<li class="nav-item active" style="width: 15%">Tên</li>
+											<li class="nav-item active" style="width: 18%">Email</a></li>
+											<li class="nav-item active" style="width: 12%">Số điện thoại</li>
+											<li class="nav-item active" style="width: 30%">Địa chỉ</li>
+											<li class="nav-item active" style="width: 15%">Chi tiết</li>
+											<li class="nav-item active" style="width: 10%; text-align: center;">Xa</li>
 										</ul>
 									</div>
 									<div class="space20">&nbsp;</div>
 							<?php foreach($customers as $cus): ?>
 									<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
 										<ul class="nav navbar-nav" style="width: 100%">
-											<li class="nav-item active" style="width: 20%"><?php echo $cus->name ?></a></li>
-											<li class="nav-item active" style="width: 20%"><?php echo $cus->email ?></a></li>
-											<li class="nav-item active" style="width: 15%"><?php echo $cus->phone_number;?></a></li>
+											<li class="nav-item active" style="width: 15%"><?php echo $cus->name ?></a></li>
+											<li class="nav-item active" style="width: 18%"><?php echo $cus->email ?></a></li>
+											<li class="nav-item active" style="width: 12%"><?php echo $cus->phone_number;?></a></li>
 											<li class="nav-item active" style="width: 30%"><?php echo $cus->address ?></a></li>
-											<li class="nav-item active" style=" width: 15%"><a href="\cakecosy/products/billdetail/<?php echo $cus->id ?>">Chi Tiết</a></li>
+											<li class="nav-item active" style=" width: 15%"><a href="\cakecosy/billdetail/<?php echo $cus->id ?>">Chi tiết</a></li>
+											<li class="nav-item active" style=" width: 10%;  text-align: center;"><?= $this->Form->postLink(
+								                'Xóa',
+								                ['action' => 'deletecustomer', $cus->id],
+								                ['confirm' => __('Bạn có chắc chắn muốn xóa   # {0}?',$cus->name)])
+								            ?></li>
+											
 											
 										</ul>
 									</div>
 							<div class="space50">&nbsp;</div>
 
 							<?php endforeach;?>
-							
 							</nav>	
+							</div>
+							<div>
+
+								<ul class="pagination">
+								  <li><?= $this->Paginator->prev('« Trang trước ', array('class' => 'disabled'));?></li>
+								  <li> <?=  $this->Paginator->numbers(array('class'=> 'pagination_link')); //Shows the page numbers?></li>
+								  <li><?=  $this->Paginator->next(' Trang sau »', array('class' => 'disabled')); //Shows the next and previous links?></li>
+								
+								</ul>
 							</div>
 						</div> <!-- .beta-products-list -->
 
