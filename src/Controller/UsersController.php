@@ -164,18 +164,19 @@ class UsersController extends AppController{
 		if ($this->request->is(['post', 'put'])) {
 			$this->Users->patchEntity($user, $this->request->data);
 			$pass = $this->request->data['password'];
-			if($pass =='******'){
+			
+			if($pass == $passold || $pass =='*****'){
 				$user['password'] = $passold;
 				
 			}else {
 				$user['password'] = $pass;
 			}
 			$name = $this->request->data['name'];
-				if ($this->Users->save($user)) {
-					$this->Email->sendUserEmail($this->request->data['email'],'Update profile',$name,'update');
-					$this->Flash->success(__('Thông Tin Của Bạn Được Cập Nhật.'));
-					return $this->redirect($this->referer());
-				}$this->Flash->error(__('Không Thể Cập Nhật Thông Tin Của Bạn.'));
+			if ($this->Users->save($user)) {
+				$this->Email->sendUserEmail($this->request->data['email'],'Update profile',$name,'update');
+				$this->Flash->success(__('Thông Tin Của Bạn Được Cập Nhật.'));
+				return $this->redirect($this->referer());
+			}$this->Flash->error(__('Không Thể Cập Nhật Thông Tin Của Bạn.'));
 		}
 	
 		$this->set('user', $user);		
