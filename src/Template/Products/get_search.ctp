@@ -39,7 +39,7 @@
 											<div class="beta-btn primary">
 													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
 												</div>
-											<a class="beta-btn primary" href="viewproduct/<?php print_r($new['id'])?>">Chi tiết <i class="fa fa-chevron-right"></i></a>
+											<a class="beta-btn primary" href="\cakecosy/viewproduct/<?php print_r($new['id'])?>">Chi tiết <i class="fa fa-chevron-right"></i></a>
 											<div class="clearfix"></div>
 										</div>
 									<div class="clearfix"></div>
