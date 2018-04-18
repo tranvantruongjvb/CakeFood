@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row">
         
-		<div class="col-xs-8 col-sm-8 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1 toppad" style="text-align: center" >
+		<div class="col-xs-12 col-sm-8 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1 toppad" style="text-align: center" >
 		   
 		    <form method="post" enctype="multipart/form-data" id="myForm">
 		        <div class="panel panel-info">
@@ -21,7 +21,7 @@
 			                     
 			                      <tr>
 			                        <td>Tên sản phẩm : </td>
-			                        <td><input type="text" name="name" id="name" placeholder="Nhập tên sản phẩm"></td>
+			                        <td><input class="col-xs-5" type="text" name="name" id="name" placeholder="Nhập tên sản phẩm"></td>
 			                      </tr>
 			                      <tr>
 			                        <td>Loại sản phẩm : </td>
@@ -105,11 +105,11 @@
                  
             },
             messages: {
-                name: "Please enter name valid",
-                id_type: "Please Choose Type Product ",
-                description :"say something about it",
-                new : "is it new?",
-                unit_price :"Please enter unit Price valid ",
+                name: "Nhập tên của sản phẩm",
+                id_type: "Chọn sản phẩm thuộc lại nào ",
+                description :"Nói đôi chút về sản phẩm",
+                new : "Đây là 1 sản phẩm mới ?",
+                unit_price :"Nhập giá của sản phẩm",
                
                
                
