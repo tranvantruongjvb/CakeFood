@@ -14,7 +14,9 @@
 	<div class="inner-header">
 		
 		<div class="container">
-			<div><?php $read =  $this->request->session()->read('cart.'.$products->id); ?> </div>
+			<div><?php $read =  $this->request->session()->read('cart.'.$products->id); ?> 
+
+			</div>
 			
 			<div class="pull-left">
 				<h6 class="inner-title"><h2><?php echo $products->name ?></h2></h6>
@@ -53,21 +55,17 @@
 							
 
 							<div class="clearfix"></div>
-							<div class="space20">&nbsp;</div>
-
+							<div class="space10">&nbsp;</div>
 							<div class="single-item-desc">
+								<p style="color: #f90; font-size: 15px;">Miêu tả sản phẩm</p>
 								<p><?php echo $products->description; ?></p>
 							</div>
+
 							<div class="space20">&nbsp;</div>
-							<p type="text" class="hidden" id="getid"><?php echo  $products->id ?></p>
-						
-								<p>Số lượng: <input type="number" name="quantity" class="getquan" min="1" max="100" value="<?php echo $read['quantity'] ?>"></p>
-						
-							
 							<div class="single-item-options">
 								
 								<a class="add-to-cart" href="\cakecosy/products/getAddToCart/<?php echo $products->id ?>"><i class="fa fa-shopping-cart"></i></a>
-								<a class="beta-btn primary" href=""> Xem giỏ hàng <i class="fa fa-chevron-right"></i></a>
+								<a class="beta-btn primary" href="\cakecosy/order"> Xem giỏ hàng <i class="fa fa-chevron-right"></i></a>
 								<div class="clearfix"></div>
 							</div>
 						</div>
@@ -76,11 +74,11 @@
 					<div class="space40">&nbsp;</div>
 					<div class="woocommerce-tabs">
 						<ul class="tabs">
-							<li><a href="#tab-description">Mô tả</a></li>
+							<li><a href="#tab-description">Nguyên liệu</a></li>
 						</ul>
 
 						<div class="panel" id="tab-description">
-							<p><?php echo $products->description; ?></p>
+							<p><?php echo $products->source; ?></p>
 						</div>
 					</div>
 					<div class="space50">&nbsp;</div>
@@ -119,17 +117,21 @@
 											</div>
 											<div class="single-item-caption">
 												<div class="add-to-cart pull-left">
+													<?php  ?>
 													<a href="\cakecosy/products/getAddToCart/<?php echo $products->id ?>">
 													<i class="fa fa-shopping-cart"></i>
 												</div>
+												<div class="beta-btn primary">
+													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
+												</div>
 												<div class="beta-btn primary"><?php echo $this->Html->link('chi tiết',['action'=>'viewproduct',$sptt->id])  ?></div>
-												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
+												<?php  if ($this->request->session()->read('Auth.User')['permission'] >= 2) {?>
 												<div class="beta-btn primary"><?php echo $this->Html->link('chỉnh sửa',['action'=>'editproduct',$sptt->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
-										                'Delete',
+										                'Xóa sản phẩm',
 										                ['action' => 'delete', $sptt->id],
-										                ['confirm' => __('Are you sure you want to delete user with id # {0}?',$sptt->id)])
+										                ['confirm' => __('Bạn có chắc chắn muốn xóa sản phẩm có id # {0}?',$sptt->id)])
 										            ?></div>
 										            <?php } ?>
 												<div class="clearfix"></div>
@@ -167,25 +169,3 @@
 			</div>
 		</div> <!-- #content -->
 	</div> <!-- .container -->
-
-
-
-	<script type="text/javascript">
-            $(document).on('click', '.getquan', function () {
-                   var a = $(this).val();
-                   var id = $(this).parent().parent().find('#getid').text();	   
-					$.ajax({
-			              type : 'post', 
-			              url : '\\cakecosy/updatequantity', 
-			              data : {sl :a,
-			              	id: id,
-			              		}, 
-			              success : function(data)  
-			                         { 
-			                          
-			                        }
-			              });
-
-            }); 
-
-</script>
