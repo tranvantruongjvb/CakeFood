@@ -1,5 +1,11 @@
 <?php
 /**
+ * Routes configuration
+ *
+ * In this file, you set up routes to your controllers and their actions.
+ * Routes are very important mechanism that allows you to freely connect
+ * different URLs to chosen controllers and their actions (functions).
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -7,97 +13,101 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link      http://cakephp.org CakePHP(tm) Project
- * @since     0.2.9
- * @license   http://www.opensource.org/licenses/mit-license.php MIT License
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace App\Controller;
-use Cake\Controller\Controller;
-use Cake\Event\Event;
-use Cake\View\Helper;
+
+use Cake\Core\Plugin;
+use Cake\Routing\RouteBuilder;
+use Cake\Routing\Router;
+use Cake\Routing\Route\DashedRoute;
 
 /**
- * Application Controller
+ * The default class to use for all routes
  *
- * Add your application-wide methods in the class below, your controllers
- * will inherit them.
+ * The following route classes are supplied with CakePHP and are appropriate
+ * to set as the default:
  *
- * @link http://book.cakephp.org/3.0/en/controllers.html#the-app-controller
+ * - Route
+ * - InflectedRoute
+ * - DashedRoute
+ *
+ * If no call is made to `Router::defaultRouteClass()`, the class used is
+ * `Route` (`Cake\Routing\Route\Route`)
+ *
+ * Note that `Route` does not do any inflections on URLs which will result in
+ * inconsistently cased URLs when used with `:plugin`, `:controller` and
+ * `:action` markers.
+ *
  */
-class AppController extends Controller
-{
+Router::defaultRouteClass(DashedRoute::class);
+
+Router::scope('/', function (RouteBuilder $routes) {
+	$routes->extensions(['json','xml']);
+$routes->resources('Topics');
+    /**
+     * Here, we are connecting '/' (base path) to a controller called 'Pages',
+     * its action called 'display', and we pass a param to select the view file
+     * to use (in this case, src/Template/Pages/home.ctp)...
+     */
+    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
     /**
-     * Initialization hook method.
-     *
-     * Use this method to add common initialization code like loading components.
-     *
-     * e.g. `$this->loadComponent('Security');`
-     *
-     * @return void
+     * ...and connect the rest of 'Pages' controller's URLs.
      */
-    public function initialize()
-    {
-        parent::initialize();
-        $this->loadComponent('RequestHandler');
-		$this->loadComponent('Flash');
-		$this->loadComponent('Email');
 
-		$this->loadComponent('Auth', [
-		 	'loginAction' => [
-		 		'controller' => 'Users',// Controller process login action
-		   		'action' => 'login',
-		   		//Action process login action 
-		   	],
-		    'loginRedirect' => [
-
-		     	'controller' => 'Users',
-		        'action' => 'login' 
-		    ],
-		    'authError' => false,
-		    'authenticate' => [
-			    'Form' => [
-			        'fields' => [ 
-			         	'username' => 'email',
-			       	    'password' => 'password' 
-			       	],
-			       	'userModel' => 'Users',
-		       	] 
-		    ],
-		    
-			'authError' => 'Did you really think you are allowed to see that?',	
-		]);
-    }
+    // Product
+    $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+    $routes->connect('/index/',['controller'=>'products','action'=>'index']);
+    $routes->connect('/addproduct/',['controller'=>'products','action'=>'addproduct']);
+    $routes->connect('/editproduct/*',['controller'=>'products','action'=>'editproduct']);
+    $routes->connect('/typeproduct/*',['controller'=>'products','action'=>'typeproduct']);
+    $routes->connect('/getSearch/*',['controller'=>'products','action'=>'getSearch']);
+    $routes->connect('/viewproduct/*',['controller'=>'products','action'=>'viewproduct']);   
+    $routes->connect('/postCheckout/',['controller'=>'products','action'=>'postCheckout']);
+    $routes->connect('/getnews/',['controller'=>'products','action'=>'getnews']);
+    $routes->connect('/updatequantity/',['controller'=>'products','action'=>'updatequantity']);
+    $routes->connect('/order/',['controller'=>'products','action'=>'order']);
+    $routes->connect('/listcustomer/',['controller'=>'products','action'=>'listcustomer']);
+    $routes->connect('/viewmore/*',['controller'=>'products','action'=>'viewmore']);
+    $routes->connect('/sort/*',['controller'=>'products','action'=>'sort']);
+    $routes->connect('/billdetail/*',['controller'=>'products','action'=>'billdetail']);
+    
 
 
-	public function isAuthorized($user)
-	{
-		$this->Flash->error('You aren\'t allowed');
-		return false;
-	}
-	
-	public function beforeFilter(Event $event)
-	{
-		
-		$this->Auth->allow(['index','contact','typeproduct','viewproduct','getsearch','getAddToCart','destroy','order','deleteitems','updatequantity','adduser','postCheckout','getnews','forgetpass', 'viewmore']);
-	}
+    // User
+    $routes->connect('/contact/',['controller'=>'users','action'=>'contact']);
+    $routes->connect('/listuser/',['controller'=>'users','action'=>'listuser']);
+    $routes->connect('/login/',['controller'=>'users','action'=>'login']);
+    $routes->connect('/userview/*',['controller'=>'users','action'=>'userview']);
+    $routes->connect('/edituser/*',['controller'=>'users','action'=>'edituser']);
+    $routes->connect('/adduser/',['controller'=>'users','action'=>'adduser']);
+    $routes->connect('/forgetpass/',['controller'=>'users','action'=>'forgetpass']);
+
+
     /**
-     * Before render callback.
+     * Connect catchall routes for all controllers.
      *
-     * @param \Cake\Event\Event $event The beforeRender event.
-     * @return void
+     * Using the argument `DashedRoute`, the `fallbacks` method is a shortcut for
+     *    `$routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'DashedRoute']);`
+     *    `$routes->connect('/:controller/:action/*', [], ['routeClass' => 'DashedRoute']);`
+     *
+     * Any route class can be used with this method, such as:
+     * - DashedRoute
+     * - InflectedRoute
+     * - Route
+     * - Or your own route class
+     *
+     * You can remove these routes once you've connected the
+     * routes you want in your application.
      */
-	 
-    public function beforeRender(Event $event)
-    {
-        if (!array_key_exists('_serialize', $this->viewVars) &&
-            in_array($this->response->type(), ['application/json', 'application/xml'])
-        ) {
-            $this->set('_serialize', true);
-        }
-    }
+    $routes->fallbacks('DashedRoute');
+});
 
 
-}
-?>
+/**
+ * Load all plugin routes.  See the Plugin documentation on
+ * how to customize the loading of plugin routes.
+ */
+Plugin::routes();
