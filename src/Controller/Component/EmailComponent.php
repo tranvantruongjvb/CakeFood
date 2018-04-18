@@ -13,9 +13,9 @@ class EmailComponent extends Component
             ->from(['tranvantruong.jvb@gmail.com' => 'tranvantruong.jvb@gmail.com'])
             ->to($to)
             ->subject($subject)
-            ->emailFormat('text')
+            ->emailFormat('html')
             ->template($msg)
-            ->set(['arrayName'=>$arrayName]) //set username để gọi tên cho folder text
+            ->set(['arrayName'=>$arrayName]) //set username để gọi tên cho folder html
             ->viewVars(array($msg => $msg))
             ->send($msg); 
             // pr($arrayName);die;
