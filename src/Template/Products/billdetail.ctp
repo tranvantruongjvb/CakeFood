@@ -1,7 +1,7 @@
 <div class="hiden">
 					<?php $read = $this->request->session()->read('cart'); ?>
 					<?php $check = $this->request->session()->check('cart') ?>
-
+					<?php $permission = $this->request->session()->read('Auth.User')['permission'] ?>
 </div>
 <div class="inner-header">
 		<div class="container">
@@ -19,7 +19,7 @@
 
 <div class="container">
 	<div id="content">
-		<form action="" method="" class="beta-form-checkout">
+		<form action="\cakecosy/products/updatestatus/<?php echo $listbills['0']['c']['id'] ?>"" method="post" class="beta-form-checkout">
 			<input type="hidden" name="_token" value="">
 			<div class="row">
 				<div class="col-sm-6">
@@ -52,7 +52,29 @@
 						<label><?php echo pr($bills['0']['payment']);
        					 ?></label>
 					</div>
+					<div class="form-block">
+						<label for="phone">Trạng thái đơn hàng</label>
+						<?php if ($permission >=2) { ?>
+							<label>
+								<select name="status" style="width: 100%">
+										<?php if($listbills['0']['c']['status'] == 'Đang xử lý') {?>
+												<option value="0">Đang xử lý</option>
 
+												<option value="1">Đang chuyển đi</option>
+												<option value="2">Đã thanh toán</option>
+											<?php }elseif($listbills['0']['c']['status'] == 'Đang chuyển đi') {?>
+												<option value="1">Đang chuyển đi</option>
+												<option value="2">Đã thanh toán</option>
+											<?php }elseif ($listbills['0']['c']['status'] == 'Đã thanh toán') { ?>
+												<option value="2">Đã thanh toán</option>
+											<?php } ?>
+									</select>
+									<button type="submit" style="font-size: 15px; color: black;border: 1px solid #ff8d00; border-radius: 5px; width: 100%">Cập nhật trạng thái </button>
+							</label>
+						<?php }else{ ?>
+							<label ><?php echo $listbills['0']['c']['status'] ?></label>
+						<?php  }  ?>
+					</div>
 					<div class="form-block">
 						<label for="notes">Ghi chú</label>
 						<textarea name="notes" readonly=""><?php print_r($listbills['0']['c']['note'])?></textarea>
