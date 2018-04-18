@@ -9,7 +9,7 @@
 }
 
 </style>
-
+	<?php $permission = $this->request->session()->read('Auth.User')['permission'] ?>
 <div class="container">
 		<div id="content" class="space-top-none">
 			<div class="main-content">
@@ -52,7 +52,7 @@
 													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
 												</div>
 											<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
-											<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
+											<?php  if ($permission == 2 || $permission == 3) {?>
 											<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 											<div class="clearfix"></div>
 											<div class="beta-btn primary"><?= $this->Form->postLink(
@@ -86,7 +86,7 @@
 
 					<div class="beta-products-list">
 								<h4 style="color: #f90; font-size: 22px">
-									<i class="fa fa-mail-forward"></i>  Sản Phẩm Khuyến Mãi<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/1" >Xem thêm...</a></h4>
+									<i class="fa fa-mail-forward"></i>  Sản Phẩm Khuyến Mãi<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewmore/1" >Xem thêm...</a></h4>
 								<div class="space30">&nbsp;</div>
 							<?php foreach($promotion_price as $new): 
 							?>
@@ -121,7 +121,7 @@
 													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
 												</div>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
-												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
+												<?php  if ($permission == 2 || $permission == 3){?>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
@@ -139,7 +139,7 @@
 					</div>
 						<div class="clearfix"></div>
 					<div class="beta-products-list">
-							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm Dưới 100,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/80000">Xem thêm...</a></h4>
+							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm Dưới 100,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewmore/80000">Xem thêm...</a></h4>
 							<div class="space30">&nbsp;</div>				
 							<?php foreach($price100 as $new): 
 							?>
@@ -174,7 +174,7 @@
 													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
 												</div>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
-												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
+												<?php if ($permission == 2 || $permission == 3) {?>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
@@ -192,7 +192,7 @@
 					</div>
 						<div class="clearfix"></div>
 					<div class="beta-products-list">
-							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm  100,000đ đến 200,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/120000" >Xem thêm...</a></h4>
+							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm  100,000đ đến 200,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewmore/120000" >Xem thêm...</a></h4>
 							<div class="space30">&nbsp;</div>						
 							<?php foreach($price200 as $new): 
 							?>
@@ -227,7 +227,7 @@
 													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
 												</div>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
-												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
+												<?php  if ($permission == 2 || $permission == 3) {?>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
@@ -246,7 +246,7 @@
 						<div class="clearfix"></div>
 					<div class="beta-products-list">
 							
-							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm Giá Từ 200,000đ - 300,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/220000" >Xem thêm...</a></h4>	
+							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm Giá Từ 200,000đ - 300,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewmore/220000" >Xem thêm...</a></h4>	
 							<div class="space30">&nbsp;</div>						
 							<?php foreach($price300 as $new): 
 							?>
@@ -281,7 +281,7 @@
 													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
 												</div>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
-												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
+												<?php  if ($permission == 2 || $permission == 3) {?>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
@@ -299,7 +299,7 @@
 					</div>
 						<div class="clearfix"></div>
 					<div class="beta-products-list">	
-							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm Giá Trên 300,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewadd/300000" >Xem thêm...</a></h4>	
+							<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>  Sản Phẩm Giá Trên 300,000đ<a style="font-size: 15px" class="pull-right" href="\cakecosy/viewmore/300000" >Xem thêm...</a></h4>	
 							<div class="space30">&nbsp;</div>
 							<?php foreach($price400 as $new): 
 							?>
@@ -334,7 +334,7 @@
 													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
 												</div>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chi tiết',['action'=>'viewproduct',$new->id])  ?></div>
-												<?php  if ($this->request->session()->read('Auth.User')['permission'] == 2) {?>
+												<?php  if ($permission == 2 || $permission == 3) {?>
 												<div class="beta-btn primary"><?php echo $this->Html->link('Chỉnh sửa',['action'=>'editproduct',$new->id])  ?></div>
 												<div class="clearfix"></div>
 												<div class="beta-btn primary"><?= $this->Form->postLink(
@@ -350,8 +350,6 @@
 									</div>							
 							<?php endforeach; ?>						
 					</div>
-
-
 				</div>
 			</div>
 		</div>
