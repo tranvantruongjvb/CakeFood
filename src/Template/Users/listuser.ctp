@@ -1,3 +1,6 @@
+	<style type="text/css">
+
+	</style>
 <div class="container">
 		<div id="content" class="space-top-none">
 			<div class="main-content">
@@ -13,9 +16,9 @@
 
 							<div class="row">
 							<nav class="navbar navbar-default navbar-expand-lg navbar-light nav-item dropdown">
-									<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+									<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start" style="border: 1px solid #ff8d00">
 										<ul class="nav navbar-nav" style="width: 100%">
-											<li class="nav-item active" style="width: 8%">Tên người dùng</li>
+											<li class="nav-item active " style="width: 8%">Tên người dùng</li>
 											<li class="nav-item active" style="width: 12%">Tên</a></li>
 											<li class="nav-item active" style="width: 15%">Email</li>
 											<li class="nav-item active" style="width: 15%">Số điện thoại</li>
@@ -27,19 +30,19 @@
 									</div>
 									<div class="space20">&nbsp;</div>
 							<?php foreach($users as $cus): ?>
-									<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+									<div id="navbarCollapse" class=" navbar-collapse justify-content-start col-sm-5" style="border: 1px solid #ff8d00; width: 100%">
 										<ul class="nav navbar-nav" style="width: 100%">
-											<li class="nav-item active" style="width: 8%"><?php echo $cus->username ?></li>
-											<li class="nav-item active" style="width: 12%"><?php echo $cus->name ?></li>
-											<li class="nav-item active" style="width: 15%"><?php echo $cus->email ?></li>
-											<li class="nav-item active" style="width: 15%"><?php echo $cus->phone?></li>
-											<li class="nav-item active" style="width: 20%"><?php echo $cus->address ?></li>
-											<li class="nav-item active" style="width: 10%"><?php echo $cus->birthdate ?></li>
-											<li class="nav-item active" style=" width: 10%"><a href="\cakecosy/edituser/<?php echo $cus->id ?>">Chỉnh sửa</a></li>
-											<li class="nav-item active" style=" width: 10%;  text-align: center;"><?= $this->Form->postLink(
+											<li class="nav-item  " style="width: 8%;"><?php echo $cus->username ?></li>
+											<li class="nav-item  " style="width: 12%;"><?php echo $cus->name ?></li>
+											<li class="nav-item  " style="width: 15%;"><?php echo $cus->email ?></li>
+											<li class="nav-item  " style="width: 15%;"><?php echo $cus->phone?></li>
+											<li class="nav-item  " style="width: 20%;"><?php echo $cus->address ?></li>
+											<li class="nav-item  " style="width: 10%;"><?php echo $cus->birthdate ?></li>
+											<li class="nav-item  " style=" width: 10%;"><a href="\cakecosy/edituser/<?php echo $cus->id ?>">Chỉnh sửa</a></li>
+											<li class="nav-item " style=" width: 10%;  text-align: center;"><?= $this->Form->postLink(
 								                'Xóa',
 								                ['action' => 'delete', $cus->id],
-								                ['confirm' => __('Bạn có chắc chắn muốn xóa   # {0}?',$cus->name)])
+								                ['confirm' => __('Bạn có chắc chắn muốn xóa {0} không?',$cus->name)])
 								            ?></li>
 											
 										</ul>
