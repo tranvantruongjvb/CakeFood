@@ -43,13 +43,13 @@
                       </tr>
                       <tr>
                         <td>Mật khẩu:</td>
-                        <td><input type="password" name="password" id="password"  value="******">
+                        <td><input type="password" name="password" id="password"  value="******" >
                         </td>
 
                       </tr>
                       <tr>
                         <td>Nhập lại mật khẩu:</td>
-                       <td><input type="password" name="password2"   value="******"></td>
+                       <td><input type="password" name="password2"   value="******" ></td>
                       </tr>
                       <tr>
                         <td>Ngày sinh</td>
@@ -92,13 +92,13 @@
  <script type="text/javascript">
     jQuery.validator.addMethod("matchPass", function(value) {
 
-        var re = /^[a-zA-Z0-9!@#$%^&*/()._+]*$/;
-        if (re.test(value)) {
+        var re = /^[a-zA-Z0-9!@#$%^&/()._+]*$/;
+        if (re.test(document.getElementById("password").value)) {
             return true;
         } else {   
             return false;
         }
-    }, "Password do not match a-zA-Z0-9!@#$%^&*()_+");
+    }, "Mật khẩu là những ký tự như a-zA-Z0-9!@#$%^&*()_+");
      
     jQuery.validator.addMethod("matchemail", function(value) {
 
@@ -110,7 +110,7 @@
                   return true;
                 }
                 
-    }, "Please enter a valid email address.Example@gmail.com");
+    }, "Nhập 1 địa chỉ hợp lệ .tranvantruong.jvb@gmail.com");
 
     jQuery.validator.addMethod("matchphone", function(value) {
         var filter =  /^([0/+84])+([0-9]{9})+$/;
@@ -120,8 +120,8 @@
                   return true;
                 }
                 
-    }, "Please enter number phone and length 10 .\n example: 0978172195");
-
+    }, "Số điện thoại có 10 số .\n example: 0978172195");
+     
     $(document).ready(function() {
 
         
@@ -134,8 +134,8 @@
                  password:{
                     required: true,
                     minlength :6,
-                     
                      matchPass : "#password",
+
                  } ,
                  password2: {
                             required: true,
@@ -159,30 +159,30 @@
               
             },
             messages: {
-                name: "Please enter name valid",
-                username: "Please enter username valid",
+                name: "Nhập tên của bạn",
+                username: "Nhập tên người dùng",
                  
                  password:{
-                    required: "Please enter password valid A-Z a-z 0-9 @ * _ - . ! ",
-                    minlength :"Length must minlength 6",
-                    
+                    required: "Nhập mật khẩu chứa các ký tự A-Z a-z 0-9 @ * _ - . ! ",
+                    minlength :"Mật khẩu có độ dài từ 6 ký tự",
+                    equalTo: "Nhập mật khẩu để thay đổi ",
                         // equalTo : "Please enter password valid A-Z a-z 0-9 @ * _ - . ! ",
                  }, 
                  password2: {
-                            required: "Please enter password valid",
-                            minlength :"Length must minlength 6",
-                            equalTo: "password is not Duplicate ",
+                            required: "Nhập lại mật khẩu",
+                            minlength :"Mật khẩu có độ dài từ 6 ký tự",
+                            equalTo: "Mật khẩu không khớp với mật khẩu trên ",
                 },
                 email: {
-                    required: "Please enter a valid email address", 
+                    required: "Nhập 1 địa chỉ email hợp lệ ", 
                 },
                 phone:{
-                    required: "Please provide a Phone",
-                    minlength:"Please enter number phone and length 10 begin 0 / +84.\n example: 0978172195",
+                    required: "Hãy cung cấp cho chúng tôi số điện thoại của bạn",
+                    minlength:"Số điện thoại không bao gồm chữ và có độ dài 10 bắt đầu 0 / +84.\n example: 0978172195",
 
                 },
                 birthdate: {
-                    required: "Please provide birthdate",
+                    required: "Chọn ngày sinh của bạn",
                 },
                 
             }
