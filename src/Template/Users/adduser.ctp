@@ -36,7 +36,7 @@ input
 												
 												<tr>
 													<td>Tên người dùng : </td>
-													<td><input type="text" name="username" placeholder="Nhập username"></td>
+													<td><input type="text" name="username" placeholder="Nhập tên người dùng"></td>
 												</tr>
 												
 												<tr>
@@ -46,16 +46,18 @@ input
 												
 												<tr>
 													<td>Quyền truy cập : </td>
-													<td><select name="permission">
-																<?php if ($readuser['permission'] == 2) { ?>
-																	<option value="2">  Quản Lý</option>
-																<option value="1">  Người Dùng</option>
-																<?php }else {?>
-																<option value="1">  Người Dùng</option>
-																<?php } ?>
-														</select>
-													</td>
-													
+                                                    <?php if ($readuser['permission'] >= 2) { ?>
+    													<td><select name="permission">
+    																	<option value="2">  Quản Lý</option>
+    																<option value="1">  Người Dùng</option>
+    																<option value="1" readonly="">  Người Dùng</option>
+    															
+    														</select>
+    													</td>
+													   <?php }else {?>
+                                                        <td><p name="permission">Người dùng</p>
+                                                        </td>
+                                                       <?php } ?>
 												</tr>
 												
 												<tr>
@@ -110,100 +112,115 @@ input
  <script type="text/javascript">
 		jQuery.validator.addMethod("matchPass", function(value) {
 
-				var re = /^[a-zA-Z0-9!@#$%^&*()_+]*$/;
-				if (re.test(value)) {
-						return true;
-				} else {   
-						return false;
-				}
-		}, "Password do not match a-zA-Z0-9!@#$%^&*()_+");
-		 
-		jQuery.validator.addMethod("matchemail", function(value) {
+        var re = /^[a-zA-Z0-9!@#$%^&*/()._+]*$/;
+        if (re.test(value)) {
+            return true;
+        } else {   
+            return false;
+        }
+    }, "Mật khẩu là những ký tự như a-zA-Z0-9!@#$%^&*()_+");
+     
+    jQuery.validator.addMethod("matchemail", function(value) {
 
-				var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
                 if (!filter.test(document.getElementById("email1").value)) {
                    
                     return false;
                 }else {
-                	return true;
+                  return true;
                 }
                 
-		}, "Please enter a valid email address.Example@gmail.com");
+    }, "Nhập 1 địa chỉ hợp lệ .tranvantruong.jvb@gmail.com");
 
-		jQuery.validator.addMethod("matchphone", function(value) {
-				var filter =  /^([0/+84])+([0-9]{9})+$/;
-                if (!filter.test(document.getElementById("phone").value)) {
+    jQuery.validator.addMethod("matchphone", function(value) {
+        var filter =  /^([0/+84])+([0-9]{9})+$/;
+        var filter2 =  /^([0/+84])+([0-9]{10})+$/;
+                if (filter.test(document.getElementById("phone").value) || filter2.test(document.getElementById("phone").value)) {
+                    return true;
+                }else {
+                  return false;
+                }
+                
+    }, "Số điện thoại có từ 10 số đến 11 số .\n example: 0978172195");
+    jQuery.validator.addMethod("matchpass2", function(value) {
+        var filter =  '******';
+                if (filter.test(document.getElementById("password1").value)) {
                     return false;
                 }else {
-                	return true;
+                  return true;
                 }
                 
-		}, "Please enter number phone and length 10 .\n example: 0978172195");
+    }, "Hãy nhập lại mật khẩu để lưu .");
 
-		$(document).ready(function() {	//Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
-				$("#myForm").validate(
-				{
-						rules: {
-								name: "required",
-								username: "required",
-								 password:{
-										required: true,
-										minlength :6,
-										 maxlength: 12,
-										 matchPass : "#password1",
-								 } ,
-								 password2: {
-										required: true,
-										minlength: 6,
-										maxlength: 12,
-										equalTo: "#password1",
-								},
-								email: {
-										required: true,
-										matchemail : '#email1',
-								},
-								phone:{
-										required: true,
-										minlength: 10,
-										matchphone: '#phone',
+    $(document).ready(function() {
 
-								} ,
-								birthdate:{
-									required: true,
-								},
-							
-						},
-						messages: {
-								name: "Please enter name valid",
-								username: "Please enter username valid",
-								 
-								 password:{
-										required: "Please enter password valid A-Z a-z 0-9 @ * _ - . ! ",
-										minlength :"Length must minlength 6",
-										 maxlength :"Length must no more maxlength 12",
-												// equalTo : "Please enter password valid A-Z a-z 0-9 @ * _ - . ! ",
-								 }, 
-								 password2: {
-														required: "Please enter password valid",
-														minlength :"Length must minlength 6",
-														equalTo: "password is not Duplicate ",
-								},
-								email: {
-										required: "Please enter a valid email address",	
-								},
-								phone:{
-										required: "Please provide a Phone",
-										minlength:"Please enter number phone and length 10 begin 0 / +84.\n example: 0978172195",
+        
+        //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+        $("#myForm").validate(
+        {
+            rules: {
+                name: "required",
+                username: "required",
+                 password:{
+                    required: true,
+                    minlength :6,
+                     matchPass : "#password1",
+                     matchpass2 : "#password1",
 
-								},
-								birthdate: {
-										required: "Please provide birthdate",
-								},
-								
-						}
-				
-				}); 
+                 } ,
+                 password2: {
+                            required: true,
+                            minlength: 6,
+                            
+                            equalTo: "#password1",
+                },
+                email: {
+                            required: true,
+                            matchemail : '#email1',
+                },
+                phone:{
+                    required: true,
+                    minlength: 10,
+                    matchphone: '#phone',
 
-		});   			
+                } ,
+                birthdate:{
+                  required: true,
+                },
+              
+            },
+            messages: {
+                name: "Nhập tên của bạn",
+                username: "Nhập tên người dùng",
+                 
+                 password:{
+                    required: "Nhập mật khẩu chứa các ký tự A-Z a-z 0-9 @ * _ - . ! ",
+                    minlength :"Mật khẩu có độ dài từ 6 ký tự",
+                    
+                        // equalTo : "Please enter password valid A-Z a-z 0-9 @ * _ - . ! ",
+                 }, 
+                 password2: {
+                            required: "Nhập lại mật khẩu",
+                            minlength :"Mật khẩu có độ dài từ 6 ký tự",
+                            equalTo: "Mật khẩu không khớp với mật khẩu trên ",
+                },
+                email: {
+                    required: "Nhập 1 địa chỉ email hợp lệ ", 
+                },
+                phone:{
+                    required: "Hãy cung cấp cho chúng tôi số điện thoại của bạn",
+                    minlength:"Số điện thoại không bao gồm chữ và có độ dài 10 bắt đầu 0 / +84.\n example: 0978172195",
+
+                },
+                birthdate: {
+                    required: "Chọn ngày sinh của bạn",
+                },
+                
+            }
+        
+        }); 
+
+    });   
+  			
 </script>
 
