@@ -31,6 +31,10 @@
                         <td>PassWord: </td>
                         <td><input type="password" name="password" placeholder="Nhập mật khẩu"></td>
                       </tr>
+                      <tr>
+                        <td></td>
+                        <td><a href="\cakecosy/users/forgetpass"> Forget password</a></td>
+                      </tr>
                     </tbody>
                   </table>
                   
@@ -39,7 +43,8 @@
             </div>
                  <div class="panel-footer" style="text-align: center;">
                         <button type="submit" class="btn btn-sm btn-warning" style="text-align: center;">Đăng Nhập</button>
-                        <button type="button" class="btn btn-sm btn-warning" style="text-align: center;"><a href=""></a>Đăng Ký</button>        
+                        <button type="button" class="btn btn-sm btn-warning" style="text-align: center;"><a href="\cakecosy/adduser"></a>Đăng Ký</button>
+                        
                     </div>
             
           </div>
