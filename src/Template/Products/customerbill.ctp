@@ -25,15 +25,14 @@
 									</div>
 									<div class="space20">&nbsp;</div>
 							<?php foreach($billcustomer as $cus): ?>
-									<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+									<div id="navbarCollapse" class=" navbar-collapse justify-content-start" style=" width: 100%; border: 1px solid #ff8d00;">
 										<ul class="nav navbar-nav" style="width: 100%">
-											<li class="nav-item active" style="width: 15%"><?php echo $cus['name'] ?></a></li>
-											<li class="nav-item active" style="width: 15%"><?php echo $cus['email'] ?></a></li>
-											<li class="nav-item active" style="width: 15%"><?php echo $cus['phone_number']?></a></li>
-											<li class="nav-item active" style="width: 27%"><?php echo $cus['address'] ?></a></li>
-											<li class="nav-item active" style="width: 15%"><?php echo $cus['created_at'] ?></a></li>
-											<li class="nav-item active" style=" width: 13%"><a href="\cakecosy/products/billdetail/<?php echo $cus['id'] ?>">Chi tiết</a></li>
-											
+											<li class="nav-item active" style="width: 15%;padding-top: 15px;padding-bottom: 15px;"><?php echo $cus['name'] ?></a></li>
+											<li class="nav-item active" style="width: 15%;padding-top: 15px;padding-bottom: 15px;"><?php echo $cus['email'] ?></a></li>
+											<li class="nav-item active" style="width: 15%;padding-top: 15px;padding-bottom: 15px;"><?php echo $cus['phone_number']?></a></li>
+											<li class="nav-item active" style="width: 27%;padding-top: 15px;padding-bottom: 15px;"><?php echo $cus['address'] ?></a></li>
+											<li class="nav-item active" style="width: 15%;padding-top: 15px;padding-bottom: 15px;"><?php echo $cus['created_at'] ?></a></li>
+											<li class="nav-item active" style=" width: 13%;"><a href="\cakecosy/products/billdetail/<?php echo $cus['id'] ?>">Chi tiết</a></li>
 										</ul>
 									</div>
 							<div class="space50">&nbsp;</div>
