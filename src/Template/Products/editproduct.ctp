@@ -132,20 +132,14 @@
                 id_type: "required",
                 description: "required",
                 new : "required", 
-               	unit_price : "required",
-               	promotion_price :"required",
-               	created_at: "required",
-              
+               	unit_price : "required",	
             },
             messages: {
-                name: "Please enter name valid",
-                id_type: "Please enter id_type valid ",
-                description :"say something about it",
-                new : "is it new?",
-                unit_price :"Please enter unit Price valid ",
-                promotion_price: "Please enter promotion_price valid ",
-                
-                created_at: "choose day",
+                name: "Nhập tên của sản phẩm",
+                id_type: "Chọn loại sản phẩm ",
+                description :"Nói đôi chút về sản phẩm của bạn",
+                new : "Sản phẩm có mới hay không?",
+                unit_price :"Cung cấp giá của sản phẩm",
             }
         }); 
     });   
