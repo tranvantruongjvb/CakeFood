@@ -1,9 +1,3 @@
-
-<style type="text/css">
-	img{
-		border-radius: 5px;
-	}
-</style>
 <div class="container">
 		<div id="content" class="space-top-none">
 			<div class="main-content">
@@ -11,65 +5,57 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="beta-products-list">
-							<form  action="\cakecosy/viewmore/<?php echo $products1['0']['unit_price'] ?>" method="post">
-								<h4 style="color: #f90; font-size: 22px"><i class="fa fa-mail-forward"></i>Xem Thêm Sản Phẩm
-										<span class="pull-right" style="font-size: 15px; text-align: center;">
-											<button type="submit"  style="background: #ffffff; border: 1px solid #ff8d00;    border-radius: 5px; height: 20px;">Lọc theo</button>
-										</span>
-										<span class="pull-right" style="font-size: 15px; color: black;border: 1px solid #ff8d00; border-radius: 5px;">
-												<select name="sort">
-													<option value="thap" class="select"> Giá thấp đến cao</option>
-													<option value="cao" class="select"> Giá cao xuống thấp</option>
-												</select>
-										</span>
-										
-										
-								</h4>
-							</form>
+							<h4>Tìm kiếm</h4>
 							<div class="beta-products-details">
-								<p class="pull-left"> Tìm Thấy <?php echo count($products1) ?> 
-									<?php echo $name ?>
-								</p>
-							<div class="clearfix"></div>
+								<p class="pull-left">Tìm thấy <?php echo count($customers) ?> Đơn hàng</p>
+								<div class="clearfix"></div>
 							</div>
-							<div class="row">
-							<?php foreach($products1 as $new): ?>
-								<div class="col-sm-5 col-md-4 col-lg-3 ">
-									<div class="single-item">
-										<div class="single-item-header">
-											<?php if($new->promotion_price != 0) ?>
-											<div class="ribbon-wrapper"><div class="ribbon sale " >Sale</div></div>
-												<a href="\cakecosy/products/viewproduct/<?php print_r($new['id']) ?>"><img src="<?php print_r( '/cakecosy/'.$new['image']) ?>" height="250px"></a>
-										</div>
-										<div class="single-item-body">
-											<p class="single-item-title"><?php print_r($new['name']) ?></p>
-											<p class="single-item-price" style ="font-size: 16px">
-											<?php if($new->promotion_price ==0) { ?>
-												<span class="flash-sale"><?php print_r($new['unit_price'])?> đồng</span>
-											<?php } else { ?>
-												<span class="flash-del"><?php print_r($new['unit_price'])?> đồng</span>
-												<span class="flash-sale"><?php print_r($new['promotion_price']) ?>đồng</span>
-											<?php } ?>
-											</p>
-										</div>
-										
+
+							
+							<nav class="navbar navbar-default navbar-expand-lg navbar-light nav-item dropdown">
+									<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+										<ul class="nav navbar-nav" style="width: 100%">
+											<li class="nav-item active" style="width: 15%">Tên</li>
+											<li class="nav-item active" style="width: 18%">Email</a></li>
+											<li class="nav-item active" style="width: 12%">Số điện thoại</li>
+											<li class="nav-item active" style="width: 27%">Địa chỉ</li>
+											<li class="nav-item active" style="width: 10%">Trạng thái đơn hàng</li>
+											<li class="nav-item active" style="width: 10%">Chi tiết</li>
+											<li class="nav-item active" style="width: 8%">Xóa</li>
+										</ul>
 									</div>
-									<div class="single-item-caption">
-											<a class="add-to-cart pull-left" href=" \cakecosy/products/getAddToCart/<?php echo $new->id ?>"><i class="fa fa-shopping-cart"></i></a>
-											<div class="beta-btn primary">
-													<i class="fa fa-phone" style="font-size: 16px;"> Hotline: 0978172195</i>
-												</div>
-											<a class="beta-btn primary" href="\cakecosy/viewproduct/<?php print_r($new['id'])?>">Chi tiết <i class="fa fa-chevron-right"></i></a>
-											<div class="clearfix"></div>
-										</div>
-									<div class="clearfix"></div>
-									<div class="space50">&nbsp;</div>
-								</div>
-							<?php endforeach;?>
+									<div class="space20">&nbsp;</div>
+							<?php foreach($customers as $cus): ?>
+									<div id="navbarCollapse" class=" navbar-collapse justify-content-start" style=" width: 100%; border: 1px solid #ff8d00;">
+										<ul class="nav navbar-nav" style="width: 100%">
+											<li class="nav-item " style="width: 15%;padding-top: 15px;padding-bottom: 15px;"><?php echo $cus->name ?></a></li>
+											<li class="nav-item " style="width: 18%;padding-top: 15px;padding-bottom: 15px;"><?php echo $cus->email ?></a></li>
+											<li class="nav-item " style="width: 12%;padding-top: 15px;padding-bottom: 15px;"><?php echo $cus->phone_number;?></a></li>
+											<li class="nav-item " style="width: 27%;padding-top: 15px;padding-bottom: 15px;"><?php echo $cus->address ?></a></li>
+											<li class="nav-item " style=" width: 10%;padding-top: 15px;padding-bottom: 15px;"><?php echo $cus->status ?></li>
+											<li class="nav-item " style=" width: 10%"><a style="width: 100%" href="\cakecosy/billdetail/<?php echo $cus->id ?>" >Chi tiết</a></li>
+											<li class="nav-item " style=" width: 8%; ">
+												<a style="width: 100%" href="\cakecosy/products/deletecustomer/<?php echo $cus->id ?>" >Xóa</a></li>
+										</ul>
+									</div>
 							<div class="space50">&nbsp;</div>
+
+							<?php endforeach;?>
+							</nav>	
+							</div>
+							<div>
+
+								<ul class="pagination">
+								  <li><?= $this->Paginator->prev('« Trang trước ', array('class' => 'disabled'));?></li>
+								  <li> <?=  $this->Paginator->numbers(array('class'=> 'pagination_link')); //Shows the page numbers?></li>
+								  <li><?=  $this->Paginator->next(' Trang sau »', array('class' => 'disabled')); //Shows the next and previous links?></li>
+								
+								</ul>
 							</div>
 						</div> <!-- .beta-products-list -->
-						</div>
+
+						<div class="space50">&nbsp;</div>
+					</div>
 				</div> <!-- end section with sidebar and main content -->
 			</div> <!-- .main-content -->
 		</div> 
