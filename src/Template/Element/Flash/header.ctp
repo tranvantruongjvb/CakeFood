@@ -7,6 +7,7 @@
 	.activez{color:#FFFFFF; background-color:#f3a61b; padding:8px;}
 	li{
 		padding: 8px;
+
 	}
 </style>
 <body>
@@ -25,7 +26,7 @@
 					<?php $check = $this->request->session()->check('cart') ?>
 				</div>
 				<?php $readuser = $this->request->session()->read('Auth.User') ?>
-				<nav class="navbar  navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-expand-xl  navbar-light navbar-right" style="width: 100%;     border-radius: 10px;">
+				<nav class="navbar  navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-expand-xl  navbar-light navbar-right visible-lg visible-md visible-sm" style="width: 100%;     border-radius: 10px;">
 					  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
 					  	<?php if ($readuser['permission'] >= 2) { ?>	
 							<ul class="nav navbar-nav navbar-right ml-auto">
@@ -70,7 +71,8 @@
 					                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
 					                                <input type="password" class="form-control" name="password"  placeholder="Nhập mật khẩu" required>
 					                            </div>
-					                            <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa fa-sign-in"></i>  Đăng Nhập</button>
+					                            <a href="\cakecosy/forgetpass"> Quên mật khẩu</a>
+					                            <button type="submit" class="btn" style="width: 100%;"><i class="fa fa-sign-in"></i>  Đăng Nhập</button>
 					                        </form>                    
 										</li>
 									</ul>
@@ -120,8 +122,8 @@
 								<?php } ?>
 					      </li>
 					    </ul>
-					  	<form class="navbar-form form-inline search-form pull-right" method="get" id="searchform" action="\cakecosy\getSearch">
-							<div class="input-group" style="width: 480px">
+					  	<form class=" navbar-form form-inline search-form pull-right" method="get" id="searchform" action="\cakecosy\getSearch">
+							<div class="input-group " style="width: 480px">
 								<input type="text" class="form-control" name="key" id="key" placeholder="Tìm Kiếm...">
 								<span class="input-group-btn">
 								<button type="submit" class="btn btn-default" style="width: 100%; height: 37px; color: #f90;"><i class="fa fa-search"></i></button>
@@ -142,10 +144,64 @@
 		<div class="header-bottom" style="background-color:#ef7e30 ">
 			<div class="container ">
 				
-				<div class="visible-xs clearfix">
-					<ul class="nav navbar-nav navbar-right ml-auto">
+				<div class="visible-xs clearfix ">
+
+					
+					<div class="pull-left" style="padding-top: 10px; width: 100%">
+							<a href="\cakecosy/index" id="logo"><img src="/cakecosy/webroot/img/foody-vn.png" style ="width:100px; height: 50%"></a>
+							<div class="space10">&nbsp;</div>
+						</div>
+						<br>
+
+					<div style="width: 100%">
+						<nav class="navbar  navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-expand-xl  navbar-light navbar-right" style="width: 100%;     border-radius: 10px;">
+					  <div id="navbarCollapse" class="navbar-collapse justify-content-start">
+					  	<?php if ($readuser['permission'] >= 2) { ?>	
+							<ul class="nav navbar-nav navbar-right ml-auto">
+						      <li class="nav-item dropdown">
+									<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-user-o"></i> Tài Khoản <i class="fa fa-chevron-down"></i></a>
+									<ul class="dropdown-menu">
+										<li><a href="\cakecosy/listcustomer" class="dropdown-item">Danh sách đơn hàng</a></li>
+										<?php if($readuser['permission'] == 3){ ?>
+										<li><a href="\cakecosy/listuser" class="dropdown-item">Danh sách người dùng </a></li>
+										<?php } ?>
+										<li><a href="\cakecosy/userview/<?php echo $readuser['id'] ?>" class="dropdown-item">Thông tin tài khoản </a></li>
+										<li><a href="\cakecosy/edituser/<?php echo $readuser['id'] ?>" class="dropdown-item">Cập nhật thông tin </a></li>
+										<li><a href="\cakecosy/addproduct" class="dropdown-item">Thêm sản phẩm</a></li>
+										<li><a href="\cakecosy/adduser" class="dropdown-item">Thêm Thành Viên</a></li>
+										<li><a href="\cakecosy/users/logout" class="dropdown-item">Đăng Xuất</a></li>
+									</ul>
+						      </li>
+						    </ul>
+						 <?php } elseif ($readuser['permission'] == 1) {?>
+						 	<ul class="nav navbar-nav navbar-right ml-auto">
+						      <li class="nav-item dropdown">
+									<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-user-o"></i> Tài khoản <i class="fa fa-chevron-down"></i></a>
+									<ul class="dropdown-menu">
+										<li><a href="\cakecosy/products/customerbill/<?php echo $readuser['id'] ?>" class="dropdown-item">Đơn hàng đã mua </a></li>
+										<li><a href="\cakecosy/edituser/<?php echo $readuser['id'] ?>" class="dropdown-item">Cập nhật thông tin</a></li>								
+										<li><a href="\cakecosy/users/logout" class="dropdown-item"><i class="fa fa-sign-out"></i>Đăng Xuất</a></li>
+									</ul>
+						      </li>
+						    </ul>
+					<?php }else {?>
+						    <ul class="nav navbar-nav navbar-right ml-auto">
+								<li class="nav-item pull-left">
+									<a  class="nav-link" href="\cakecosy/login"><i class="fa fa-sign-in"></i> Đăng Nhập</a>
+								</li>
+								<li class="pull-right"><a  class="nav-link " href="\cakecosy/adduser"><i class="fa fa-user-plus"></i>Đăng Ký</a></li>
+							</ul>
+					<?php } ?>
+					</div>
+				</nav>
+
+					</div>
+
+
+					<div style="width: 100%">
+						<ul class="nav navbar-nav navbar-right ml-auto pull-left" style="width: 40%">
 				      	<li class="nav-item dropdown">
-							<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#">Menu <i class="fa fa-bars"></i></a>
+							<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-bars"></i>Menu </a>
 							<ul class="dropdown-menu">
 								<li>
 									<a href="\cakecosy/index" ><i class="fa fa-home"></i>Trang Chủ</a>
@@ -161,7 +217,7 @@
 							</ul>
 				      	</li>
 				    </ul>
-				    <ul class="nav navbar-nav navbar-right ml-auto pull-left">
+				    <ul class="nav navbar-nav navbar-right ml-auto pull-left" style="width: 75%">
 					      <li class="nav-item dropdown">
 								<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-cart-plus"></i> Giỏ hàng (<span id="tongsl">
 								<?php if($read){ ?>
@@ -201,7 +257,7 @@
 								<?php } ?>
 					      </li>
 					    </ul>
-
+					</div>    
 				    <form class="navbar-form form-inline search-form pull-left" method="get" action="\cakecosy\getSearch" style="width: 310px;">
 							<div class="input-group">
 								<input type="text" class="form-control" name="key" placeholder="Tìm Kiếm...">
@@ -226,10 +282,10 @@
 						</li>
 						<li><a><i class="fa fa-retweet" style="color: white"></i>Sản Phẩm Theo Giá</a>
 							<ul class="sub-menu" style="z-index: 999; text-align: left;">
-								<li><a href="\cakecosy/viewadd/90000">Sản Phẩm dưới 100,000đ</a></li>
-								<li><a href="\cakecosy/viewadd/150000">Sản Phẩm 100,000đ - 2000,000đ</a></li>
-								<li><a href="\cakecosy/viewadd/230000">Sản Phẩm 200,000đ - 3000,000đ</a></li>
-								<li><a href="\cakecosy/viewadd/300000">Sản Phẩm 300,000đ</a></li>
+								<li><a href="\cakecosy/viewmore/90000">Sản Phẩm dưới 100,000đ</a></li>
+								<li><a href="\cakecosy/viewmore/150000">Sản Phẩm 100,000đ - 2000,000đ</a></li>
+								<li><a href="\cakecosy/viewmore/230000">Sản Phẩm 200,000đ - 3000,000đ</a></li>
+								<li><a href="\cakecosy/viewmore/300000">Sản Phẩm 300,000đ</a></li>
 							</ul>
 						</li>
 						<li><a href="\cakecosy/contact"><i class="fa fa-volume-control-phone" style="color: white"></i>Liên Hệ</a></li>
