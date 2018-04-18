@@ -77,7 +77,7 @@ class ProductsController  extends AppController{
         $this->readtypeproduct();
 	}
 
-    public function viewadd($id)
+    public function viewmore($id)
     {   
         if($this->request->data()){
             $s = $this->request->data();
@@ -174,7 +174,7 @@ class ProductsController  extends AppController{
          foreach ($s as $value) {
              $total += $value['price'] * $value['quantity'];
          }
-          $session->write('payment.total2',$total);
+        $session->write('payment.total2',$total);
         $this->redirect($this->referer());
      }
 
@@ -208,14 +208,21 @@ class ProductsController  extends AppController{
      public function order(){
         $this->readtypeproduct();
         $session = $this->request->session();
+        $total =0;
         if($session->check('cart')){
             $oldCart = $session->read('cart');
-            foreach ($oldCart as $value) {
+              foreach ($oldCart as $value) {
                 $items = array(
-                $totalPrice =  $value['quantity'] * $value['price']);
+                $total =  $value['quantity'] * $value['price']);
             }
+            if($total !=0 ){
+              $totalPrice = $total;
+            }else{
+              $totalPrice = 0;
+            }
+            
             $session->write('order', $totalPrice);
-             $s=$session->read('order');
+            $s=$session->read('order');
         }
        
     }
@@ -265,10 +272,23 @@ class ProductsController  extends AppController{
         $customers = $this->paginate($find);
         $bills = $bill->find('all');
         $bill_details = $bill_detail->find('all');
-
         $this->set(compact('customers','typeproducts'));
     }
-    
+        
+    public function updatestatus($id)
+    {
+         $customer = TableRegistry::get('customer');
+         $cus = $customer->get($id);
+         $status = $this->request->data();
+         if($status['status'] ==1 ){
+            $cus['status'] ='Đang chuyển đi';
+         }else if($status['status'] == 2 ){
+            $cus['status'] ='Đã thanh toán';
+         }
+         $customer->save($cus);
+         $this->redirect($this->referer());
+    }
+
     public function billdetail($id)
     {
         $this->readtypeproduct();
@@ -282,7 +302,7 @@ class ProductsController  extends AppController{
         ->toArray();
         $bill_details = $bill_detail->find('all');
         $listbills = $bill->find()
-        ->select(['c.name','c.email','c.address','c.phone_number','c.note','bills.total',
+        ->select(['c.id','c.name','c.email','c.address','c.phone_number','c.note','c.status','bills.total',
             'b.quantity','b.unit_price','b.created_at','p.name','p.image'
         ])
         ->where(['c.id =' => $getid])
@@ -356,9 +376,7 @@ class ProductsController  extends AppController{
         }else {
              $cusumer->id_user = 0;
         }
-
         $cusumer->name = $req['full_name'];
-       
         $cusumer->email = $req['email'];
         $cusumer->address = $req['address'];
         $cusumer->phone_number = $req['phone'];
