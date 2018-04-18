@@ -26,7 +26,10 @@ class UsersController extends AppController{
 
 
 	public function login()
-	{	
+	{
+		$typeProducts = TableRegistry::get('typeproducts');
+        $query = $typeProducts->find("all")-> toArray();
+        $this->set('typeproducts',$query);
 		if ($this->request->is('post')) {
 			// Auth component identify if sent user data belongs to a user
 			$user = $this->Auth->identify();
@@ -52,33 +55,59 @@ class UsersController extends AppController{
 	}
 	public function listUser()
 	{
+		$typeProducts = TableRegistry::get('typeproducts');
+		$typeproducts = $typeProducts->find('all');
 		$this->paginate= array(
 			'limit' => 8,
 			'order' => [
             'users.id' => 'DESC'
         	],
         );
-		$user = $this->paginate('Users');
-		$this->set('users',$user);		
+		$users = $this->paginate('Users');
+		$this->set(compact('users','typeproducts'));		
 	}
 	
-	// public function resetpass()
-	// {
-	// 	    	 $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-	// 	    $pass = array(); //remember to declare $pass as an array
-	// 	    $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
-	// 	    for ($i = 0; $i < 8; $i++) {
-	// 	        $n = rand(0, $alphaLength);
-	// 	        $pass[] = $alphabet[$n];
-	// 	    }
-		    
-	// 	pr($pass);die;
-	// }
-
-	public function news()
+	public function forgetpass()
 	{
-		# code...
+
+		$alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+		    $pass = array(); //remember to declare $pass as an array
+		    $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+		    for ($i = 0; $i < 8; $i++) {
+		        $n = rand(0, $alphaLength);
+		        $pass[] = $alphabet[$n];
+		    }
+		   	if($this->request->is('post'))
+		   	{
+		   		$getdata = $this->request->data();
+		   		$email = $getdata['email'];
+		   		$getuser = $this->Users->find()
+		   		->where(['users.email =' => $email])
+		   		->toArray();
+		   		$id= $getuser['0']['id'];
+		   		$email = $getuser['0']['email'];
+		   		$getinfo = $this->Users->get($id);
+		   		if(!$getinfo){
+		   				$this->Flash->error(__('Email bạn nhập không khớp với bất kỳ tài khoản nào.'));
+		       			return $this->redirect($this->referer());
+		   		}else{
+		   			$p = md5((implode("",$pass)));
+		   			$getinfo['password'] = $p  ;
+		   			if($this->Users->save($getinfo))
+		   			{
+		   				$array  = array('pass'=>$p );
+		   				$this->Email->sendUserEmail($email,'Forgetpass',$array,'forgetpass');
+		   				$this->Flash->success(__(' Mật khẩu mới đã gửi tới email của bạn. Hãy truy cập email để đăng nhập .'));
+		   			}
+		   			else{
+		   				$this->Flash->error(__('Lỗi rồi.'));
+		       			return $this->redirect($this->referer());
+		   			}
+		   			
+		   		}
+		   	}   
 	}
+
 	public function contact()
 	{
 		$typeProducts = TableRegistry::get('typeproducts');
@@ -129,7 +158,7 @@ class UsersController extends AppController{
 			$olduser = $this->Users->find('all')->toArray();
 		       foreach ($olduser as $key) {
 		       		if($key['username'] == $username){
-		       			$this->Flash->error(__('UserName của bạn đã tồn tại'));
+		       			$this->Flash->error(__('Tên người dùng của bạn đã tồn tại'));
 		       			return $this->redirect($this->referer());
 		       		}
 			       	elseif($key['email'] == $email){
@@ -158,22 +187,13 @@ class UsersController extends AppController{
         $query = $typeProducts->find("all")-> toArray();
         $this->set('typeproducts',$query);
 		$user = $this->Users->get($id);
-
-		$passold =  $user['password'];
 		//pr($passold);die;
 		if ($this->request->is(['post', 'put'])) {
 			$this->Users->patchEntity($user, $this->request->data);
-			$pass = $this->request->data['password'];
-			
-			if($pass == $passold || $pass =='*****'){
-				$user['password'] = $passold;
-				
-			}else {
-				$user['password'] = $pass;
-			}
-			$name = $this->request->data['name'];
+
+			$array=array('name'=> $user['name']);
 			if ($this->Users->save($user)) {
-				$this->Email->sendUserEmail($this->request->data['email'],'Update profile',$name,'update');
+				$this->Email->sendUserEmail($this->request->data['email'],'Cập nhật thông tin trên CakeFoody',$array,'update');
 				$this->Flash->success(__('Thông Tin Của Bạn Được Cập Nhật.'));
 				return $this->redirect($this->referer());
 			}$this->Flash->error(__('Không Thể Cập Nhật Thông Tin Của Bạn.'));
@@ -188,14 +208,11 @@ class UsersController extends AppController{
 	
 		$user = $this->Users->get($id);
 		if ($this->Users->delete($user)) {
-			$this->Flash->success(__('Người Dùng Có Tên: {0} Đã Được Xóa.', h($id)));
+			$this->Flash->success(__('Người Dùng Có Tên: {0} Đã Được Xóa.', h($name)));
 			return $this->redirect($this->referer());
 		}		
 		
 	}
 	
-
-
-
 }
 ?>
